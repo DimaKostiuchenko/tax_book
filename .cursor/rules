@@ -1,0 +1,23 @@
+# Cursor Rules
+
+# Project Documentation
+- Look to folder [Project documentation](../docs/)
+
+## Coding Standards
+- Use Laravel (backend) + React/Inertia (frontend) best practices SOLID, DRY, KISS
+- Follow PSR-12 (PHP) and ESLint (JS/TS)
+- Use Tailwind for styling
+- Use [Development Guidelines](../docs/development-guidelines.md)
+
+## Git & Commits
+- Use conventional commits (feat, fix, docs, refactor, chore)
+- Commit frequently, PRs should be < 300 lines
+
+## Cursor Usage
+- Always check `/docs` docs before coding
+- Respect ADR decisions in `/docs/decisions`
+- Follow tasks in `.cursor/tasks/` for specific changes
+
+## Testing
+- Unit tests by Pest testing framework required for backend logic
+- Cypress for E2E frontend tests
