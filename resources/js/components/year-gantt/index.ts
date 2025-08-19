@@ -1,0 +1,1 @@
+export { YearGantt } from './YearGantt'

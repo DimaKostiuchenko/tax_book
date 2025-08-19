@@ -1,7 +1,10 @@
-import { Link, usePage } from '@inertiajs/react'
+import { Link, usePage, router } from '@inertiajs/react'
+import AppLayout from '@/layouts/app-layout';
 import { Card } from '@/components/ui/card'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { Badge } from '@/components/ui/badge'
+import { YearGantt } from '@/components/year-gantt'
+import { type BreadcrumbItem } from '@/types';
 import { cn } from '@/lib/utils'
 
 type EventRow = {
@@ -21,17 +24,34 @@ interface PageProps {
     links: { url: string | null; label: string; active: boolean }[]
   }
   selectedEvent?: EventRow & { description?: string }
+  [key: string]: any
 }
+
+const breadcrumbs: BreadcrumbItem[] = [
+  {
+      title: 'Dashboard',
+      href: '/dashboard',
+  },
+
+  {
+    title: 'Events',
+    href: '/events',
+},
+];
+
 
 export default function EventsIndex() {
   const page = usePage<PageProps>()
   const { events, selectedEvent } = page.props
 
   return (
-    <div className="mx-auto w-full max-w-5xl space-y-6 p-4">
-      <h1 className="text-2xl font-semibold">Events</h1>
+    <AppLayout breadcrumbs={breadcrumbs}>
+          <div className="mx-auto w-full max-w-5xl space-y-6 p-4">
+        <h1 className="text-2xl font-semibold">Events</h1>
 
-      <Card>
+        <YearGantt events={events.data} year={2025} />
+
+        <Card>
         <div className="overflow-x-auto">
           <table className="w-full table-auto text-sm">
             <thead className="text-left">
@@ -90,7 +110,14 @@ export default function EventsIndex() {
         )}
       </Card>
 
-      <Sheet open={!!selectedEvent}>
+      <Sheet
+        open={!!selectedEvent}
+        onOpenChange={(open) => {
+          if (!open) {
+            router.visit('/events', { preserveScroll: true, preserveState: true })
+          }
+        }}
+      >
         <SheetContent side="right" className="w-[480px]">
           {selectedEvent && (
             <>
@@ -119,6 +146,7 @@ export default function EventsIndex() {
         </SheetContent>
       </Sheet>
     </div>
+    </AppLayout>
   )
 }
 
