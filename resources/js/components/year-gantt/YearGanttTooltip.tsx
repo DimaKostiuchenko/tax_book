@@ -3,11 +3,20 @@ import { type Event } from '@/types/events'
 
 interface YearGanttTooltipProps {
   event: Event
+  position?: 'top' | 'bottom'
 }
 
-export function YearGanttTooltip({ event }: YearGanttTooltipProps) {
+export function YearGanttTooltip({ event, position = 'top' }: YearGanttTooltipProps) {
+  const tooltipClasses = position === 'top' 
+    ? 'bottom-full mb-2' 
+    : 'top-full mt-2'
+
+  const arrowClasses = position === 'top'
+    ? 'top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-neutral-900'
+    : 'bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-neutral-900'
+
   return (
-    <div className="absolute bottom-full left-1/2 z-50 mb-2 -translate-x-1/2 rounded-md bg-neutral-900 px-3 py-2 text-xs text-white shadow-lg">
+    <div className={`absolute left-1/2 z-50 -translate-x-1/2 rounded-md bg-neutral-900 px-3 py-2 text-xs text-white shadow-lg ${tooltipClasses}`}>
       <div className="font-medium">{event.title}</div>
       <div className="text-neutral-300">
         {format(new Date(event.start_date), 'MMM dd, yyyy')}
@@ -21,7 +30,7 @@ export function YearGanttTooltip({ event }: YearGanttTooltipProps) {
       <div className="text-neutral-300 capitalize">
         {event.event_type} • {event.status}
       </div>
-      <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-neutral-900" />
+      <div className={`absolute ${arrowClasses}`} />
     </div>
   )
 }
