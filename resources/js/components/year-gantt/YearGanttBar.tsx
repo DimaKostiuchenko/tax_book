@@ -11,7 +11,7 @@ interface YearGanttBarProps {
   rowHeight?: number
 }
 
-export function YearGanttBar({ event, x, width, onClick, rowHeight = 24 }: YearGanttBarProps) {
+export function YearGanttBar({ event, x, width, onClick, rowHeight = 80 }: YearGanttBarProps) {
   const [showTooltip, setShowTooltip] = useState(false)
   const [tooltipPosition, setTooltipPosition] = useState<'top' | 'bottom'>('top')
 
@@ -23,8 +23,8 @@ export function YearGanttBar({ event, x, width, onClick, rowHeight = 24 }: YearG
 
   const getBarHeight = () => {
     const availableHeight = rowHeight - 8 // Leave 4px margin top and bottom
-    return event.event_type === 'payment' ? Math.min(availableHeight, 60) : Math.min(availableHeight, 60
-      
+    return event.event_type === 'payment' ? Math.min(availableHeight, 70) : Math.min(availableHeight, 70
+
     )
   }
 

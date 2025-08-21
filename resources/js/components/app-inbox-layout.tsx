@@ -1,27 +1,20 @@
 import { useState } from 'react'
-import { Card, CardContent } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
-import { 
-  Mail, 
-  FileText, 
-  Send, 
-  Ban, 
-  Trash2, 
-  Users, 
-  AlertCircle, 
-  MoreHorizontal, 
-  ShoppingCart, 
-  Folder,
-  Search,
-  Archive,
+import { YearGantt } from '@/components/year-gantt'
+import { LanguageSwitcher } from '@/components/app-language-switcher'
+import { useTranslation } from '@/hooks/useTranslation'
+import {
+  Calendar,
+  CreditCard,
+  FileText,
   Clock,
-  ArrowLeft,
-  ArrowRight,
-  MoreVertical
+  CheckCircle,
+  AlertCircle
 } from 'lucide-react'
 
 interface InboxLayoutProps {
@@ -29,241 +22,239 @@ interface InboxLayoutProps {
   className?: string
 }
 
-interface EmailItem {
-  id: string
-  sender: string
-  subject: string
-  preview: string
-  timestamp: string
-  tags: string[]
-  isSelected?: boolean
-  isRead?: boolean
+interface EventItem {
+  id: number
+  title: string
+  event_type: 'payment' | 'report'
+  description?: string
+  start_date: string
+  end_date: string
+  status: 'pending' | 'completed' | 'overdue'
+  amount?: number
+  file_path?: string
 }
 
-interface EmailDetail {
-  sender: string
-  subject: string
-  email: string
-  timestamp: string
-  content: string
-  avatar: string
-}
-
-const navigationItems = [
-  { icon: Mail, label: 'Inbox', active: true },
-  { icon: FileText, label: 'Drafts' },
-  { icon: Send, label: 'Sent' },
-  { icon: Ban, label: 'Spam' },
-  { icon: Trash2, label: 'Trash' },
-  { icon: Users, label: 'Contacts' },
-  { icon: AlertCircle, label: 'Important' },
-  { icon: MoreHorizontal, label: 'More' },
-  { icon: ShoppingCart, label: 'Purchases' },
-  { icon: Folder, label: 'Categories' },
-]
-
-const sampleEmails: EmailItem[] = [
+const sampleEvents: EventItem[] = [
   {
-    id: '1',
-    sender: 'William Smith',
-    subject: 'Meeting Tomorrow',
-    preview: 'Hi, let\'s have a meeting tomorrow to discuss the project. I\'ve been reviewing the project details and have some...',
-    timestamp: 'almost 2 years ago',
-    tags: ['meeting', 'work', 'important'],
-    isSelected: true,
+    id: 1,
+    title: 'Q1 Tax Payment',
+    event_type: 'payment',
+    description: 'First quarter tax payment for 2025',
+    start_date: '2025-01-15',
+    end_date: '2025-01-31',
+    status: 'pending',
+    amount: 15000,
   },
   {
-    id: '2',
-    sender: 'Alice Smith',
-    subject: 'Re: Project Update',
-    preview: 'Thank you for the project update. It looks great! I\'ve gone through the report, and the progress is impressiv...',
-    timestamp: 'almost 2 years ago',
-    tags: ['work', 'important'],
+    id: 2,
+    title: 'Annual Report Submission',
+    event_type: 'report',
+    description: 'Annual business activity report for 2024',
+    start_date: '2025-02-01',
+    end_date: '2025-02-28',
+    status: 'pending',
+    file_path: '/reports/annual-2024.pdf',
   },
   {
-    id: '3',
-    sender: 'Bob Johnson',
-    subject: 'Weekend Plans',
-    preview: 'Any plans for the weekend? I was thinking of going hiking in the nearby mountains. It\'s been a while since...',
-    timestamp: 'over 2 years ago',
-    tags: ['personal'],
+    id: 3,
+    title: 'Q2 Tax Payment',
+    event_type: 'payment',
+    description: 'Second quarter tax payment for 2025',
+    start_date: '2025-04-15',
+    end_date: '2025-04-30',
+    status: 'overdue',
+    amount: 18000,
+  },
+  {
+    id: 4,
+    title: 'VAT Report',
+    event_type: 'report',
+    description: 'VAT declaration for Q1 2025',
+    start_date: '2025-03-01',
+    end_date: '2025-03-31',
+    status: 'completed',
+    file_path: '/reports/vat-q1-2025.pdf',
   },
 ]
-
-const selectedEmail: EmailDetail = {
-  sender: 'William Smith',
-  subject: 'Meeting Tomorrow',
-  email: 'williamsmith@example.com',
-  timestamp: 'Oct 22, 2023, 9:00:00 AM',
-  content: 'Hi, let\'s have a meeting tomorrow to discuss the project. I\'ve been reviewing the project details and have some ideas I\'d like to share. It\'s crucial that we align on our next steps to ensure the project\'s success. Please come prepared with any questions or insights you may have. Looking forward to our meeting!\n\nBest regards,\nWilliam',
-  avatar: 'WS',
-}
 
 export function InboxLayout({ children, className }: InboxLayoutProps) {
-  const [selectedEmailId, setSelectedEmailId] = useState('1')
+  const { t, locale } = useTranslation()
+  const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(sampleEvents[0])
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'completed': return 'bg-green-100 text-green-700'
+      case 'overdue': return 'bg-red-100 text-red-700'
+      default: return 'bg-yellow-100 text-yellow-700'
+    }
+  }
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'completed': return <CheckCircle className="h-4 w-4" />
+      case 'overdue': return <AlertCircle className="h-4 w-4" />
+      default: return <Clock className="h-4 w-4" />
+    }
+  }
 
   return (
     <div className={cn("h-screen bg-background flex flex-col", className)}>
-      {/* Top Bar */}
-      <div className="h-14 border-b bg-background flex items-center px-4 gap-4">
-        {/* Logo */}
-        <div className="w-8 h-8 bg-neutral-800 rounded flex items-center justify-center">
-          <span className="text-white font-semibold text-sm">M</span>
-        </div>
-        
-        {/* Title and Tabs */}
+      {/* Unified Header */}
+      <div className="h-14 border-b bg-background flex items-center px-6">
         <div className="flex items-center gap-4">
-          <h1 className="text-lg font-semibold">Inbox</h1>
-          <div className="flex gap-1">
-            <Button variant="default" size="sm" className="h-8 px-3 bg-purple-100 text-purple-700 hover:bg-purple-200">
-              All mail
-            </Button>
-            <Button variant="ghost" size="sm" className="h-8 px-3">
-              Unread
-            </Button>
-          </div>
+          <Calendar className="h-6 w-6 text-purple-600" />
+          <h1 className="text-xl font-semibold">{t('tax_events_dashboard')}</h1>
         </div>
-
-        {/* Action Icons */}
-        <div className="flex items-center gap-2 ml-auto">
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-            <Trash2 className="h-4 w-4" />
-          </Button>
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-            <Archive className="h-4 w-4" />
-          </Button>
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-            <Trash2 className="h-4 w-4" />
-          </Button>
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-            <Clock className="h-4 w-4" />
-          </Button>
-        </div>
-
-        {/* Email Actions */}
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-            <ArrowRight className="h-4 w-4" />
-          </Button>
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-            <ArrowRight className="h-4 w-4" />
-          </Button>
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-            <MoreVertical className="h-4 w-4" />
-          </Button>
+        <div className="ml-auto">
+          <LanguageSwitcher currentLocale={locale} />
         </div>
       </div>
 
       {/* Main Content */}
       <div className="flex-1 flex">
-        {/* Left Sidebar */}
-        <div className="w-16 bg-background border-r flex flex-col items-center py-4 gap-2">
-          {navigationItems.map((item, index) => (
-            <Button
-              key={index}
-              variant="ghost"
-              size="sm"
-              className={cn(
-                "h-10 w-10 p-0 rounded-lg",
-                item.active && "bg-purple-100 text-purple-700"
-              )}
-              title={item.label}
-            >
-              <item.icon className="h-5 w-5" />
-            </Button>
-          ))}
-        </div>
+        {/* Left Column */}
+        <div className="flex-1 flex flex-col">
+          {/* Gantt Chart */}
+          <div className="p-6 border-b">
+            <YearGantt events={sampleEvents} year={2025} />
+          </div>
 
-        {/* Middle Panel - Email List */}
-        <div className="w-80 border-r flex flex-col">
-          {/* Search */}
-          <div className="p-4 border-b">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search"
-                className="pl-10"
-              />
+          {/* Event Cards */}
+          <div className="flex-1 p-6">
+            <h2 className="text-lg font-semibold mb-4">{t('upcoming_events')}</h2>
+            <div className="grid gap-4">
+              {sampleEvents.map((event) => (
+                <Card 
+                  key={event.id}
+                  className={cn(
+                    "cursor-pointer transition-all hover:shadow-md",
+                    selectedEvent?.id === event.id && "ring-2 ring-purple-500"
+                  )}
+                  onClick={() => setSelectedEvent(event)}
+                >
+                  <CardContent className="p-4">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          {event.event_type === 'payment' ? (
+                            <CreditCard className="h-4 w-4 text-blue-600" />
+                          ) : (
+                            <FileText className="h-4 w-4 text-green-600" />
+                          )}
+                          <h3 className="font-medium">{event.title}</h3>
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-2">
+                          {event.description}
+                        </p>
+                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                          <span>{t('start_date')}: {new Date(event.start_date).toLocaleDateString()}</span>
+                          <span>{t('end_date')}: {new Date(event.end_date).toLocaleDateString()}</span>
+                        </div>
+                      </div>
+                      <Badge className={getStatusColor(event.status)}>
+                        {t(event.status)}
+                      </Badge>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
-
-          {/* Email List */}
-          <div className="flex-1 overflow-y-auto">
-            {sampleEmails.map((email) => (
-              <div
-                key={email.id}
-                className={cn(
-                  "p-4 border-b cursor-pointer hover:bg-muted/50 transition-colors",
-                  email.isSelected && "bg-purple-50 border-purple-200"
-                )}
-                onClick={() => setSelectedEmailId(email.id)}
-              >
-                <div className="flex items-start justify-between mb-2">
-                  <span className="font-medium text-sm">{email.sender}</span>
-                  <span className="text-xs text-muted-foreground">{email.timestamp}</span>
-                </div>
-                <h3 className="font-medium text-sm mb-1">{email.subject}</h3>
-                <p className="text-sm text-muted-foreground mb-2 line-clamp-2">
-                  {email.preview}
-                </p>
-                <div className="flex flex-wrap gap-1">
-                  {email.tags.map((tag, index) => (
-                    <Badge
-                      key={index}
-                      variant="secondary"
-                      className={cn(
-                        "text-xs px-2 py-0.5",
-                        tag === 'personal' ? "bg-gray-100 text-gray-700" : "bg-purple-100 text-purple-700"
-                      )}
-                    >
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
 
-        {/* Right Panel - Email Detail */}
-        <div className="flex-1 flex flex-col">
-          {selectedEmail && (
+        {/* Right Column - Event Details */}
+        <div className="w-96 border-l flex flex-col">
+          {selectedEvent ? (
             <>
-              {/* Email Header */}
+              {/* Event Header */}
               <div className="p-6 border-b">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center">
-                      <span className="text-white font-semibold text-sm">
-                        {selectedEmail.avatar}
+                <div className="flex items-center gap-3 mb-4">
+                  {selectedEvent.event_type === 'payment' ? (
+                    <CreditCard className="h-6 w-6 text-blue-600" />
+                  ) : (
+                    <FileText className="h-6 w-6 text-green-600" />
+                  )}
+                  <div>
+                    <h2 className="text-lg font-semibold">{selectedEvent.title}</h2>
+                    <p className="text-sm text-muted-foreground capitalize">
+                      {t(selectedEvent.event_type + '_event')}
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    {getStatusIcon(selectedEvent.status)}
+                    <Badge className={getStatusColor(selectedEvent.status)}>
+                      {t(selectedEvent.status)}
+                    </Badge>
+                  </div>
+                  
+                  {selectedEvent.amount && (
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium">{t('amount')}:</span>
+                      <span className="text-lg font-semibold text-green-600">
+                        ${selectedEvent.amount.toLocaleString()}
                       </span>
                     </div>
-                    <div>
-                      <h2 className="text-lg font-semibold">{selectedEmail.sender}</h2>
-                      <p className="text-sm text-muted-foreground">{selectedEmail.subject}</p>
-                      <p className="text-sm text-muted-foreground">
-                        Reply-To: {selectedEmail.email}
-                      </p>
+                  )}
+                  
+                  {selectedEvent.file_path && (
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium">{t('file')}:</span>
+                      <span className="text-sm text-muted-foreground">
+                        {selectedEvent.file_path.split('/').pop()}
+                      </span>
                     </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Event Details */}
+              <div className="flex-1 p-6">
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="font-medium mb-2">{t('event_description')}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {selectedEvent.description}
+                    </p>
                   </div>
-                  <div className="text-sm text-muted-foreground">
-                    {selectedEmail.timestamp}
+                  
+                  <div>
+                    <h3 className="font-medium mb-2">{t('timeline')}</h3>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">{t('start_date')}:</span>
+                        <span>{new Date(selectedEvent.start_date).toLocaleDateString()}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">{t('end_date')}:</span>
+                        <span>{new Date(selectedEvent.end_date).toLocaleDateString()}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Email Content */}
-              <div className="flex-1 p-6 overflow-y-auto">
-                <div className="prose prose-sm max-w-none">
-                  <p className="whitespace-pre-line leading-relaxed">
-                    {selectedEmail.content}
-                  </p>
-                </div>
+              {/* Action Buttons */}
+              <div className="p-6 border-t">
+                {selectedEvent.event_type === 'payment' ? (
+                  <Button className="w-full" size="lg">
+                    <CreditCard className="h-4 w-4 mr-2" />
+                    {t('pay_now')}
+                  </Button>
+                ) : (
+                  <Button className="w-full" size="lg">
+                    <FileText className="h-4 w-4 mr-2" />
+                    {t('submit_report')}
+                  </Button>
+                )}
               </div>
             </>
+          ) : (
+            <div className="flex-1 flex items-center justify-center text-muted-foreground">
+              <p>{t('no_data')}</p>
+            </div>
           )}
         </div>
       </div>
