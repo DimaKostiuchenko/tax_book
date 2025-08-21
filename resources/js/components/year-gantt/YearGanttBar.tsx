@@ -23,7 +23,9 @@ export function YearGanttBar({ event, x, width, onClick, rowHeight = 24 }: YearG
 
   const getBarHeight = () => {
     const availableHeight = rowHeight - 8 // Leave 4px margin top and bottom
-    return event.event_type === 'payment' ? Math.min(availableHeight, 12) : Math.min(availableHeight, 20)
+    return event.event_type === 'payment' ? Math.min(availableHeight, 60) : Math.min(availableHeight, 60
+      
+    )
   }
 
   return (
@@ -50,7 +52,7 @@ export function YearGanttBar({ event, x, width, onClick, rowHeight = 24 }: YearG
     >
       <div
         className={cn(
-          'rounded-sm border border-white/20 shadow-sm',
+          'rounded-r-sm border border-white/20 shadow-sm',
           getBarColor(),
           'flex items-center justify-center text-xs font-medium text-white'
         )}
