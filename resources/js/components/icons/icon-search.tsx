@@ -1,0 +1,28 @@
+import {cn} from '@/lib/utils'
+
+interface AppLogoProps {
+    className?: string
+    size?: 'sm' | 'md' | 'lg' | 'xl'
+}
+
+export function IconEvents({className, size = 'md'}: AppLogoProps) {
+    const sizeClasses = {
+        sm: 'w-4 h-4',
+        md: 'w-6 h-6',
+        lg: 'w-8 h-8',
+        xl: 'w-12 h-12',
+    }
+
+
+    return (
+        <svg className={cn(sizeClasses[size], className)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+             width="24"
+             height="24" color="#000000" fill="none">
+            <path d="M17 17L21 21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+            <path
+                d="M19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19C15.4183 19 19 15.4183 19 11Z"
+                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+    )
+}

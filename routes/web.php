@@ -31,5 +31,13 @@ Route::get('test-localization', function () {
     return Inertia::render('test-localization');
 })->name('test-localization');
 
+Route::get('logo-demo', function () {
+    return Inertia::render('logo-demo');
+})->name('logo-demo');
+
+Route::get('clean-dashboard', function () {
+    return Inertia::render('clean-dashboard');
+})->name('clean-dashboard');
+
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
