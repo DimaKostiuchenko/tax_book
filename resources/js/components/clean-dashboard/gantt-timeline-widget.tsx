@@ -1,7 +1,4 @@
-import { Filter, Search } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { TaxEventCard } from './tax-event-card'
+import React from 'react'
 
 interface TaxEvent {
   id: string
@@ -34,8 +31,38 @@ interface TaxEvent {
   }
 }
 
-export function TaxEventsWidget() {
-  // Chart data for Ukrainian tax events
+interface GanttTimelineWidgetProps {
+  events?: TaxEvent[]
+  title?: string
+}
+
+export function GanttTimelineWidget({
+  events = [],
+  title = "Tax Events Timeline 2025"
+}: GanttTimelineWidgetProps) {
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+  // Helper function to calculate position and width based on dates
+  const calculateBarStyle = (startDate: string, endDate: string, topPosition: number) => {
+    const start = new Date(startDate)
+    const end = new Date(endDate)
+    const yearStart = new Date(start.getFullYear(), 0, 1)
+
+    const startDay = Math.floor((start.getTime() - yearStart.getTime()) / (1000 * 60 * 60 * 24))
+    const endDay = Math.floor((end.getTime() - yearStart.getTime()) / (1000 * 60 * 60 * 24))
+    const duration = endDay - startDay + 1
+
+    const left = (startDay / 365) * 100
+    const width = (duration / 365) * 100
+
+    return {
+      top: `${topPosition}px`,
+      left: `calc(${left}%)`,
+      width: `calc(${width}%)`
+    }
+  }
+
+  // Chart data for Ukrainian tax events (from tax-events-widget.tsx)
   const chartData = {
     year: 2025,
     group: "FOP-3",
@@ -149,87 +176,78 @@ export function TaxEventsWidget() {
     ]
   }
 
-  // Helper function to convert tax event type to platform
-  function getPlatformFromType(type: string): 'payment' | 'report' | 'deadline' | 'reminder' {
-    switch (type) {
-      case 'DECLARATION':
-        return 'report'
-      case 'TAX':
-        return 'payment'
-      case 'ESV':
-        return 'payment'
-      default:
-        return 'reminder'
-    }
-  }
+  // Use provided events or chartData events
+  const timelineEvents: TaxEvent[] = events.length > 0 ? events : chartData.events
 
-  // Helper function to get status
-  function getStatus(status: string): 'pending' | 'completed' | 'overdue' | 'upcoming' {
-    switch (status) {
-      case 'Очікується':
-        return 'upcoming'
-      case 'Завершено':
-        return 'completed'
-      case 'Прострочено':
-        return 'overdue'
-      default:
-        return 'pending'
+  // Group events by type
+  const eventsByType = timelineEvents.reduce((acc, event) => {
+    if (!acc[event.type]) {
+      acc[event.type] = []
     }
-  }
-
-  // Helper function to format date
-  function formatDate(dateString: string): string {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('uk-UA', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    })
-  }
+    acc[event.type].push(event)
+    return acc
+  }, {} as Record<string, TaxEvent[]>)
 
   return (
-    <div className="bg-white p-6 rounded-sm shadow-sm">
-      {/* Header with Title and Filters */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-6 gap-4">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900">Tax Events</h2>
-          <p className="text-gray-600 mt-1">Manage your tax-related activities and deadlines</p>
-        </div>
-
-        {/* Filters */}
-        <div className="flex items-center gap-3">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <Input
-              placeholder="Search events..."
-              className="pl-10 w-64"
-            />
-          </div>
-          {/* <Button variant="outline" size="sm">
-            <Filter className="w-4 h-4 mr-2" />
-            Filter
-          </Button> */}
-        </div>
+    <div className="bg-white  shadow-md p-4">
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold text-gray-800">{title}</h2>
+        <p className="text-gray-600 mt-2">Track your project timeline and milestones</p>
       </div>
 
-      {/* Grid Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {chartData.events.map((event: TaxEvent, index: number) => (
-          <TaxEventCard
-            key={event.id}
-            platform={getPlatformFromType(event.type)}
-            title={event.title}
-            date={formatDate(event.deadline)}
-            time={new Date(event.deadline).toLocaleTimeString('uk-UA', {
-              hour: '2-digit',
-              minute: '2-digit'
-            })}
-            views={event.amount?.value || 0}
-            likes={event.quarter === 'Q1' ? 100 : event.quarter === 'Q2' ? 75 : 50}
-            shares={event.details ? 1 : 0}
-            status={getStatus(event.status)}
-          />
-        ))}
+      <div className="relative w-full h-[500px] bg-gray-100 rounded-lg overflow-hidden">
+        {/* X-Axis (Months) */}
+        <div className="absolute top-0 left-0 w-full h-[50px] flex border-b border-gray-300 bg-white">
+          {months.map((month, index) => (
+            <div
+              key={month}
+              className="flex-1 text-center leading-[50px] text-sm text-gray-600 border-r border-gray-200 last:border-r-0"
+            >
+              {month}
+            </div>
+          ))}
+        </div>
+
+        {/* Month Gridlines */}
+        <div className="absolute top-[50px] left-0 w-full h-[calc(100%-50px)]">
+          {months.map((month, index) => (
+            <div
+              key={`gridline-${month}`}
+              className="absolute top-0 bottom-0 w-px bg-gray-200"
+              style={{ left: `${(index / months.length) * 100}%` }}
+            />
+          ))}
+        </div>
+
+        {/* Gantt Chart Bars */}
+        <div className="absolute top-[50px] left-0 w-full h-[calc(100%-50px)] px-4">
+          {Object.entries(eventsByType).map(([type, typeEvents], typeIndex) => {
+            // Calculate proportional positioning with padding
+            const chartHeight = 450 // Total chart height minus header
+            const rowHeight = 80 // Height of each bar
+            const padding = 20 // Padding from top and bottom of each row
+            const availableHeight = rowHeight - (padding * 2) // Available height for bars
+            const topPosition = typeIndex * 120 + padding // Add padding to center bars
+
+            return typeEvents.map((event) => (
+              <div
+                key={event.id}
+                className={`absolute rounded-r-md text-white flex items-center justify-center font-bold text-sm shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl cursor-pointer
+                  ${type === 'DECLARATION' ? 'bg-blue-500' : ''}
+                  ${type === 'TAX' ? 'bg-green-500' : ''}
+                  ${type === 'ESV' ? 'bg-orange-500' : ''}
+                `}
+                style={{
+                  ...calculateBarStyle(event.window.start, event.window.end, topPosition),
+                  height: `${availableHeight}px`
+                }}
+                title={`${event.title}: ${new Date(event.window.start).toLocaleDateString()} - ${new Date(event.window.end).toLocaleDateString()}`}
+              >
+                {event.title}
+              </div>
+            ))
+          })}
+        </div>
       </div>
     </div>
   )

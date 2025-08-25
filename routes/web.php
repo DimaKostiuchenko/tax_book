@@ -39,5 +39,9 @@ Route::get('clean-dashboard', function () {
     return Inertia::render('clean-dashboard');
 })->name('clean-dashboard');
 
+Route::get('client-management', function () {
+    return Inertia::render('client-management');
+})->name('client-management');
+
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

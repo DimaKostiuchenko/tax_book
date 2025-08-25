@@ -8,7 +8,7 @@ export { Header } from './header'
 
 // New refactored components
 export { Sidebar } from './sidebar'
-export { TargetsWidget } from './targets-widget'
+export { TaxEventsTimeline } from './tax-events-timeline'
 export { WelcomeWidget } from './welcome-widget'
 export { TaxEventsWidget } from './tax-events-widget'
 export { TaxEventCard } from './tax-event-card'
@@ -16,5 +16,5 @@ export { StatsWidget } from './stats-widget'
 export { ViewsChartWidget } from './views-chart-widget'
 export { CongratulationsWidget } from './congratulations-widget'
 export { MeetingsWidget } from './meetings-widget'
-
-
+export { QuarterlyGanttChart } from './quarterly-gantt-chart'
+export { GanttTimelineWidget } from './gantt-timeline-widget'

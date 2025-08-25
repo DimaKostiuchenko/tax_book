@@ -19,20 +19,21 @@ interface HeaderProps {
 
 export function Header({ userName, userAvatar, notificationsCount = 3 }: HeaderProps) {
   return (
-    <header className="flex items-center justify-between p-6 bg-white border-b">
-      <div className="flex items-center gap-6">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-gray-600">Welcome back, {userName}</p>
-        </div>
-        
+    <header className="flex items-start justify-between p-6">
+      <div className="flex flex-col gap-4">
         {/* Search Input */}
-        <div className="relative w-96">
+        <div className="relative w-80">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
           <Input 
-            placeholder="Search..." 
-            className="pl-10 bg-gray-50 border-gray-200 focus:bg-white"
+            placeholder="Search" 
+            className="pl-10 bg-transparent border-0 border-b border-gray-300 rounded-none focus:ring-0 focus:border-gray-400 pb-1"
           />
+        </div>
+        
+        {/* Title and Subtitle */}
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
+          <p className="text-gray-600 text-sm">Monitor and analyze sales performance with dashboard built using CanvasJS</p>
         </div>
       </div>
       
@@ -60,8 +61,6 @@ export function Header({ userName, userAvatar, notificationsCount = 3 }: HeaderP
                   {userName.split(' ').map(n => n[0]).join('')}
                 </AvatarFallback>
               </Avatar>
-              <span className="text-sm font-medium">{userName}</span>
-              <ChevronDown className="w-4 h-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
