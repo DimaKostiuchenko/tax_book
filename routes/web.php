@@ -43,5 +43,9 @@ Route::get('client-management', function () {
     return Inertia::render('client-management');
 })->name('client-management');
 
+Route::get('project-timeline', function () {
+    return Inertia::render('project-timeline');
+})->name('project-timeline');
+
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
