@@ -1,0 +1,41 @@
+.quarter-circle-bottom-right {
+    border-bottom-right-radius: 100%; /* Скругляем только нижний правый угол на 100% */
+}
+
+.deco-card {
+    position: relative;
+
+    overflow: hidden; /* чтобы блики не выходили за границы */
+}
+
+/* Первый блик */
+.deco-card::before {
+    content: "";
+    position: absolute;
+    top: 10%;
+    left: 15%;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(255, 150, 200, 0.4), transparent 70%);
+    filter: blur(40px);
+    z-index: 0;
+}
+
+/* Второй блик */
+.deco-card::after {
+    content: "";
+    position: absolute;
+    bottom: 10%;
+    right: 15%;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(150, 200, 255, 0.4), transparent 70%);
+    filter: blur(50px);
+    z-index: 0;
+}
+
+/* Контент внутри должен быть выше */
+.deco-card-content {
+    position: relative;
+    z-index: 1;
+}
