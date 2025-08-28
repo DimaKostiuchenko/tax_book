@@ -1,14 +1,12 @@
 .quarter-circle-bottom-right {
-    border-bottom-right-radius: 100%; /* Скругляем только нижний правый угол на 100% */
+    border-bottom-right-radius: 100%;
 }
 
 .deco-card {
     position: relative;
-
-    overflow: hidden; /* чтобы блики не выходили за границы */
+    overflow: hidden;
 }
 
-/* Первый блик */
 .deco-card::before {
     content: "";
     position: absolute;
@@ -21,7 +19,6 @@
     z-index: 0;
 }
 
-/* Второй блик */
 .deco-card::after {
     content: "";
     position: absolute;
@@ -34,7 +31,6 @@
     z-index: 0;
 }
 
-/* Контент внутри должен быть выше */
 .deco-card-content {
     position: relative;
     z-index: 1;
