@@ -145,6 +145,20 @@ Component.displayName = "Component"
 export { Component, componentVariants }
 ```
 
+# Shadcn UI Components
+
+This project uses @shadcn/ui for UI components. These are beautifully designed, accessible components that you can copy and paste into your apps.
+
+## Finding and Using Components
+
+Components are available in the `src/components/ui` directory, following the aliases configured in `components.json`.
+
+## Using Components
+
+Import components from the ui directory using the configured aliases:
+```tsx
+import { Button } from "@/components/ui/button"
+
 ### Adding New shadcn/ui Components
 
 To add new shadcn/ui components:

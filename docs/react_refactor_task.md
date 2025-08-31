@@ -58,7 +58,9 @@ setTodos([...todos, newTodo]);
 
 - Use `React.memo` for child components that do not need to re-render on every parent update.
 - Use `useCallback` for functions passed to child components.
-- Use `useMemo` for expensive calculations inside render. In most cases, useMemo is not necessary unless the computation is expensive or you’re memoizing referential equality for child components. For class names, small conditions, or string concatenations, plain inline computation is faster and cleaner.
+- Use `useMemo` for expensive calculations inside render. In most cases, useMemo is not necessary unless the computation
+  is expensive or you’re memoizing referential equality for child components. For class names, small conditions, or
+  string concatenations, plain inline computation is faster and cleaner.
 
 **Example:**
 
@@ -86,7 +88,20 @@ const handleDelete = useCallback((index) => {
 - Ensure the refactored component behaves **exactly the same** as before.
 - Do not change UI behavior or business logic.
 
----
+### Shadcn UI Components
+
+-This project uses @shadcn/ui for UI components. These are beautifully designed,
+accessible components that you can copy and paste into your apps.
+
+#### Finding and Using Components
+
+-Components are available in the `src/components/ui` directory, following the aliases configured in `components.json`.
+
+#### Using Components
+-Import components from the ui directory using the configured aliases:
+```tsx
+import { Button } from "@/components/ui/button"
+```
 
 This guide ensures the refactoring is safe, modern, and follows React best practices, suitable for automated or manual
 refactoring.
