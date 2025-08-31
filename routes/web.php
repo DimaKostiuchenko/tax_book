@@ -16,6 +16,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Events listing and details
     Route::get('events', [EventsController::class, 'index'])->name('events.index');
     Route::get('events/{event}', [EventsController::class, 'show'])->name('events.show');
+
+    // Client Management (now requires authentication)
+    Route::get('client-management', function () {
+        return Inertia::render('client-management');
+    })->name('client-management');
 });
 
 // Layout examples (no auth required)
@@ -38,10 +43,6 @@ Route::get('logo-demo', function () {
 Route::get('clean-dashboard', function () {
     return Inertia::render('clean-dashboard');
 })->name('clean-dashboard');
-
-Route::get('client-management', function () {
-    return Inertia::render('client-management');
-})->name('client-management');
 
 Route::get('project-timeline', function () {
     return Inertia::render('project-timeline');

@@ -8,6 +8,13 @@ import { DonutChart } from '@/components/donut-chart'
 // Extracted constants
 const QUARTERS = [1, 2, 3, 4]
 
+type Status = "Очікується" | "Завершено" | "Прострочено" | string
+type Actions = {
+    submitUrl?: string
+    payOnlineUrl?: string
+    instructionUrl?: string
+}
+
 // ESV events data
 const ESV_EVENTS_DATA = [
     {
