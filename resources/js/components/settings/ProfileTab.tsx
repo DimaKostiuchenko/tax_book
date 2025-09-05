@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { CheckCircle, AlertCircle } from 'lucide-react';
+import { CheckCircle, AlertCircle, Building2, User as UserIcon, Phone, Mail, CreditCard } from 'lucide-react';
 
 interface User {
     name: string;
@@ -45,161 +45,228 @@ export default function ProfileTab({ user }: ProfileTabProps) {
     const isLegalEntity = data.user_type === 'legal_entity';
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-8">
             {/* Success/Error Messages */}
             {recentlySuccessful && (
-                <Alert>
-                    <CheckCircle className="h-4 w-4" />
-                    <AlertDescription>Профіль успішно оновлено</AlertDescription>
+                <Alert className="border-green-200 bg-green-50 text-green-800 rounded-xl">
+                    <CheckCircle className="h-5 w-5 text-green-600" />
+                    <AlertDescription className="font-medium">Профіль успішно оновлено</AlertDescription>
                 </Alert>
             )}
 
             {errors.user_type && (
-                <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
+                <Alert variant="destructive" className="rounded-xl">
+                    <AlertCircle className="h-5 w-5" />
                     <AlertDescription>{errors.user_type}</AlertDescription>
                 </Alert>
             )}
 
             {/* User Type Selection */}
-            <div className="space-y-2">
-                <Label htmlFor="user_type">Тип користувача *</Label>
+            <div className="space-y-4">
+                <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center">
+                        <UserIcon className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                        <Label htmlFor="user_type" className="text-lg font-semibold text-gray-900">Тип користувача *</Label>
+                        <p className="text-sm text-gray-500">Оберіть тип вашого підприємства</p>
+                    </div>
+                </div>
                 <Select
                     value={data.user_type}
                     onValueChange={(value) => setData('user_type', value as 'fop' | 'legal_entity')}
                 >
-                    <SelectTrigger>
+                    <SelectTrigger className="h-12 text-base border-2 border-gray-200 rounded-xl hover:border-blue-300 focus:border-blue-500 transition-colors">
                         <SelectValue placeholder="Оберіть тип користувача" />
                     </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="fop">ФОП (Фізична особа-підприємець)</SelectItem>
-                        <SelectItem value="legal_entity">Юридична особа</SelectItem>
+                    <SelectContent className="rounded-xl">
+                        <SelectItem value="fop" className="text-base py-3">ФОП (Фізична особа-підприємець)</SelectItem>
+                        <SelectItem value="legal_entity" className="text-base py-3">Юридична особа</SelectItem>
                     </SelectContent>
                 </Select>
             </div>
 
             {/* Conditional Fields Based on User Type */}
             {isFOP && (
-                <div className="space-y-2">
-                    <Label htmlFor="tin">ТИН (10 цифр) *</Label>
+                <div className="space-y-4 p-6 bg-blue-50 rounded-2xl border border-blue-200">
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                            <UserIcon className="w-4 h-4 text-white" />
+                        </div>
+                        <Label htmlFor="tin" className="text-lg font-semibold text-gray-900">ТИН (10 цифр) *</Label>
+                    </div>
                     <Input
                         id="tin"
                         value={data.tin}
                         onChange={(e) => setData('tin', e.target.value)}
                         placeholder="1234567890"
                         maxLength={10}
-                        className={errors.tin ? 'border-red-500' : ''}
+                        className={`h-12 text-base border-2 rounded-xl transition-colors ${
+                            errors.tin ? 'border-red-300 focus:border-red-500' : 'border-gray-200 focus:border-blue-500'
+                        }`}
                     />
-                    {errors.tin && <p className="text-sm text-red-500">{errors.tin}</p>}
+                    {errors.tin && <p className="text-sm text-red-600 font-medium">{errors.tin}</p>}
+                    <p className="text-sm text-blue-700">ТИН - це ваш індивідуальний податковий номер</p>
                 </div>
             )}
 
             {isLegalEntity && (
-                <div className="space-y-2">
-                    <Label htmlFor="edrpou">ЄДРПОУ (8 цифр) *</Label>
+                <div className="space-y-4 p-6 bg-green-50 rounded-2xl border border-green-200">
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
+                            <Building2 className="w-4 h-4 text-white" />
+                        </div>
+                        <Label htmlFor="edrpou" className="text-lg font-semibold text-gray-900">ЄДРПОУ (8 цифр) *</Label>
+                    </div>
                     <Input
                         id="edrpou"
                         value={data.edrpou}
                         onChange={(e) => setData('edrpou', e.target.value)}
                         placeholder="12345678"
                         maxLength={8}
-                        className={errors.edrpou ? 'border-red-500' : ''}
+                        className={`h-12 text-base border-2 rounded-xl transition-colors ${
+                            errors.edrpou ? 'border-red-300 focus:border-red-500' : 'border-gray-200 focus:border-green-500'
+                        }`}
                     />
-                    {errors.edrpou && <p className="text-sm text-red-500">{errors.edrpou}</p>}
+                    {errors.edrpou && <p className="text-sm text-red-600 font-medium">{errors.edrpou}</p>}
+                    <p className="text-sm text-green-700">ЄДРПОУ - це код юридичної особи в Україні</p>
                 </div>
             )}
 
             {/* Tax Regime */}
-            <div className="space-y-2">
-                <Label htmlFor="tax_regime">Податковий режим</Label>
+            <div className="space-y-4">
+                <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                        <CreditCard className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                        <Label htmlFor="tax_regime" className="text-lg font-semibold text-gray-900">Податковий режим</Label>
+                        <p className="text-sm text-gray-500">Оберіть систему оподаткування</p>
+                    </div>
+                </div>
                 <Select
                     value={data.tax_regime}
                     onValueChange={(value) => setData('tax_regime', value as any)}
                 >
-                    <SelectTrigger>
+                    <SelectTrigger className="h-12 text-base border-2 border-gray-200 rounded-xl hover:border-purple-300 focus:border-purple-500 transition-colors">
                         <SelectValue placeholder="Оберіть податковий режим" />
                     </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="single_tax_1">Єдиний податок 1 група</SelectItem>
-                        <SelectItem value="single_tax_2">Єдиний податок 2 група</SelectItem>
-                        <SelectItem value="single_tax_3">Єдиний податок 3 група</SelectItem>
-                        <SelectItem value="general_system">Загальна система</SelectItem>
+                    <SelectContent className="rounded-xl">
+                        <SelectItem value="single_tax_1" className="text-base py-3">Єдиний податок 1 група</SelectItem>
+                        <SelectItem value="single_tax_2" className="text-base py-3">Єдиний податок 2 група</SelectItem>
+                        <SelectItem value="single_tax_3" className="text-base py-3">Єдиний податок 3 група</SelectItem>
+                        <SelectItem value="general_system" className="text-base py-3">Загальна система</SelectItem>
                     </SelectContent>
                 </Select>
             </div>
 
             {/* VAT Payer */}
-            <div className="flex items-center space-x-2">
-                <Checkbox
-                    id="vat_payer"
-                    checked={data.vat_payer}
-                    onCheckedChange={(checked) => setData('vat_payer', checked as boolean)}
-                />
-                <Label htmlFor="vat_payer">Платник ПДВ</Label>
+            <div className="space-y-4 p-6 bg-amber-50 rounded-2xl border border-amber-200">
+                <div className="flex items-center space-x-3">
+                    <Checkbox
+                        id="vat_payer"
+                        checked={data.vat_payer}
+                        onCheckedChange={(checked) => setData('vat_payer', checked as boolean)}
+                        className="w-5 h-5 border-2 border-amber-400 rounded-lg"
+                    />
+                    <Label htmlFor="vat_payer" className="text-lg font-semibold text-gray-900">Платник ПДВ</Label>
+                </div>
+                <p className="text-sm text-amber-700 ml-8">Відмітьте, якщо ви є платником податку на додану вартість</p>
             </div>
 
             {/* VAT Number (conditional) */}
             {data.vat_payer && (
-                <div className="space-y-2">
-                    <Label htmlFor="vat_number">ПДВ номер *</Label>
+                <div className="space-y-4 p-6 bg-amber-50 rounded-2xl border border-amber-200">
+                    <Label htmlFor="vat_number" className="text-lg font-semibold text-gray-900">ПДВ номер *</Label>
                     <Input
                         id="vat_number"
                         value={data.vat_number}
                         onChange={(e) => setData('vat_number', e.target.value)}
                         placeholder="Введіть ПДВ номер"
-                        className={errors.vat_number ? 'border-red-500' : ''}
+                        className={`h-12 text-base border-2 rounded-xl transition-colors ${
+                            errors.vat_number ? 'border-red-300 focus:border-red-500' : 'border-amber-300 focus:border-amber-500'
+                        }`}
                     />
-                    {errors.vat_number && <p className="text-sm text-red-500">{errors.vat_number}</p>}
+                    {errors.vat_number && <p className="text-sm text-red-600 font-medium">{errors.vat_number}</p>}
                 </div>
             )}
 
             {/* Reporting Period */}
-            <div className="space-y-2">
-                <Label htmlFor="reporting_period">Період звітності *</Label>
+            <div className="space-y-4">
+                <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-lg flex items-center justify-center">
+                        <CreditCard className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                        <Label htmlFor="reporting_period" className="text-lg font-semibold text-gray-900">Період звітності *</Label>
+                        <p className="text-sm text-gray-500">Частота подачі податкових звітів</p>
+                    </div>
+                </div>
                 <Select
                     value={data.reporting_period}
                     onValueChange={(value) => setData('reporting_period', value as any)}
                 >
-                    <SelectTrigger>
+                    <SelectTrigger className="h-12 text-base border-2 border-gray-200 rounded-xl hover:border-emerald-300 focus:border-emerald-500 transition-colors">
                         <SelectValue placeholder="Оберіть період звітності" />
                     </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="monthly">Щомісячно</SelectItem>
-                        <SelectItem value="quarterly">Щоквартально</SelectItem>
-                        <SelectItem value="yearly">Щорічно</SelectItem>
+                    <SelectContent className="rounded-xl">
+                        <SelectItem value="monthly" className="text-base py-3">Щомісячно</SelectItem>
+                        <SelectItem value="quarterly" className="text-base py-3">Щоквартально</SelectItem>
+                        <SelectItem value="yearly" className="text-base py-3">Щорічно</SelectItem>
                     </SelectContent>
                 </Select>
             </div>
 
             {/* Phone Number */}
-            <div className="space-y-2">
-                <Label htmlFor="phone">Номер телефону</Label>
+            <div className="space-y-4">
+                <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                        <Phone className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                        <Label htmlFor="phone" className="text-lg font-semibold text-gray-900">Номер телефону</Label>
+                        <p className="text-sm text-gray-500">Для зв'язку та сповіщень</p>
+                    </div>
+                </div>
                 <Input
                     id="phone"
                     value={data.phone}
                     onChange={(e) => setData('phone', e.target.value)}
                     placeholder="+380XXXXXXXXX"
-                    className={errors.phone ? 'border-red-500' : ''}
+                    className={`h-12 text-base border-2 rounded-xl transition-colors ${
+                        errors.phone ? 'border-red-300 focus:border-red-500' : 'border-gray-200 focus:border-teal-500'
+                    }`}
                 />
-                {errors.phone && <p className="text-sm text-red-500">{errors.phone}</p>}
-                <p className="text-sm text-gray-500">Формат: +380XXXXXXXXX</p>
+                {errors.phone && <p className="text-sm text-red-600 font-medium">{errors.phone}</p>}
+                <p className="text-sm text-teal-700 font-medium">Формат: +380XXXXXXXXX</p>
             </div>
 
             {/* Email (readonly) */}
-            <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+            <div className="space-y-4 p-6 bg-gray-50 rounded-2xl border border-gray-200">
+                <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-gradient-to-r from-gray-500 to-gray-600 rounded-lg flex items-center justify-center">
+                        <Mail className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                        <Label htmlFor="email" className="text-lg font-semibold text-gray-900">Email</Label>
+                        <p className="text-sm text-gray-500">Використовується для входу в систему</p>
+                    </div>
+                </div>
                 <Input
                     id="email"
                     value={user.email}
                     disabled
-                    className="bg-gray-50"
+                    className="h-12 text-base bg-gray-100 border-2 border-gray-200 rounded-xl text-gray-600"
                 />
-                <p className="text-sm text-gray-500">Email використовується для входу в систему</p>
             </div>
 
             {/* Submit Button */}
-            <div className="flex justify-end">
-                <Button type="submit" disabled={processing}>
+            <div className="flex justify-end pt-6">
+                <Button 
+                    type="submit" 
+                    disabled={processing}
+                    className="h-12 px-8 text-base font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                >
                     {processing ? 'Збереження...' : 'Зберегти зміни'}
                 </Button>
             </div>
