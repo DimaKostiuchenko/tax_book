@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import * as path from 'path';
 import * as fs from 'fs';
-import { downloadXLSXFiles } from '../../downloadFile.js';
+import { downloadXLSXFiles } from '../node_scripts/xlsx_downloader/downloadXLSXFiles.js';
 
 test.describe('Multiple File Download', () => {
 
