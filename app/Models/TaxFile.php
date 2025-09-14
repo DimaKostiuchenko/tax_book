@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Arr;
 
 class TaxFile extends Model
 {
@@ -13,12 +14,15 @@ class TaxFile extends Model
     /**
      * The attributes that are mass assignable.
      */
+
     protected $fillable = [
         'region',
         'file_url',
         'checksum',
         'local_path',
         'fetched_at',
+        'page_url',
+        'link_title',
     ];
 
     /**

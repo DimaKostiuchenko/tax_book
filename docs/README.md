@@ -8,7 +8,9 @@ This directory contains project documentation for the Tax Calendar application.
 - [Database Schema](./database-schema.md) — Tables and relationships
 - [Development Guidelines](./development-guidelines.md) — UI components and coding standards
 - [Design](./design/) — Wireframes, mockups, and design assets (if any)
-- [React code refactiring](./reacr_refactor_task.md) -  refactor guidelines then we are going to make react code refactoring
+- [React code refactiring](./reacr_refactor_task.md) - refactor guidelines then we are going to make react code refactoring
+- [How to build shad/cn components](./how-to-build-shad-cn-components.md.md) instructions how to build chad/cn react components
+
 
 ## Quick Links
 - [Project README](../README.md) — Setup, tech stack, and commands

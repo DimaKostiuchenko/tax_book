@@ -1,7 +1,9 @@
 import { test, expect } from '@playwright/test';
-import * as path from 'path';
-import * as fs from 'fs';
-import { downloadXLSXFiles } from '../node_scripts/xlsx_downloader/downloadXLSXFiles.js';
+import path from 'path';
+import fs from 'fs';
+import downloadXLSXFiles from '../node_scripts/xlsx_downloader/downloadXLSXFiles.js';
+
+
 
 test.describe('Multiple File Download', () => {
 
@@ -10,7 +12,7 @@ test.describe('Multiple File Download', () => {
     // The URL of a page that contains multiple download links.
     // NOTE: This URL is a placeholder. For a real test, you would use a stable public URL
     // or a mock server to serve the test page.
-    const pageUrl = 'https://tax.gov.ua/data/files/506328.xlsx';
+    const pageUrl = 'https://vl.tax.gov.ua/rahunki-dlya-splati-platejiv';
 
     // The logic is encapsulated in a separate function, making the test clean and focused.
     const downloadedFiles = await downloadXLSXFiles(page, pageUrl);

@@ -2,20 +2,19 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\UpdateRegionJob;
+use App\Jobs\NodeDownloadRegionFIleJob;
 use App\Services\TaxDataFetcher;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Collection;
 use Exception;
+use Symfony\Component\Console\Command\Command as CommandAlias;
 
 class UpdateAllTaxRegions extends Command
 {
     /**
      * The name and signature of the console command.
      */
-    protected $signature = 'tax:update-all
-                            {--region= : Update specific region only}
-                            {--force : Force update even if files exist}';
+    protected $signature = 'tax:update-regions-tax-data {--region= : Update specific region only}';
 
     /**
      * The console command description.
@@ -29,135 +28,79 @@ class UpdateAllTaxRegions extends Command
     {
         try {
             $this->info('Starting tax data update process...');
+            $regionsToUpdate = $this->getRegionsToUpdate($taxDataFetcher);
 
-            $specificRegion = $this->option('region');
-            $force = $this->option('force');
-
-            if ($specificRegion) {
-                $this->info("Updating specific region: {$specificRegion}");
-                return $this->updateSpecificRegion($taxDataFetcher, $specificRegion, $force);
-            } else {
-                $this->info('Updating all regions...');
-                return $this->updateAllRegions($taxDataFetcher, $force);
+            if ($regionsToUpdate->isEmpty()) {
+                $this->info('No regions to update.');
+                return CommandAlias::SUCCESS;
             }
 
+            $this->processRegions($regionsToUpdate);
+
+            $this->info('All jobs dispatched successfully. They are now processing in the background.');
+
+            return CommandAlias::SUCCESS;
         } catch (Exception $e) {
             $this->error('Tax update process failed: ' . $e->getMessage());
-            Log::error('Tax update command failed', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-            return Command::FAILURE;
+            return CommandAlias::FAILURE;
         }
     }
 
     /**
-     * Update all regions by dispatching jobs.
+     * Get the list of regions to update, filtered by option if necessary.
      */
-    private function updateAllRegions(TaxDataFetcher $taxDataFetcher,$force): int
+    private function getRegionsToUpdate(TaxDataFetcher $taxDataFetcher): \Illuminate\Support\Collection
     {
-        try {
-            $this->info('Fetching regions list...');
-            $regions = $taxDataFetcher->getRegionsList();
+        $specificRegion = $this->option('region');
+        $this->info('Fetching regions list...');
 
-            if (empty($regions)) {
-                $this->warn('No regions found to update.');
-                return Command::SUCCESS;
+        $allRegions = collect($taxDataFetcher->getRegionsList());
+
+        if ($specificRegion) {
+            $this->info("Filtering for specific region: {$specificRegion}");
+            $regionsToUpdate = $allRegions->filter(
+                fn($region) => strtolower($region['name']) === strtolower($specificRegion)
+            );
+
+            if ($regionsToUpdate->isEmpty()) {
+                throw new Exception("Region '{$specificRegion}' not found.");
             }
-
-            $this->info("Found " . count($regions) . " regions to update.");
-
-            $progressBar = $this->output->createProgressBar(count($regions));
-            $progressBar->start();
-
-            $delayInSeconds = 0;
-            $dispatchedJobs = 0;
-            $increment = 5;
-            foreach ($regions as $region) {
-                try {
-                    UpdateRegionJob::dispatch($region['url'], $region['name']);
-                    UpdateRegionJob::dispatch($region['url'], $region['name'])
-                        ->delay(now()->addSeconds($delayInSeconds));
-
-
-                    // Increment the delay for the next job
-                    $delayInSeconds += $increment;
-
-                    $dispatchedJobs++;
-
-                    $this->line("\nDispatched job for region: {$region['name']}");
-
-                } catch (Exception $e) {
-                    $this->error("\nFailed to dispatch job for region {$region['name']}: " . $e->getMessage());
-                    Log::error('Failed to dispatch region job', [
-                        'region' => $region,
-                        'error' => $e->getMessage()
-                    ]);
-                }
-
-                $progressBar->advance();
-            }
-
-            $progressBar->finish();
-            $this->newLine();
-
-            $this->info("Successfully dispatched {$dispatchedJobs} jobs out of " . count($regions) . " regions.");
-            $this->info('Jobs are now processing in the background. Check logs for progress.');
-
-            return Command::SUCCESS;
-
-        } catch (Exception $e) {
-            $this->error('Failed to update all regions: ' . $e->getMessage());
-            Log::error('Failed to update all regions', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-            return Command::FAILURE;
+        } else {
+            $this->info('Found ' . $allRegions->count() . ' regions to update.');
+            $regionsToUpdate = $allRegions;
         }
+
+        return $regionsToUpdate;
     }
 
     /**
-     * Update a specific region.
+     * Dispatch jobs for the given collection of regions with a manual progress bar.
      */
-    private function updateSpecificRegion(TaxDataFetcher $taxDataFetcher, string $regionName, bool $force): int
+    private function processRegions(Collection $regions): void
     {
-        try {
-            $this->info("Processing region: {$regionName}");
+        $delayInSeconds = 0;
+        $increment      = 5;
 
-            // For specific region, we need to find the URL
-            // This is a simplified approach - in reality, you might want to store region URLs in database
-            $regions = $taxDataFetcher->getRegionsList();
-            $targetRegion = null;
+        // Create and start the progress bar
+        $progressBar = $this->output->createProgressBar($regions->count());
+        $progressBar->start();
 
-            foreach ($regions as $region) {
-                if (strtolower($region['name']) === strtolower($regionName)) {
-                    $targetRegion = $region;
-                    break;
-                }
-            }
+        foreach ($regions as $region) {
+            NodeDownloadRegionFIleJob::dispatch($region['url'], $region['name'])
+                ->delay(now()->addSeconds($delayInSeconds));
 
-            if (!$targetRegion) {
-                $this->error("Region '{$regionName}' not found.");
-                return Command::FAILURE;
-            }
+break;
+            // Display a status line below the progress bar
+            $this->line("Dispatched job for: {$region['name']}");
 
-            $this->info("Found region URL: {$targetRegion['url']}");
+            $delayInSeconds += $increment;
 
-            // Process the region directly (not via queue for immediate feedback)
-            $taxDataFetcher->processRegion($targetRegion['url'], $targetRegion['name']);
-
-            $this->info("Successfully updated region: {$regionName}");
-
-            return Command::SUCCESS;
-
-        } catch (Exception $e) {
-            $this->error("Failed to update region '{$regionName}': " . $e->getMessage());
-            Log::error('Failed to update specific region', [
-                'region' => $regionName,
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-            return Command::FAILURE;
+            // Advance the progress bar
+            $progressBar->advance();
         }
+
+        // Finish the progress bar and move to a new line
+        $progressBar->finish();
+        $this->newLine();
     }
 }

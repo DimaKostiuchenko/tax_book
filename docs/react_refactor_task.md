@@ -1,108 +1,45 @@
 # React Refactoring Task
 
 ## Goal
-
-Improve an existing React component by making it cleaner, more maintainable, and more efficient, **without changing its
-current functionality**.
+Improve an existing React component by making it cleaner, more maintainable, and more efficient, **without changing its current functionality**.
 
 ---
 
 ## Step-by-Step Instructions
 
-### 1. Convert to Functional Components (if needed)
+### 1. Convert to Functional Components
+- Rewrite class components as **functional components** using hooks (`useState`, `useEffect`, `useReducer` if needed).
 
-- Rewrite class components as **functional components**.
-- Use React Hooks like `useState` and `useEffect` instead of `this.state` and lifecycle methods.
-
-**Example:**
-
-```jsx
-// Before (class)
-class MyComponent extends React.Component {
-    state = {count: 0};
-
-    render() {
-        return <div>{this.state.count}</div>;
-    }
-}
-
-// After (functional)
-const MyComponent = () => {
-    const [count, setCount] = useState(0);
-    return <div>{count}</div>;
-};
-```
-
-### 2. Make State Immutable
-
-- Avoid mutating arrays or objects directly (`push`, `splice`, direct assignment).
-- Use immutable operations like `map`, `filter`, `concat`, or spread syntax (`...`).
-
-**Example:**
-
-```jsx
-// Bad
-todos.push(newTodo);
-
-// Good
-setTodos([...todos, newTodo]);
-```
+### 2. Keep State Immutable
+- Never mutate arrays/objects directly.  
+- Use spread, `map`, `filter`, `concat`, or utilities like `immer`.
 
 ### 3. Split Into Smaller Components
+- Break large components into focused, reusable ones.  
+- Store each component in its **own file** and import it where needed.  
+- Compose pages and layouts from these smaller components.  
+- Avoid over-splitting—only extract if it has its own responsibility or reuse.
 
-- Identify logical parts of the UI that can become **separate components**.
-- Examples: `TodoItem`, `TodoInput`, `TodoList`.
-- Pass only necessary props to child components.
 
 ### 4. Optimize Rendering
-
-- Use `React.memo` for child components that do not need to re-render on every parent update.
-- Use `useCallback` for functions passed to child components.
-- Use `useMemo` for expensive calculations inside render. In most cases, useMemo is not necessary unless the computation
-  is expensive or you’re memoizing referential equality for child components. For class names, small conditions, or
-  string concatenations, plain inline computation is faster and cleaner.
-
-**Example:**
-
-```jsx
-const TodoItem = React.memo(({todo, onDelete}) => (
-    <li>{todo}
-        <button onClick={onDelete}>Delete</button>
-    </li>
-));
-
-const handleDelete = useCallback((index) => {
-    setTodos(todos => todos.filter((_, i) => i !== index));
-}, []);
-```
+- Use `React.memo` for stable child components.  
+- Use `useCallback` / `useMemo` **only when necessary** (avoid premature optimization).
 
 ### 5. Clean Code & Best Practices
-
-- Use modern ES6+ syntax (`arrow functions`, `destructuring`, `template literals`).
-- Minimize deeply nested JSX and duplicate logic.
-- Use clear variable and function names.
-- Keep components focused on a single responsibility.
+- Use ES6+ features, clear naming, minimal nesting, and single-responsibility components.  
+- Prefer **composition over props drilling** (use Context/hooks if props go too deep).  
+- Use explicit `Props` types (TypeScript).
 
 ### 6. Preserve Functionality
+- Ensure the refactor keeps UI/logic identical.
 
-- Ensure the refactored component behaves **exactly the same** as before.
-- Do not change UI behavior or business logic.
+### 7. Shadcn UI Components
+- Use Shadcn primitives (`src/components/ui`) as the base.  
+- If a **complex component** is needed, build it from Shadcn components and place it in `app/` (or a feature folder), **not in `ui/`**.  
+- This keeps `ui/` as a clean design system layer and `app/` for app-specific components.
 
-### Shadcn UI Components
-
--This project uses @shadcn/ui for UI components. These are beautifully designed,
-accessible components that you can copy and paste into your apps.
-
-#### Finding and Using Components
-
--Components are available in the `src/components/ui` directory, following the aliases configured in `components.json`.
-
-#### Using Components
--Import components from the ui directory using the configured aliases:
-```tsx
-import { Button } from "@/components/ui/button"
-```
-
-This guide ensures the refactoring is safe, modern, and follows React best practices, suitable for automated or manual
-refactoring.
-
+### 8. Extra Good Practices
+- Extract repeated logic into **custom hooks**.  
+- Use **error boundaries / Suspense** for async data.  
+- Ensure **accessibility** (ARIA, keyboard navigation).  
+- Keep or add **tests** to confirm behavior.  
