@@ -21,7 +21,7 @@ const QuickActionsCard = React.forwardRef<HTMLDivElement, QuickActionsCardProps>
               <Button 
                 key={action.label}
                 variant="secondary" 
-                className="rounded-2xl justify-start"
+                className="justify-start"
                 onClick={action.onClick}
                 asChild={!!action.href}
                 aria-label={action.label}

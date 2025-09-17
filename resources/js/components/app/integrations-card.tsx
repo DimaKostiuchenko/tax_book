@@ -23,7 +23,7 @@ const IntegrationsCard = React.forwardRef<HTMLDivElement, IntegrationsCardProps>
               return (
                 <div 
                   key={integration.key} 
-                  className="flex items-center justify-between rounded-2xl border p-3"
+                  className="flex items-center justify-between border p-3"
                   role="listitem"
                 >
                   <div className="flex items-center gap-3">
@@ -41,7 +41,6 @@ const IntegrationsCard = React.forwardRef<HTMLDivElement, IntegrationsCardProps>
           </div>
           <div className="flex justify-end">
             <Button 
-              className="rounded-2xl"
               onClick={onConfigure}
               aria-label="Configure integration channels"
             >

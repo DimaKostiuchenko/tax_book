@@ -15,12 +15,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Events listing and details
     Route::get('events', [EventsController::class, 'index'])->name('events.index');
-    Route::get('events/{event}', [EventsController::class, 'show'])->name('events.show');
+//    Route::get('events/{event}', [EventsController::class, 'show'])->name('events.show');
 
     // Client Management (now requires authentication)
-    Route::get('client-management', function () {
-        return Inertia::render('client-management');
-    })->name('client-management');
+//    Route::get('client-management', function () {
+//        return Inertia::render('client-management');
+//    })->name('client-management');
 });
 
 // Layout examples (no auth required)

@@ -21,7 +21,7 @@ const UpcomingEventsCard = React.forwardRef<HTMLDivElement, UpcomingEventsCardPr
             {events.map((event) => (
               <div 
                 key={`${event.title}-${event.date}`} 
-                className="flex items-center justify-between rounded-2xl border p-3"
+                className="flex items-center justify-between border p-3"
                 role="listitem"
               >
                 <div>
@@ -31,7 +31,6 @@ const UpcomingEventsCard = React.forwardRef<HTMLDivElement, UpcomingEventsCardPr
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="rounded-2xl"
                   onClick={() => onViewDetails?.(event)}
                   aria-label={`View details for ${event.title}`}
                 >
@@ -43,7 +42,6 @@ const UpcomingEventsCard = React.forwardRef<HTMLDivElement, UpcomingEventsCardPr
           <div className="flex justify-end mt-4">
             <Button 
               variant="ghost" 
-              className="rounded-2xl"
               onClick={onViewAll}
               aria-label="View all upcoming events"
             >

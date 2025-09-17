@@ -15,7 +15,7 @@ export interface UserProfileCardProps {
 const UserProfileCard = React.forwardRef<HTMLDivElement, UserProfileCardProps>(
   ({ user, onEdit, ...props }, ref) => {
     return (
-      <Card ref={ref} className="shadow-sm" {...props}>
+      <Card ref={ref} {...props}>
         <CardContent className="p-5 md:p-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="space-y-1">
@@ -59,7 +59,6 @@ const UserProfileCard = React.forwardRef<HTMLDivElement, UserProfileCardProps>(
                     <Button 
                       size="sm" 
                       variant="secondary" 
-                      className="rounded-2xl"
                       onClick={onEdit}
                       aria-label="Edit user profile"
                     >

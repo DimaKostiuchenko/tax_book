@@ -48,7 +48,6 @@ const TaxLimitsCard = React.forwardRef<HTMLDivElement, TaxLimitsCardProps>(
             <Button 
               size="sm" 
               variant="outline" 
-              className="rounded-2xl"
               onClick={onViewDetails}
               aria-label="View detailed tax limits"
             >

@@ -21,14 +21,13 @@ const NewsCard = React.forwardRef<HTMLDivElement, NewsCardProps>(
             {news.map((article) => (
               <div 
                 key={article.title} 
-                className="flex items-center justify-between rounded-2xl border p-3"
+                className="flex items-center justify-between border p-3"
                 role="listitem"
               >
                 <div className="text-sm font-medium">{article.title}</div>
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="rounded-2xl"
                   onClick={() => onReadArticle?.(article)}
                   aria-label={`Read article: ${article.title}`}
                 >
@@ -40,7 +39,6 @@ const NewsCard = React.forwardRef<HTMLDivElement, NewsCardProps>(
           <div className="flex justify-end">
             <Button 
               variant="ghost" 
-              className="rounded-2xl"
               onClick={onViewAll}
               aria-label="View all news articles"
             >

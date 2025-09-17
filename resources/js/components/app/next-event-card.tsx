@@ -41,7 +41,6 @@ const NextEventCard = React.forwardRef<HTMLDivElement, NextEventCardProps>(
           </div>
           <div className="flex items-center gap-2">
             <Button 
-              className="rounded-2xl"
               onClick={onMarkAsPaid}
               aria-label={`Mark ${event.title} as paid`}
             >
@@ -50,7 +49,6 @@ const NextEventCard = React.forwardRef<HTMLDivElement, NextEventCardProps>(
             </Button>
             <Button 
               variant="outline" 
-              className="rounded-2xl"
               onClick={onViewCalendar}
               aria-label="View calendar"
             >

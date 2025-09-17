@@ -24,13 +24,13 @@ const footerNavItems: NavItem[] = [];
 
 export function AppSidebar() {
     return (
-        <Sidebar collapsible="icon" variant="inset">
+        <Sidebar className="bg-white" collapsible="icon" variant="sidebar">
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem >
                         <SidebarMenuButton asChild>
-                            <Link href="/dashboard"  prefetch>
-                                <AppLogo size="md" />
+                            <Link href="/dashboard" prefetch>
+                                <AppLogo size="lg" />
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
