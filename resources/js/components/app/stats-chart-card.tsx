@@ -14,9 +14,9 @@ const StatsChartCard = React.forwardRef<HTMLDivElement, StatsChartCardProps>(
     const pieTotal = stats.reduce((a, b) => a + b.value, 0);
 
     return (
-      <Card ref={ref} className="lg:col-span-1" {...props}>
+      <Card ref={ref} className="bg-white rounded-none border-0 shadow-none lg:col-span-1" {...props}>
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">📈 Статистика подій</CardTitle>
+          <CardTitle className="text-xl font-semibold text-gray-900">📈 Статистика подій</CardTitle>
         </CardHeader>
         <CardContent className="h-56">
           <ResponsiveContainer width="100%" height="100%">
@@ -38,17 +38,17 @@ const StatsChartCard = React.forwardRef<HTMLDivElement, StatsChartCardProps>(
               </Pie>
               <RechartsTooltip 
                 formatter={(value: number, name: string) => [`${value}`, name]}
-                labelStyle={{ color: 'hsl(var(--foreground))' }}
+                labelStyle={{ color: '#374151' }}
                 contentStyle={{ 
-                  backgroundColor: 'hsl(var(--background))',
-                  border: '1px solid hsl(var(--border))',
+                  backgroundColor: '#ffffff',
+                  border: '1px solid #e5e7eb',
                   borderRadius: '6px'
                 }}
               />
             </PieChart>
           </ResponsiveContainer>
           <div 
-            className="flex justify-center gap-4 text-xs text-muted-foreground mt-2"
+            className="flex justify-center gap-4 text-xs text-gray-400 mt-2"
             role="list"
             aria-label="Chart legend"
           >

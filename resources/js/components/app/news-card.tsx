@@ -12,21 +12,21 @@ export interface NewsCardProps {
 const NewsCard = React.forwardRef<HTMLDivElement, NewsCardProps>(
   ({ news, onReadArticle, onViewAll, ...props }, ref) => {
     return (
-      <Card ref={ref} className="lg:col-span-2" {...props}>
+      <Card ref={ref} className="bg-white rounded-none border-0 shadow-none lg:col-span-2" {...props}>
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">📰 Новини / Зміни</CardTitle>
+          <CardTitle className="text-xl font-semibold text-gray-900">📰 Новини / Зміни</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <div role="list" aria-label="News articles">
             {news.map((article) => (
               <div 
                 key={article.title} 
-                className="flex items-center justify-between border p-3"
+                className="flex items-center justify-between border border-gray-200 p-3"
                 role="listitem"
               >
-                <div className="text-sm font-medium">{article.title}</div>
+                <div className="text-sm font-medium text-gray-900">{article.title}</div>
                 <Button 
-                  variant="outline" 
+                  className="bg-[#344CB7] text-white rounded-full px-6 py-2"
                   size="sm" 
                   onClick={() => onReadArticle?.(article)}
                   aria-label={`Read article: ${article.title}`}
@@ -38,7 +38,7 @@ const NewsCard = React.forwardRef<HTMLDivElement, NewsCardProps>(
           </div>
           <div className="flex justify-end">
             <Button 
-              variant="ghost" 
+              className="text-gray-500 hover:text-gray-700"
               onClick={onViewAll}
               aria-label="View all news articles"
             >

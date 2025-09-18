@@ -12,24 +12,24 @@ export interface UpcomingEventsCardProps {
 const UpcomingEventsCard = React.forwardRef<HTMLDivElement, UpcomingEventsCardProps>(
   ({ events, onViewDetails, onViewAll, ...props }, ref) => {
     return (
-      <Card ref={ref} className="lg:col-span-2" {...props}>
+      <Card ref={ref} className="bg-white rounded-none border-0 shadow-none lg:col-span-2" {...props}>
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">🔔 Наступні події</CardTitle>
+          <CardTitle className="text-xl font-semibold text-gray-900">🔔 Наступні події</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {events.map((event) => (
               <div 
                 key={`${event.title}-${event.date}`} 
-                className="flex items-center justify-between border p-3"
+                className="flex items-center justify-between border border-gray-200 p-3"
                 role="listitem"
               >
                 <div>
-                  <div className="text-sm text-muted-foreground">{event.title}</div>
-                  <div className="text-lg font-semibold">{event.date}</div>
+                  <div className="text-sm text-gray-400">{event.title}</div>
+                  <div className="text-lg font-semibold text-gray-900">{event.date}</div>
                 </div>
                 <Button 
-                  variant="outline" 
+                  className="bg-[#344CB7] text-white rounded-full px-6 py-2"
                   size="sm" 
                   onClick={() => onViewDetails?.(event)}
                   aria-label={`View details for ${event.title}`}
@@ -41,7 +41,7 @@ const UpcomingEventsCard = React.forwardRef<HTMLDivElement, UpcomingEventsCardPr
           </div>
           <div className="flex justify-end mt-4">
             <Button 
-              variant="ghost" 
+              className="text-gray-500 hover:text-gray-700"
               onClick={onViewAll}
               aria-label="View all upcoming events"
             >

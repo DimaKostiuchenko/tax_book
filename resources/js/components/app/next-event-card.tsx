@@ -27,20 +27,21 @@ const NextEventCard = React.forwardRef<HTMLDivElement, NextEventCardProps>(
     };
 
     return (
-      <Card ref={ref} className="lg:col-span-1" {...props}>
+      <Card ref={ref} className="bg-white rounded-none border-0 shadow-none lg:col-span-1" {...props}>
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">⏳ Найближча подія</CardTitle>
+          <CardTitle className="text-xl font-semibold text-gray-900">⏳ Найближча подія</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <div className="text-sm text-muted-foreground">{event.title}</div>
+          <div className="text-gray-400">{event.title}</div>
           <div className="flex items-center justify-between">
-            <div className="text-2xl font-semibold">Дедлайн: {event.due}</div>
+            <div className="text-2xl font-semibold text-gray-900">Дедлайн: {event.due}</div>
             <BadgePill tone={getStatusTone(event.status)}>
               {event.status}
             </BadgePill>
           </div>
           <div className="flex items-center gap-2">
             <Button 
+              className="bg-[#344CB7] text-white rounded-full px-6 py-2"
               onClick={onMarkAsPaid}
               aria-label={`Mark ${event.title} as paid`}
             >
@@ -48,7 +49,7 @@ const NextEventCard = React.forwardRef<HTMLDivElement, NextEventCardProps>(
               Відзначити як сплачено
             </Button>
             <Button 
-              variant="outline" 
+              className="border border-gray-300 text-gray-700 rounded-full px-6 py-2"
               onClick={onViewCalendar}
               aria-label="View calendar"
             >

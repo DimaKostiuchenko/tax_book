@@ -73,49 +73,51 @@ export default function Dashboard() {
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Dashboard" />
-      <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto">
-        <div className="space-y-6">
-          {/* Top: Greeting + Tax Profile */}
-          <UserProfileCard 
-            user={user} 
-            onEdit={handleEditProfile}
-          />
+      <div className="min-h-screen bg-gradient-to-b from-slate-200 to-gray-100" style={{ fontFamily: 'Roboto, sans-serif' }}>
+        <div className="p-6">
+          <div className="space-y-6">
+            {/* Top: Greeting + Tax Profile */}
+            <UserProfileCard 
+              user={user} 
+              onEdit={handleEditProfile}
+            />
 
-          {/* Middle grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <TaxLimitsCard 
-              taxLimits={taxLimits} 
-              onViewDetails={handleViewDetails}
-            />
-            <NextEventCard 
-              event={events.next}
-              onMarkAsPaid={handleMarkAsPaid}
-              onViewCalendar={handleViewCalendar}
-            />
-            <StatsChartCard stats={stats} />
-          </div>
+            {/* Middle grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <TaxLimitsCard 
+                taxLimits={taxLimits} 
+                onViewDetails={handleViewDetails}
+              />
+              <NextEventCard 
+                event={events.next}
+                onMarkAsPaid={handleMarkAsPaid}
+                onViewCalendar={handleViewCalendar}
+              />
+              <StatsChartCard stats={stats} />
+            </div>
 
-          {/* Lower grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <UpcomingEventsCard 
-              events={events.upcoming}
-              onViewDetails={handleViewEventDetails}
-              onViewAll={handleViewAllEvents}
-            />
-            <IntegrationsCard 
-              integrations={integrations}
-              onConfigure={handleConfigureIntegrations}
-            />
-          </div>
+            {/* Lower grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <UpcomingEventsCard 
+                events={events.upcoming}
+                onViewDetails={handleViewEventDetails}
+                onViewAll={handleViewAllEvents}
+              />
+              <IntegrationsCard 
+                integrations={integrations}
+                onConfigure={handleConfigureIntegrations}
+              />
+            </div>
 
-          {/* Bottom: News + Quick actions */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <NewsCard 
-              news={news}
-              onReadArticle={handleReadArticle}
-              onViewAll={handleViewAllNews}
-            />
-            <QuickActionsCard actions={quickActions} />
+            {/* Bottom: News + Quick actions */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <NewsCard 
+                news={news}
+                onReadArticle={handleReadArticle}
+                onViewAll={handleViewAllNews}
+              />
+              <QuickActionsCard actions={quickActions} />
+            </div>
           </div>
         </div>
       </div>

@@ -16,13 +16,13 @@ const TaxLimitsCard = React.forwardRef<HTMLDivElement, TaxLimitsCardProps>(
     const isNearLimit = limitPct >= 90;
 
     return (
-      <Card ref={ref} className="lg:col-span-1" {...props}>
+      <Card ref={ref} className="bg-white rounded-none border-0 shadow-none lg:col-span-1" {...props}>
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">📊 Податкові ліміти</CardTitle>
+          <CardTitle className="text-xl font-semibold text-gray-900">📊 Податкові ліміти</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <div className="text-sm text-muted-foreground">{taxLimits.label}</div>
-          <div className="text-2xl font-semibold">
+          <div className="text-gray-400">{taxLimits.label}</div>
+          <div className="text-2xl font-semibold text-gray-900">
             {(taxLimits.used / 1_000_000).toFixed(1)} млн / {(taxLimits.limit / 1_000_000).toFixed(0)} млн грн
           </div>
           <Progress 
@@ -31,7 +31,7 @@ const TaxLimitsCard = React.forwardRef<HTMLDivElement, TaxLimitsCardProps>(
             aria-label={`Tax limit usage: ${limitPct}%`}
           />
           <div className="flex items-center justify-between text-xs">
-            <div className="flex items-center gap-2 text-muted-foreground">
+            <div className="flex items-center gap-2 text-gray-400">
               {isNearLimit ? (
                 <AlertTriangle 
                   className="h-4 w-4 text-red-500" 
@@ -47,7 +47,7 @@ const TaxLimitsCard = React.forwardRef<HTMLDivElement, TaxLimitsCardProps>(
             </div>
             <Button 
               size="sm" 
-              variant="outline" 
+              className="bg-[#344CB7] text-white rounded-full px-6 py-2"
               onClick={onViewDetails}
               aria-label="View detailed tax limits"
             >

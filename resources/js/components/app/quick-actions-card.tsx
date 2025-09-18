@@ -10,9 +10,9 @@ export interface QuickActionsCardProps {
 const QuickActionsCard = React.forwardRef<HTMLDivElement, QuickActionsCardProps>(
   ({ actions, ...props }, ref) => {
     return (
-      <Card ref={ref} {...props}>
+      <Card ref={ref} className="bg-white rounded-none border-0 shadow-none" {...props}>
         <CardHeader className="pb-3">
-          <CardTitle className="text-base">⚡ Швидкі дії</CardTitle>
+          <CardTitle className="text-xl font-semibold text-gray-900">⚡ Швидкі дії</CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-2 gap-3">
           {actions.map((action) => {
@@ -20,8 +20,7 @@ const QuickActionsCard = React.forwardRef<HTMLDivElement, QuickActionsCardProps>
             return (
               <Button 
                 key={action.label}
-                variant="secondary" 
-                className="justify-start"
+                className="justify-start bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-full px-6 py-2"
                 onClick={action.onClick}
                 asChild={!!action.href}
                 aria-label={action.label}

@@ -40,7 +40,7 @@ export default function PreferencesTab({ user }: PreferencesTabProps) {
             {/* Language Selection */}
             <div className="space-y-4">
                 <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center">
+                    <div className="w-10 h-10 bg-[#344CB7] rounded-lg flex items-center justify-center">
                         <Globe className="w-5 h-5 text-white" />
                     </div>
                     <div>
@@ -68,7 +68,7 @@ export default function PreferencesTab({ user }: PreferencesTabProps) {
             {/* Theme Selection */}
             <div className="space-y-4">
                 <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                    <div className="w-10 h-10 bg-[#344CB7] rounded-lg flex items-center justify-center">
                         <Palette className="w-5 h-5 text-white" />
                     </div>
                     <div>
@@ -103,7 +103,7 @@ export default function PreferencesTab({ user }: PreferencesTabProps) {
             {/* Timezone Selection */}
             <div className="space-y-4">
                 <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-lg flex items-center justify-center">
+                    <div className="w-10 h-10 bg-[#344CB7] rounded-lg flex items-center justify-center">
                         <Clock className="w-5 h-5 text-white" />
                     </div>
                     <div>
@@ -136,7 +136,7 @@ export default function PreferencesTab({ user }: PreferencesTabProps) {
             {/* Theme Preview */}
             <div className="bg-gradient-to-r from-gray-50 to-blue-50 border-2 border-gray-200 rounded-2xl p-6">
                 <div className="flex items-center gap-3 mb-6">
-                    <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center">
+                    <div className="w-8 h-8 bg-[#344CB7] rounded-lg flex items-center justify-center">
                         <Palette className="w-4 h-4 text-white" />
                     </div>
                     <h4 className="text-lg font-semibold text-gray-900">Попередній перегляд теми:</h4>
@@ -172,12 +172,12 @@ export default function PreferencesTab({ user }: PreferencesTabProps) {
                 </div>
             </div>
 
-            {/* Submit Button */}
+            {/* Submit Button - Apply Page A styling */}
             <div className="flex justify-end pt-6">
                 <Button 
                     type="submit" 
                     disabled={processing}
-                    className="h-12 px-8 text-base font-semibold bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                    className="bg-[#344CB7] text-white rounded-full px-6 py-2 font-semibold"
                 >
                     {processing ? 'Збереження...' : 'Зберегти зміни'}
                 </Button>

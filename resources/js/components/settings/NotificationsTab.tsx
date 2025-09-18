@@ -69,7 +69,7 @@ export default function NotificationsTab({ user }: NotificationsTabProps) {
             {/* Email Notifications */}
             <div className="space-y-6 p-6 bg-blue-50 rounded-2xl border border-blue-200">
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                    <div className="w-12 h-12 bg-[#344CB7] rounded-xl flex items-center justify-center">
                         <Mail className="w-6 h-6 text-white" />
                     </div>
                     <div>
@@ -86,7 +86,7 @@ export default function NotificationsTab({ user }: NotificationsTabProps) {
             {/* Telegram Notifications */}
             <div className="space-y-6 p-6 bg-green-50 rounded-2xl border border-green-200">
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                    <div className="w-12 h-12 bg-[#344CB7] rounded-xl flex items-center justify-center">
                         <MessageCircle className="w-6 h-6 text-white" />
                     </div>
                     <div>
@@ -133,7 +133,7 @@ export default function NotificationsTab({ user }: NotificationsTabProps) {
                             type="button"
                             onClick={connectTelegram}
                             disabled={processing}
-                            className="h-11 px-8 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                            className="bg-[#344CB7] text-white rounded-full px-6 py-2"
                         >
                             Підключити Telegram бот
                         </Button>
@@ -144,7 +144,7 @@ export default function NotificationsTab({ user }: NotificationsTabProps) {
             {/* Viber Notifications */}
             <div className="space-y-6 p-6 bg-purple-50 rounded-2xl border border-purple-200">
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-violet-600 rounded-xl flex items-center justify-center">
+                    <div className="w-12 h-12 bg-[#344CB7] rounded-xl flex items-center justify-center">
                         <Smartphone className="w-6 h-6 text-white" />
                     </div>
                     <div>
@@ -186,7 +186,7 @@ export default function NotificationsTab({ user }: NotificationsTabProps) {
             {/* Reminder Lead Time */}
             <div className="space-y-6 p-6 bg-amber-50 rounded-2xl border border-amber-200">
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-amber-500 to-orange-600 rounded-xl flex items-center justify-center">
+                    <div className="w-12 h-12 bg-[#344CB7] rounded-xl flex items-center justify-center">
                         <Clock className="w-6 h-6 text-white" />
                     </div>
                     <div>
@@ -232,12 +232,12 @@ export default function NotificationsTab({ user }: NotificationsTabProps) {
                 )}
             </div>
 
-            {/* Submit Button */}
+            {/* Submit Button - Apply Page A styling */}
             <div className="flex justify-end pt-6">
                 <Button 
                     type="submit" 
                     disabled={processing}
-                    className="h-12 px-8 text-base font-semibold bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                    className="bg-[#344CB7] text-white rounded-full px-6 py-2 font-semibold"
                 >
                     {processing ? 'Збереження...' : 'Зберегти зміни'}
                 </Button>

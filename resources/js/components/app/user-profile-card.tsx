@@ -15,19 +15,19 @@ export interface UserProfileCardProps {
 const UserProfileCard = React.forwardRef<HTMLDivElement, UserProfileCardProps>(
   ({ user, onEdit, ...props }, ref) => {
     return (
-      <Card ref={ref} {...props}>
-        <CardContent className="p-5 md:p-6">
+      <Card ref={ref} className="bg-white rounded-none border-0 shadow-none" {...props}>
+        <CardContent className="p-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div className="space-y-1">
+            <div className="space-y-3">
               <motion.h1 
                 initial={{ opacity: 0, y: 6 }} 
                 animate={{ opacity: 1, y: 0 }} 
                 transition={{ duration: 0.35 }} 
-                className="text-xl md:text-2xl font-semibold"
+                className="text-2xl font-semibold text-gray-900"
               >
                 👋 Вітаємо, {user.name}!
               </motion.h1>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-gray-400">
                 Ваші податкові налаштування актуальні станом на {user.profile.updatedAt}.
               </p>
               <div className="flex flex-wrap gap-2 pt-2" role="group" aria-label="User profile badges">
@@ -44,9 +44,9 @@ const UserProfileCard = React.forwardRef<HTMLDivElement, UserProfileCardProps>(
 
             <div className="w-full md:w-auto">
               <div className="flex items-center gap-3">
-                <Shield className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
+                <Shield className="h-5 w-5 text-gray-400" aria-hidden="true" />
                 <div className="w-44">
-                  <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
+                  <div className="flex items-center justify-between text-xs text-gray-400 mb-1">
                     <span>Профіль заповнено</span>
                     <span aria-live="polite">{user.profile.completeness}%</span>
                   </div>
@@ -58,7 +58,7 @@ const UserProfileCard = React.forwardRef<HTMLDivElement, UserProfileCardProps>(
                   <div className="flex justify-end mt-2">
                     <Button 
                       size="sm" 
-                      variant="secondary" 
+                      className="bg-[#344CB7] text-white rounded-full px-6 py-2"
                       onClick={onEdit}
                       aria-label="Edit user profile"
                     >

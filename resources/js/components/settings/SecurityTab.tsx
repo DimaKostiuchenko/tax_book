@@ -49,7 +49,7 @@ export default function SecurityTab() {
             {/* Current Password */}
             <div className="space-y-4">
                 <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-gradient-to-r from-red-500 to-pink-500 rounded-lg flex items-center justify-center">
+                    <div className="w-10 h-10 bg-[#344CB7] rounded-lg flex items-center justify-center">
                         <Lock className="w-5 h-5 text-white" />
                     </div>
                     <div>
@@ -80,7 +80,7 @@ export default function SecurityTab() {
             {/* New Password */}
             <div className="space-y-4">
                 <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center">
+                    <div className="w-10 h-10 bg-[#344CB7] rounded-lg flex items-center justify-center">
                         <Key className="w-5 h-5 text-white" />
                     </div>
                     <div>
@@ -114,7 +114,7 @@ export default function SecurityTab() {
             {/* Confirm Password */}
             <div className="space-y-4">
                 <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                    <div className="w-10 h-10 bg-[#344CB7] rounded-lg flex items-center justify-center">
                         <Shield className="w-5 h-5 text-white" />
                     </div>
                     <div>
@@ -148,7 +148,7 @@ export default function SecurityTab() {
             {/* Password Requirements */}
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-2xl p-6">
                 <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center">
+                    <div className="w-8 h-8 bg-[#344CB7] rounded-lg flex items-center justify-center">
                         <Shield className="w-4 h-4 text-white" />
                     </div>
                     <h4 className="text-lg font-semibold text-blue-900">Вимоги до пароля:</h4>
@@ -169,12 +169,12 @@ export default function SecurityTab() {
                 </ul>
             </div>
 
-            {/* Submit Button */}
+            {/* Submit Button - Apply Page A styling */}
             <div className="flex justify-end pt-6">
                 <Button 
                     type="submit" 
                     disabled={processing}
-                    className="h-12 px-8 text-base font-semibold bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                    className="bg-[#344CB7] text-white rounded-full px-6 py-2 font-semibold"
                 >
                     {processing ? 'Зміна пароля...' : 'Змінити пароль'}
                 </Button>

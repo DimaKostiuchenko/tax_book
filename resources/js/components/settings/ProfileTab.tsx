@@ -64,7 +64,7 @@ export default function ProfileTab({ user }: ProfileTabProps) {
             {/* User Type Selection */}
             <div className="space-y-4">
                 <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center">
+                    <div className="w-10 h-10 bg-[#344CB7] rounded-lg flex items-center justify-center">
                         <UserIcon className="w-5 h-5 text-white" />
                     </div>
                     <div>
@@ -89,10 +89,10 @@ export default function ProfileTab({ user }: ProfileTabProps) {
             {/* Conditional Fields Based on User Type */}
             {isFOP && (
                 <div className="space-y-4 p-6 bg-blue-50 rounded-2xl border border-blue-200">
-                    <div className="flex items-center gap-3 mb-4">
-                        <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
-                            <UserIcon className="w-4 h-4 text-white" />
-                        </div>
+                <div className="flex items-center gap-3 mb-4">
+                    <div className="w-8 h-8 bg-[#344CB7] rounded-lg flex items-center justify-center">
+                        <UserIcon className="w-4 h-4 text-white" />
+                    </div>
                         <Label htmlFor="tin" className="text-lg font-semibold text-gray-900">ТИН (10 цифр) *</Label>
                     </div>
                     <Input
@@ -112,10 +112,10 @@ export default function ProfileTab({ user }: ProfileTabProps) {
 
             {isLegalEntity && (
                 <div className="space-y-4 p-6 bg-green-50 rounded-2xl border border-green-200">
-                    <div className="flex items-center gap-3 mb-4">
-                        <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
-                            <Building2 className="w-4 h-4 text-white" />
-                        </div>
+                <div className="flex items-center gap-3 mb-4">
+                    <div className="w-8 h-8 bg-[#344CB7] rounded-lg flex items-center justify-center">
+                        <Building2 className="w-4 h-4 text-white" />
+                    </div>
                         <Label htmlFor="edrpou" className="text-lg font-semibold text-gray-900">ЄДРПОУ (8 цифр) *</Label>
                     </div>
                     <Input
@@ -136,7 +136,7 @@ export default function ProfileTab({ user }: ProfileTabProps) {
             {/* Tax Regime */}
             <div className="space-y-4">
                 <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                    <div className="w-10 h-10 bg-[#344CB7] rounded-lg flex items-center justify-center">
                         <CreditCard className="w-5 h-5 text-white" />
                     </div>
                     <div>
@@ -194,7 +194,7 @@ export default function ProfileTab({ user }: ProfileTabProps) {
             {/* Reporting Period */}
             <div className="space-y-4">
                 <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-lg flex items-center justify-center">
+                    <div className="w-10 h-10 bg-[#344CB7] rounded-lg flex items-center justify-center">
                         <CreditCard className="w-5 h-5 text-white" />
                     </div>
                     <div>
@@ -220,7 +220,7 @@ export default function ProfileTab({ user }: ProfileTabProps) {
             {/* Phone Number */}
             <div className="space-y-4">
                 <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                    <div className="w-10 h-10 bg-[#344CB7] rounded-lg flex items-center justify-center">
                         <Phone className="w-5 h-5 text-white" />
                     </div>
                     <div>
@@ -244,7 +244,7 @@ export default function ProfileTab({ user }: ProfileTabProps) {
             {/* Email (readonly) */}
             <div className="space-y-4 p-6 bg-gray-50 rounded-2xl border border-gray-200">
                 <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-gradient-to-r from-gray-500 to-gray-600 rounded-lg flex items-center justify-center">
+                    <div className="w-10 h-10 bg-[#344CB7] rounded-lg flex items-center justify-center">
                         <Mail className="w-5 h-5 text-white" />
                     </div>
                     <div>
@@ -260,12 +260,12 @@ export default function ProfileTab({ user }: ProfileTabProps) {
                 />
             </div>
 
-            {/* Submit Button */}
+            {/* Submit Button - Apply Page A styling */}
             <div className="flex justify-end pt-6">
                 <Button 
                     type="submit" 
                     disabled={processing}
-                    className="h-12 px-8 text-base font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                    className="bg-[#344CB7] text-white rounded-full px-6 py-2 font-semibold"
                 >
                     {processing ? 'Збереження...' : 'Зберегти зміни'}
                 </Button>
