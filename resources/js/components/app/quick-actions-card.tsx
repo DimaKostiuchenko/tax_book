@@ -9,37 +9,44 @@ export interface QuickActionsCardProps {
 
 const QuickActionsCard = React.forwardRef<HTMLDivElement, QuickActionsCardProps>(
   ({ actions, ...props }, ref) => {
-    return (
-      <Card ref={ref} className="bg-white rounded-none border-0 shadow-none" {...props}>
-        <CardHeader className="pb-3">
-          <CardTitle className="text-xl font-semibold text-gray-900">⚡ Швидкі дії</CardTitle>
-        </CardHeader>
-        <CardContent className="grid grid-cols-2 gap-3">
-          {actions.map((action) => {
-            const Icon = action.icon;
-            return (
-              <Button 
-                key={action.label}
-                className="justify-start bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-full px-6 py-2"
-                onClick={action.onClick}
-                asChild={!!action.href}
-                aria-label={action.label}
-              >
-                {action.href ? (
-                  <a href={action.href} className="flex items-center">
-                    <Icon className="h-4 w-4 mr-2" aria-hidden="true" />
-                    {action.label}
-                  </a>
-                ) : (
-                  <>
-                    <Icon className="h-4 w-4 mr-2" aria-hidden="true" />
-                    {action.label}
-                  </>
-                )}
-              </Button>
-            );
-          })}
-        </CardContent>
+    return ( 
+      <Card ref={ref} className="relative overflow-hidden" {...props}>
+      
+
+        {/* Content */}
+        <div className="relative z-10">
+          <CardHeader className="pb-4">
+            <div className="flex items-center gap-3">
+              
+              <CardTitle className="text-xl font-bold text-gray-800">
+                Швидкі дії
+              </CardTitle>
+            </div>
+          </CardHeader>
+          
+          <CardContent className="grid grid-cols-2 gap-4 py-6 px-4">
+            {actions.map((action, index) => {
+              const Icon = action.icon;
+              return (
+                <div
+                  key={action.label}
+                 
+                  onClick={action.onClick}
+                  aria-label={action.label}
+                  style={{
+                    animationDelay: `${index * 100}ms`
+                  }}
+                >
+                  <span className="font-medium">{action.label}</span>
+                  
+                  {action.href ? (
+                    <a href={action.href} className="absolute inset-0" />
+                  ) : null}
+                </div>
+              );
+            })}
+          </CardContent>
+        </div>
       </Card>
     );
   }

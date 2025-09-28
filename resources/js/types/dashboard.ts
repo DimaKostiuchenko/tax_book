@@ -23,8 +23,28 @@ export interface TaxEvent {
 }
 
 export interface UpcomingEvent {
-  date: string;
+  id: string;
+  type: 'ESV' | 'TAX' | 'REPORT';
+  quarter?: string;
   title: string;
+  period: { start: string; end: string };
+  deadline: string;
+  window: { start: string; end: string };
+  status: 'Очікується' | 'Завершено' | 'Прострочено';
+  amount?: {
+    currency: string;
+    value: number;
+    description: string;
+  };
+  details?: {
+    description: string;
+    legalReference?: string;
+  };
+  actions?: {
+    submitUrl?: string;
+    payOnlineUrl?: string;
+    instructionUrl?: string;
+  };
 }
 
 export interface TaxLimits {

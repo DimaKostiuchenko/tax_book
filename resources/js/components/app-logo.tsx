@@ -14,7 +14,7 @@ export function AppLogo({ className, size = "md" }: AppLogoProps) {
     };
 
     return (
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 mb-8 rounded-full">
             <img
                 className={cn(sizeClasses[size], "rounded-full", className)}
                 src="https://cdn.dribbble.com/users/16210634/avatars/normal/3887fa4eefec745603aa5a22ff0ececf.png?1684165676"

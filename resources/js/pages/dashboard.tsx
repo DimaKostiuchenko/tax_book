@@ -13,6 +13,7 @@ import {
   NewsCard,
   QuickActionsCard,
 } from "@/components/app";
+import ClientManagementLayout from "@/layouts/client-management-layout";
 
 // Event handlers
 const handleEditProfile = () => {
@@ -71,56 +72,79 @@ export default function Dashboard() {
   const { user, events, stats, taxLimits, integrations, news, quickActions } = useDashboardData();
 
   return (
-    <AppLayout breadcrumbs={breadcrumbs}>
+    <ClientManagementLayout>
       <Head title="Dashboard" />
-      <div className="min-h-screen bg-gradient-to-b from-slate-200 to-gray-100" style={{ fontFamily: 'Roboto, sans-serif' }}>
+      <div className="min-h-screen relative overflow-hidden"
+        style={{ fontFamily: 'Roboto, sans-serif' }}>
         <div className="p-6">
           <div className="space-y-6">
-            {/* Top: Greeting + Tax Profile */}
-            <UserProfileCard 
-              user={user} 
+
+            <UserProfileCard
+              user={user}
               onEdit={handleEditProfile}
             />
 
             {/* Middle grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <TaxLimitsCard 
-                taxLimits={taxLimits} 
-                onViewDetails={handleViewDetails}
-              />
-              <NextEventCard 
-                event={events.next}
-                onMarkAsPaid={handleMarkAsPaid}
-                onViewCalendar={handleViewCalendar}
-              />
-              <StatsChartCard stats={stats} />
-            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+              {/*<TaxLimitsCard*/}
+              {/*  taxLimits={taxLimits}*/}
+              {/*  onViewDetails={handleViewDetails}*/}
+              {/*/>*/}
+              {/*<NextEventCard*/}
+              {/*  event={events.next}*/}
+              {/*  onMarkAsPaid={handleMarkAsPaid}*/}
+              {/*  onViewCalendar={handleViewCalendar}*/}
+              {/*/>*/}
+              {/*  */}
 
-            {/* Lower grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <UpcomingEventsCard 
-                events={events.upcoming}
-                onViewDetails={handleViewEventDetails}
-                onViewAll={handleViewAllEvents}
+              <StatsChartCard
+                stats={stats}
+                earnedAmount={7090.00}
+                maxAllowedAmount={10425.00}
+                currency="₴"
+                growthPercentage={12.96}
               />
-              <IntegrationsCard 
+
+              <IntegrationsCard
                 integrations={integrations}
                 onConfigure={handleConfigureIntegrations}
               />
+
+<QuickActionsCard actions={quickActions} />
+
+
+
+
+              {/*  <div className="lg:col-span-3">*/}
+              {/*      <UpcomingEventsCard*/}
+              {/*          events={events.upcoming}*/}
+              {/*          onViewDetails={handleViewEventDetails}*/}
+              {/*          onViewAll={handleViewAllEvents}*/}
+              {/*      />*/}
+              {/*</div>*/}
             </div>
 
+            {/* Lower grid */}
+            {/* <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+              <IntegrationsCard
+                integrations={integrations}
+                onConfigure={handleConfigureIntegrations}
+              />
+            </div> */}
+
             {/* Bottom: News + Quick actions */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <NewsCard 
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+              <NewsCard
                 news={news}
                 onReadArticle={handleReadArticle}
                 onViewAll={handleViewAllNews}
               />
-              <QuickActionsCard actions={quickActions} />
+              {/* <QuickActionsCard actions={quickActions} /> */}
             </div>
           </div>
         </div>
       </div>
-    </AppLayout>
+    </ClientManagementLayout>
   );
 }

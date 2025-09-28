@@ -56,6 +56,7 @@ export default function ClientManagementLayout({ children, activeNavItem = 'even
                                 </a>
                             ))}
                         </nav>
+
                     </div>
                 </aside>
 

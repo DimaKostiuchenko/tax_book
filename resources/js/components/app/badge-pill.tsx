@@ -4,19 +4,19 @@ import { cn } from '@/lib/utils';
 import { type BadgeTone } from '@/types/dashboard';
 
 const badgePillVariants = cva(
-  'inline-flex items-center px-2.5 py-1 text-xs font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
+  'inline-flex items-center font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 hover:shadow-md',
   {
     variants: {
       tone: {
-        default: 'bg-muted text-muted-foreground hover:bg-muted/80',
-        success: 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400',
-        warn: 'bg-amber-100 text-amber-700 hover:bg-amber-200 dark:bg-amber-900/20 dark:text-amber-400',
-        danger: 'bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900/20 dark:text-red-400',
+        default: 'bg-gray-100 text-gray-700 hover:bg-gray-200',
+        success: 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100',
+        warn: 'bg-amber-50 text-amber-700 hover:bg-amber-100',
+        danger: 'bg-red-50 text-red-700 hover:bg-red-100',
       },
       size: {
-        sm: 'px-2 py-0.5 text-xs',
-        default: 'px-2.5 py-1 text-xs',
-        lg: 'px-3 py-1.5 text-sm',
+        sm: 'px-3 py-1.5 text-sm rounded-full',
+        default: 'px-4 py-2 text-sm rounded-full',
+        lg: 'px-5 py-2.5 text-sm rounded-full',
       },
     },
     defaultVariants: {

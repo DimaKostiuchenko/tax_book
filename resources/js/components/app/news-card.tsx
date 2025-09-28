@@ -14,7 +14,7 @@ const NewsCard = React.forwardRef<HTMLDivElement, NewsCardProps>(
     return (
       <Card ref={ref} className="bg-white rounded-none border-0 shadow-none lg:col-span-2" {...props}>
         <CardHeader className="pb-3">
-          <CardTitle className="text-xl font-semibold text-gray-900">📰 Новини / Зміни</CardTitle>
+          <CardTitle className="text-xl font-semibold text-gray-900">Новини / Зміни</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <div role="list" aria-label="News articles">

@@ -8,12 +8,15 @@ import { type PropsWithChildren } from 'react';
 export default function AppSidebarLayout({ children, breadcrumbs = [] }: PropsWithChildren<{ breadcrumbs?: BreadcrumbItem[] }>) {
     return (
         <AppShell variant="sidebar">
+
             <AppSidebar/>
+
             <AppContent variant="sidebar"
             className="bg-gradient-to-b from-slate-200 to-gray-100 overflow-x-hidden">
                 <AppSidebarHeader breadcrumbs={breadcrumbs} />
                 {children}
             </AppContent>
+
         </AppShell>
     );
 }

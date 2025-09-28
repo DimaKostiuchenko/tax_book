@@ -15,61 +15,62 @@ export interface UserProfileCardProps {
 const UserProfileCard = React.forwardRef<HTMLDivElement, UserProfileCardProps>(
   ({ user, onEdit, ...props }, ref) => {
     return (
-      <Card ref={ref} className="bg-white rounded-none border-0 shadow-none" {...props}>
-        <CardContent className="p-6">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div className="space-y-3">
-              <motion.h1 
-                initial={{ opacity: 0, y: 6 }} 
-                animate={{ opacity: 1, y: 0 }} 
-                transition={{ duration: 0.35 }} 
-                className="text-2xl font-semibold text-gray-900"
-              >
-                👋 Вітаємо, {user.name}!
-              </motion.h1>
-              <p className="text-gray-400">
-                Ваші податкові налаштування актуальні станом на {user.profile.updatedAt}.
-              </p>
-              <div className="flex flex-wrap gap-2 pt-2" role="group" aria-label="User profile badges">
-                <BadgePill tone="success">{user.profile.type}</BadgePill>
-                <BadgePill tone="success">{user.profile.group}</BadgePill>
-                <BadgePill>{user.profile.system}</BadgePill>
-                <BadgePill>ЄДРПОУ/ІПН: {user.profile.edrpou}</BadgePill>
-                <BadgePill tone={user.profile.vat ? "success" : "warn"}>
-                  {user.profile.vat ? "З ПДВ" : "Без ПДВ"}
-                </BadgePill>
-                <BadgePill>Звітність: {user.profile.period}</BadgePill>
-              </div>
-            </div>
-
-            <div className="w-full md:w-auto">
-              <div className="flex items-center gap-3">
-                <Shield className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                <div className="w-44">
-                  <div className="flex items-center justify-between text-xs text-gray-400 mb-1">
-                    <span>Профіль заповнено</span>
-                    <span aria-live="polite">{user.profile.completeness}%</span>
-                  </div>
-                  <Progress 
-                    value={user.profile.completeness} 
-                    className="h-2"
-                    aria-label={`Profile completeness: ${user.profile.completeness}%`}
-                  />
-                  <div className="flex justify-end mt-2">
-                    <Button 
-                      size="sm" 
-                      className="bg-[#344CB7] text-white rounded-full px-6 py-2"
-                      onClick={onEdit}
-                      aria-label="Edit user profile"
-                    >
-                      <PencilLine className="h-4 w-4 mr-1" aria-hidden="true" />
-                      Редагувати
-                    </Button>
-                  </div>
+      <Card ref={ref} className="pt-0 pb-0 bg-white rounded-none
+      border-0 shadow-none overflow-hidden" {...props}>
+        <CardContent className="p-0">
+          {/* Header Section with Gradient Background */}
+          <div className="bg-gradient-to-r from-[#344CB7] to-[#4A5BC7] p-6 text-white">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm">
+                  <span className="text-2xl">👋</span>
+                </div>
+                <div>
+                  <motion.h1
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.35 }}
+                    className="text-2xl font-semibold text-white"
+                  >
+                    Вітаємо, {user.name}!
+                  </motion.h1>
+                  <p className="text-white mt-1">
+                    Ваші податкові налаштування актуальні станом на {user.profile.updatedAt}
+                  </p>
                 </div>
               </div>
+              {/* <Button
+                size="icon"
+                className="bg-white text-gray-900 rounded-full p-4
+                hover:bg-white/2 backdrop-blur-sm"
+                onClick={onEdit}
+                aria-label="Edit user profile"
+              >
+                <PencilLine className="h-4 w-4" aria-hidden="true" />
+
+              </Button> */}
             </div>
           </div>
+
+          {/* Content Section */}
+
+            {/* Profile Badges */}
+            {/*<div className="p-6">*/}
+
+            {/*  <div className="flex flex-wrap gap-2" role="group" aria-label="User profile badges">*/}
+            {/*    <BadgePill tone="success">{user.profile.type}</BadgePill>*/}
+            {/*    <BadgePill tone="success">{user.profile.group}</BadgePill>*/}
+            {/*    <BadgePill>{user.profile.system}</BadgePill>*/}
+            {/*    <BadgePill>ІПН: {user.profile.edrpou}</BadgePill>*/}
+            {/*    <BadgePill tone={user.profile.vat ? "success" : "warn"}>*/}
+            {/*      {user.profile.vat ? "З ПДВ" : "Без ПДВ"}*/}
+            {/*    </BadgePill>*/}
+            {/*    <BadgePill>Звітність: {user.profile.period}</BadgePill>*/}
+            {/*  </div>*/}
+            {/*</div>*/}
+
+
+
         </CardContent>
       </Card>
     );
