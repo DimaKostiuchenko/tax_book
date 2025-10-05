@@ -74,9 +74,9 @@ export default function ProfileTab({ user }: ProfileTabProps) {
                     value={data.user_type}
                     onValueChange={(value) => setData('user_type', value as 'fop' | 'legal_entity')}
                 >
-                    <SelectTrigger className="h-12 border-gray-200 hover:border-blue-300 focus:border-blue-500 transition-colors">
-                        <SelectValue placeholder="Оберіть тип користувача" />
-                    </SelectTrigger>
+                     <SelectTrigger className="h-12 border border-gray-100 bg-gradient-to-r from-gray-50 to-gray-100 rounded-sm shadow-none hover:border-gray-400 focus:border-gray-400 focus:shadow-none transition-colors">
+                         <SelectValue placeholder="Оберіть тип користувача" />
+                     </SelectTrigger>
                     <SelectContent className="rounded-xl">
                         <SelectItem value="fop" className="py-3">ФОП (Фізична особа-підприємець)</SelectItem>
                         <SelectItem value="legal_entity" className="py-3">Юридична особа</SelectItem>
@@ -90,16 +90,16 @@ export default function ProfileTab({ user }: ProfileTabProps) {
                     <div className="flex items-center gap-3 mb-4">
                         <Label htmlFor="tin" className="text-lg font-semibold text-gray-900">ТИН (10 цифр) *</Label>
                     </div>
-                    <Input
-                        id="tin"
-                        value={data.tin}
-                        onChange={(e) => setData('tin', e.target.value)}
-                        placeholder="1234567890"
-                        maxLength={10}
-                        className={`h-12 border-2 transition-colors ${
-                            errors.tin ? 'border-red-300 focus:border-red-500' : 'border-gray-200 focus:border-blue-500'
-                        }`}
-                    />
+                     <Input
+                         id="tin"
+                         value={data.tin}
+                         onChange={(e) => setData('tin', e.target.value)}
+                         placeholder="1234567890"
+                         maxLength={10}
+                         className={`h-12 border border-gray-100 bg-gradient-to-r from-gray-50 to-gray-100 rounded-sm shadow-none transition-colors ${
+                             errors.tin ? 'border-red-300 focus:border-red-400 focus:shadow-none' : 'focus:border-gray-400 focus:shadow-none'
+                         }`}
+                     />
                     {errors.tin && <p className="text-red-600 font-medium">{errors.tin}</p>}
                     <p className="text-blue-700">ТИН - це ваш індивідуальний податковий номер</p>
                 </div>
@@ -110,16 +110,16 @@ export default function ProfileTab({ user }: ProfileTabProps) {
                 <div className="flex items-center gap-3 mb-4">
                         <Label htmlFor="edrpou" className="text-lg font-semibold text-gray-900">ЄДРПОУ (8 цифр) *</Label>
                     </div>
-                    <Input
-                        id="edrpou"
-                        value={data.edrpou}
-                        onChange={(e) => setData('edrpou', e.target.value)}
-                        placeholder="12345678"
-                        maxLength={8}
-                        className={`h-12  transition-colors ${
-                            errors.edrpou ? '' : 'border-gray-200 focus:border-green-500'
-                        }`}
-                    />
+                     <Input
+                         id="edrpou"
+                         value={data.edrpou}
+                         onChange={(e) => setData('edrpou', e.target.value)}
+                         placeholder="12345678"
+                         maxLength={8}
+                         className={`h-12 border border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 rounded-sm shadow-none transition-colors ${
+                             errors.edrpou ? 'border-red-300 focus:border-red-400 focus:shadow-none' : 'focus:border-gray-400 focus:shadow-none'
+                         }`}
+                     />
                     {errors.edrpou && <p className="text-red-600 font-medium">{errors.edrpou}</p>}
                     <p className="text-green-700">ЄДРПОУ - це код юридичної особи в Україні</p>
                 </div>
@@ -137,9 +137,9 @@ export default function ProfileTab({ user }: ProfileTabProps) {
                     value={data.tax_regime}
                     onValueChange={(value) => setData('tax_regime', value as any)}
                 >
-                    <SelectTrigger className="h-12 border-1 border-gray-200 hover:border-purple-300 focus:border-purple-500 transition-colors">
-                        <SelectValue placeholder="Оберіть податковий режим" />
-                    </SelectTrigger>
+                     <SelectTrigger className="h-12 border border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 rounded-sm shadow-none hover:border-gray-400 focus:border-gray-400 focus:shadow-none transition-colors">
+                         <SelectValue placeholder="Оберіть податковий режим" />
+                     </SelectTrigger>
                     <SelectContent className="rounded-xl">
                         <SelectItem value="single_tax_1" className="py-3">Єдиний податок 1 група</SelectItem>
                         <SelectItem value="single_tax_2" className="py-3">Єдиний податок 2 група</SelectItem>
@@ -167,15 +167,15 @@ export default function ProfileTab({ user }: ProfileTabProps) {
             {data.vat_payer && (
                 <div className="space-y-4 p-6 bg-amber-50 border border-amber-200">
                     <Label htmlFor="vat_number" className="text-lg font-semibold text-gray-900">ПДВ номер *</Label>
-                    <Input
-                        id="vat_number"
-                        value={data.vat_number}
-                        onChange={(e) => setData('vat_number', e.target.value)}
-                        placeholder="Введіть ПДВ номер"
-                        className={`h-12 border-2 transition-colors ${
-                            errors.vat_number ? 'border-red-300 focus:border-red-500' : 'border-amber-300 focus:border-amber-500'
-                        }`}
-                    />
+                     <Input
+                         id="vat_number"
+                         value={data.vat_number}
+                         onChange={(e) => setData('vat_number', e.target.value)}
+                         placeholder="Введіть ПДВ номер"
+                         className={`h-12 border border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 rounded-sm shadow-none transition-colors ${
+                             errors.vat_number ? 'border-red-300 focus:border-red-400 focus:shadow-none' : 'focus:border-gray-400 focus:shadow-none'
+                         }`}
+                     />
                     {errors.vat_number && <p className="text-red-600 font-medium">{errors.vat_number}</p>}
                 </div>
             )}
@@ -192,9 +192,9 @@ export default function ProfileTab({ user }: ProfileTabProps) {
                     value={data.reporting_period}
                     onValueChange={(value) => setData('reporting_period', value as any)}
                 >
-                    <SelectTrigger className="h-12 border-2 border-gray-200 hover:border-emerald-300 focus:border-emerald-500 transition-colors">
-                        <SelectValue placeholder="Оберіть період звітності" />
-                    </SelectTrigger>
+                     <SelectTrigger className="h-12 border border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 rounded-sm shadow-none hover:border-gray-400 focus:border-gray-400 focus:shadow-none transition-colors">
+                         <SelectValue placeholder="Оберіть період звітності" />
+                     </SelectTrigger>
                     <SelectContent className="">
                         <SelectItem value="monthly" className="py-3">Щомісячно</SelectItem>
                         <SelectItem value="quarterly" className="py-3">Щоквартально</SelectItem>
@@ -211,15 +211,15 @@ export default function ProfileTab({ user }: ProfileTabProps) {
                         <p className="text-gray-500">Для зв'язку та сповіщень</p>
                     </div>
                 </div>
-                <Input
-                    id="phone"
-                    value={data.phone}
-                    onChange={(e) => setData('phone', e.target.value)}
-                    placeholder="+380XXXXXXXXX"
-                    className={`h-12 border-1 transition-colors ${
-                        errors.phone ? 'border-red-300 focus:border-red-500' : 'border-gray-200 focus:border-teal-500'
-                    }`}
-                />
+                 <Input
+                     id="phone"
+                     value={data.phone}
+                     onChange={(e) => setData('phone', e.target.value)}
+                     placeholder="+380XXXXXXXXX"
+                     className={`h-12 border border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 rounded-sm shadow-none transition-colors ${
+                         errors.phone ? 'border-red-300 focus:border-red-400 focus:shadow-none' : 'focus:border-gray-400 focus:shadow-none'
+                     }`}
+                 />
                 {errors.phone && <p className="text-red-600 font-medium">{errors.phone}</p>}
                 <p className="text-teal-700 font-medium">Формат: +380XXXXXXXXX</p>
             </div>
@@ -232,12 +232,12 @@ export default function ProfileTab({ user }: ProfileTabProps) {
                         <p className="text-gray-500">Використовується для входу в систему</p>
                     </div>
                 </div>
-                <Input
-                    id="email"
-                    value={user.email}
-                    disabled
-                    className="h-12 bg-gray-100 border-2 border-gray-200 text-gray-600"
-                />
+                 <Input
+                     id="email"
+                     value={user.email}
+                     disabled
+                     className="h-12 border border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 rounded-sm shadow-none text-gray-600 cursor-not-allowed"
+                 />
             </div>
 
             {/* Submit Button - Apply Page A styling */}
