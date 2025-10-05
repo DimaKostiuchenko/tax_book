@@ -110,7 +110,7 @@ const EventAmount = React.memo(({amount}: { amount: { currency: string; value: n
       </span>
         </div>
         {amount.description && (
-            <p className="text-sm text-gray-900 mt-1">{amount.description}</p>
+            <p className="text-base text-gray-900 mt-1">{amount.description}</p>
         )}
     </div>
 ))
@@ -118,7 +118,7 @@ const EventAmount = React.memo(({amount}: { amount: { currency: string; value: n
 const EventDetails = React.memo(({details}: { details: { description: string; legalReference: string } }) => (
     <div className=" text-gray-900">
         <p>{details.description}</p>
-        <p className="text-sm text-gray-900 mt-3">{details.legalReference}</p>
+        <p className="text-base text-gray-900 mt-3">{details.legalReference}</p>
     </div>
 ))
 

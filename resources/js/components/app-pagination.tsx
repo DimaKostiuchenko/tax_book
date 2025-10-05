@@ -30,7 +30,7 @@ export function Pagination({ links, className }: PaginationProps) {
           key={`${link.label}-${index}`}
           href={link.url ?? '#'}
           className={cn(
-            'rounded px-3 py-2 text-sm transition-colors',
+            'rounded px-3 py-2 text-base transition-colors',
             link.active 
               ? 'bg-primary text-primary-foreground' 
               : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'

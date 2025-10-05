@@ -45,7 +45,7 @@ export default function PreferencesTab({ user }: PreferencesTabProps) {
                     </div>
                     <div>
                         <Label htmlFor="language" className="text-lg font-semibold text-gray-900">Мова інтерфейсу *</Label>
-                        <p className="text-sm text-gray-500">Оберіть мову для відображення системи</p>
+                        <p className="text-base text-gray-500">Оберіть мову для відображення системи</p>
                     </div>
                 </div>
                 <Select
@@ -60,7 +60,7 @@ export default function PreferencesTab({ user }: PreferencesTabProps) {
                         <SelectItem value="en" className="text-base py-3">🇬🇧 English</SelectItem>
                     </SelectContent>
                 </Select>
-                <p className="text-sm text-blue-700 font-medium">
+                <p className="text-base text-blue-700 font-medium">
                     Мова буде застосована до всього інтерфейсу системи
                 </p>
             </div>
@@ -73,7 +73,7 @@ export default function PreferencesTab({ user }: PreferencesTabProps) {
                     </div>
                     <div>
                         <Label htmlFor="theme" className="text-lg font-semibold text-gray-900">Тема інтерфейсу *</Label>
-                        <p className="text-sm text-gray-500">Персоналізуйте зовнішній вигляд системи</p>
+                        <p className="text-base text-gray-500">Персоналізуйте зовнішній вигляд системи</p>
                     </div>
                 </div>
                 <Select
@@ -95,7 +95,7 @@ export default function PreferencesTab({ user }: PreferencesTabProps) {
                         </SelectItem>
                     </SelectContent>
                 </Select>
-                <p className="text-sm text-purple-700 font-medium">
+                <p className="text-base text-purple-700 font-medium">
                     Системна тема автоматично використовує налаштування вашої операційної системи
                 </p>
             </div>
@@ -108,7 +108,7 @@ export default function PreferencesTab({ user }: PreferencesTabProps) {
                     </div>
                     <div>
                         <Label htmlFor="timezone" className="text-lg font-semibold text-gray-900">Часовий пояс *</Label>
-                        <p className="text-sm text-gray-500">Для правильного відображення часу та дат</p>
+                        <p className="text-base text-gray-500">Для правильного відображення часу та дат</p>
                     </div>
                 </div>
                 <Select
@@ -128,7 +128,7 @@ export default function PreferencesTab({ user }: PreferencesTabProps) {
                         <SelectItem value="Australia/Sydney" className="text-base py-3">🇦🇺 Сідней (UTC+10/+11)</SelectItem>
                     </SelectContent>
                 </Select>
-                <p className="text-sm text-emerald-700 font-medium">
+                <p className="text-base text-emerald-700 font-medium">
                     Часовий пояс використовується для відображення дат та часу в системі
                 </p>
             </div>
@@ -149,7 +149,7 @@ export default function PreferencesTab({ user }: PreferencesTabProps) {
                                 <span className="text-gray-900 font-medium">Світла</span>
                             </div>
                         </div>
-                        <p className="text-sm text-gray-600 font-medium">Світла тема</p>
+                        <p className="text-base text-gray-600 font-medium">Світла тема</p>
                     </div>
                     <div className="text-center">
                         <div className="w-full h-24 bg-gray-900 border-2 border-gray-700 rounded-xl mb-3 flex items-center justify-center shadow-lg">
@@ -158,7 +158,7 @@ export default function PreferencesTab({ user }: PreferencesTabProps) {
                                 <span className="text-white font-medium">Темна</span>
                             </div>
                         </div>
-                        <p className="text-sm text-gray-600 font-medium">Темна тема</p>
+                        <p className="text-base text-gray-600 font-medium">Темна тема</p>
                     </div>
                     <div className="text-center">
                         <div className="w-full h-24 bg-gradient-to-r from-white via-gray-100 to-gray-900 border-2 border-gray-300 rounded-xl mb-3 flex items-center justify-center shadow-lg">
@@ -167,7 +167,7 @@ export default function PreferencesTab({ user }: PreferencesTabProps) {
                                 <span className="text-gray-900 font-medium">Системна</span>
                             </div>
                         </div>
-                        <p className="text-sm text-gray-600 font-medium">Системна тема</p>
+                        <p className="text-base text-gray-600 font-medium">Системна тема</p>
                     </div>
                 </div>
             </div>

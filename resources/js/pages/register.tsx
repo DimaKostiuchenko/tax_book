@@ -103,7 +103,7 @@ export default function Register() {
                 {/* Registration Form */}
                 <form onSubmit={submit} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="name" className="text-sm font-medium text-gray-700">
+                        <Label htmlFor="name" className="text-base font-medium text-gray-700">
                             Ім'я
                         </Label>
                         <div className="relative">
@@ -121,7 +121,7 @@ export default function Register() {
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                        <Label htmlFor="email" className="text-base font-medium text-gray-700">
                             Email
                         </Label>
                         <div className="relative">
@@ -139,7 +139,7 @@ export default function Register() {
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+                        <Label htmlFor="password" className="text-base font-medium text-gray-700">
                             Пароль
                         </Label>
                         <div className="relative">
@@ -164,7 +164,7 @@ export default function Register() {
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="password_confirmation" className="text-sm font-medium text-gray-700">
+                        <Label htmlFor="password_confirmation" className="text-base font-medium text-gray-700">
                             Підтвердження пароля
                         </Label>
                         <div className="relative">
@@ -197,7 +197,7 @@ export default function Register() {
                             className="mt-1 rounded border-gray-300 text-[#344CB7] focus:ring-[#344CB7]"
                             required
                         />
-                        <label htmlFor="terms" className="text-sm text-gray-600">
+                        <label htmlFor="terms" className="text-base text-gray-600">
                             Я погоджуюся з{' '}
                             <Link
                                 href="#"
@@ -226,7 +226,7 @@ export default function Register() {
 
                 {/* Login Link */}
                 <div className="text-center pt-4">
-                    <p className="text-sm text-gray-600">
+                    <p className="text-base text-gray-600">
                         Вже маєте обліковий запис?{' '}
                         <Link
                             href={route('login')}

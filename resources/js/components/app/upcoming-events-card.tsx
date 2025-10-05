@@ -108,7 +108,7 @@ const EventItem = React.memo(({
       <Header className={headerClassName}>
         <div className="flex items-start justify-between mb-2">
           <div className="flex-1 pr-2">
-            <h3 className="font-semibold text-sm text-gray-900 leading-tight">
+            <h3 className="font-semibold text-base text-gray-900 leading-tight">
               {event.title}
             </h3>
           </div>

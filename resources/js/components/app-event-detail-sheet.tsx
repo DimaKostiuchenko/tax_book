@@ -36,7 +36,7 @@ export function EventDetailSheet({ event, isOpen, onClose }: EventDetailSheetPro
             <SheetHeader>
               <SheetTitle>{event.title}</SheetTitle>
             </SheetHeader>
-            <div className="mt-4 space-y-2 text-sm">
+            <div className="mt-4 space-y-2 text-base">
               <div>
                 <span className="text-neutral-500">Type:</span> {event.event_type}
               </div>

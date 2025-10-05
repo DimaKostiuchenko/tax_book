@@ -54,7 +54,7 @@ export default function SecurityTab() {
                     </div>
                     <div>
                         <Label htmlFor="current_password" className="text-lg font-semibold text-gray-900">Поточний пароль *</Label>
-                        <p className="text-sm text-gray-500">Введіть ваш поточний пароль для підтвердження</p>
+                        <p className="text-base text-gray-500">Введіть ваш поточний пароль для підтвердження</p>
                     </div>
                 </div>
                 <div className="relative">
@@ -85,7 +85,7 @@ export default function SecurityTab() {
                     </div>
                     <div>
                         <Label htmlFor="password" className="text-lg font-semibold text-gray-900">Новий пароль *</Label>
-                        <p className="text-sm text-gray-500">Створіть новий надійний пароль</p>
+                        <p className="text-base text-gray-500">Створіть новий надійний пароль</p>
                     </div>
                 </div>
                 <div className="relative">
@@ -106,7 +106,7 @@ export default function SecurityTab() {
                         {showNewPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                     </button>
                 </div>
-                <p className="text-sm text-blue-700 font-medium">
+                <p className="text-base text-blue-700 font-medium">
                     Пароль повинен містити мінімум 8 символів
                 </p>
             </div>
@@ -119,7 +119,7 @@ export default function SecurityTab() {
                     </div>
                     <div>
                         <Label htmlFor="password_confirmation" className="text-lg font-semibold text-gray-900">Підтвердження пароля *</Label>
-                        <p className="text-sm text-gray-500">Повторіть новий пароль для перевірки</p>
+                        <p className="text-base text-gray-500">Повторіть новий пароль для перевірки</p>
                     </div>
                 </div>
                 <div className="relative">
@@ -141,7 +141,7 @@ export default function SecurityTab() {
                     </button>
                 </div>
                 {errors.password_confirmation && (
-                    <p className="text-sm text-red-600 font-medium">{errors.password_confirmation}</p>
+                    <p className="text-base text-red-600 font-medium">{errors.password_confirmation}</p>
                 )}
             </div>
 
@@ -153,7 +153,7 @@ export default function SecurityTab() {
                     </div>
                     <h4 className="text-lg font-semibold text-blue-900">Вимоги до пароля:</h4>
                 </div>
-                <ul className="text-sm text-blue-800 space-y-2 ml-11">
+                <ul className="text-base text-blue-800 space-y-2 ml-11">
                     <li className="flex items-center gap-2">
                         <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                         Мінімум 8 символів

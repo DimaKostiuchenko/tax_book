@@ -43,7 +43,7 @@ export function TaxForm({ event, onSuccess }: TaxFormProps) {
           value={data.fullName}
           onChange={e => setData("fullName", e.target.value)}
         />
-        {errors.fullName && <p className="text-sm text-red-500">{errors.fullName}</p>}
+        {errors.fullName && <p className="text-base text-red-500">{errors.fullName}</p>}
       </div>
 
       <div>
@@ -54,7 +54,7 @@ export function TaxForm({ event, onSuccess }: TaxFormProps) {
           value={data.taxId}
           onChange={e => setData("taxId", e.target.value)}
         />
-        {errors.taxId && <p className="text-sm text-red-500">{errors.taxId}</p>}
+        {errors.taxId && <p className="text-base text-red-500">{errors.taxId}</p>}
       </div>
 
       <div>
@@ -66,7 +66,7 @@ export function TaxForm({ event, onSuccess }: TaxFormProps) {
           value={data.email}
           onChange={e => setData("email", e.target.value)}
         />
-        {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
+        {errors.email && <p className="text-base text-red-500">{errors.email}</p>}
       </div>
 
       <div>

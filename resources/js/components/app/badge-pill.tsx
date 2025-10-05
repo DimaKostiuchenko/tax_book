@@ -14,9 +14,9 @@ const badgePillVariants = cva(
         danger: 'bg-red-50 text-red-700 hover:bg-red-100',
       },
       size: {
-        sm: 'px-3 py-1.5 text-sm rounded-full',
-        default: 'px-4 py-2 text-sm rounded-full',
-        lg: 'px-5 py-2.5 text-sm rounded-full',
+        sm: 'px-3 py-1.5 text-base rounded-full',
+        default: 'px-4 py-2 text-base rounded-full',
+        lg: 'px-5 py-2.5 text-base rounded-full',
       },
     },
     defaultVariants: {

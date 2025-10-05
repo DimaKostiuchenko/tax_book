@@ -164,8 +164,8 @@ export default function NotificationsTab({ user }: NotificationsTabProps) {
                                 errors.viber_phone ? 'border-red-300 focus:border-red-500' : 'border-purple-300 focus:border-purple-500'
                             }`}
                         />
-                        {errors.viber_phone && <p className="text-sm text-red-600 font-medium mt-2">{errors.viber_phone}</p>}
-                        <p className="text-sm text-purple-700 mt-2">Формат: +380XXXXXXXXX</p>
+                        {errors.viber_phone && <p className="text-base text-red-600 font-medium mt-2">{errors.viber_phone}</p>}
+                        <p className="text-base text-purple-700 mt-2">Формат: +380XXXXXXXXX</p>
                     </div>
                     
                     {data.viber_phone && (
@@ -228,7 +228,7 @@ export default function NotificationsTab({ user }: NotificationsTabProps) {
                 </div>
                 
                 {errors.reminder_lead_time && (
-                    <p className="text-sm text-red-600 font-medium ml-16">{errors.reminder_lead_time}</p>
+                    <p className="text-base text-red-600 font-medium ml-16">{errors.reminder_lead_time}</p>
                 )}
             </div>
 

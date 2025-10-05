@@ -32,7 +32,7 @@ const GanttChart = () => {
                 {/* Header */}
                 <div className="flex">
                     <div className="w-24 bg-gray-300 text-center font-semibold">Type</div>
-                    <div className="flex-1 relative h-10 bg-gray-200 grid grid-cols-12 text-sm font-semibold text-center">
+                    <div className="flex-1 relative h-10 bg-gray-200 grid grid-cols-12 text-base font-semibold text-center">
                         {months.map((month, idx) => (
                             <div key={idx} className="border-l border-gray-400">{month}</div>
                         ))}
@@ -51,7 +51,7 @@ const GanttChart = () => {
                 <div className="space-y-2 mt-2">
                     {types.map((type, typeIdx) => (
                         <div key={typeIdx} className="flex items-center">
-                            <div className="w-24 text-sm font-medium text-gray-700">{type}</div>
+                            <div className="w-24 text-base font-medium text-gray-700">{type}</div>
                             <div className="flex-1 relative h-10 bg-gray-50">
                                 {bars
                                     .filter(bar => bar.type === type)

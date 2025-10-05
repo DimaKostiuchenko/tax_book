@@ -98,7 +98,7 @@ export default function Login() {
                 {/* Login Form */}
                 <form onSubmit={submit} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                        <Label htmlFor="email" className="text-base font-medium text-gray-700">
                             Email
                         </Label>
                         <div className="relative">
@@ -116,7 +116,7 @@ export default function Login() {
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+                        <Label htmlFor="password" className="text-base font-medium text-gray-700">
                             Пароль
                         </Label>
                         <div className="relative">
@@ -148,12 +148,12 @@ export default function Login() {
                                 onChange={(e) => setData('remember', e.target.checked)}
                                 className="rounded border-gray-300 text-[#344CB7] focus:ring-[#344CB7]"
                             />
-                            <span className="text-sm text-gray-600">Запам'ятати мене</span>
+                            <span className="text-base text-gray-600">Запам'ятати мене</span>
                         </label>
                         
                         <Link
                             href={route('password.request')}
-                            className="text-sm text-[#344CB7] hover:text-[#577BC1] font-medium"
+                            className="text-base text-[#344CB7] hover:text-[#577BC1] font-medium"
                         >
                             Забули пароль?
                         </Link>
@@ -170,7 +170,7 @@ export default function Login() {
 
                 {/* Register Link */}
                 <div className="text-center pt-4">
-                    <p className="text-sm text-gray-600">
+                    <p className="text-base text-gray-600">
                         Немає облікового запису?{' '}
                         <Link
                             href={route('register')}

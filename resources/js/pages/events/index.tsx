@@ -206,7 +206,7 @@ export default function ClientManagement() {
                 </div>
             </div>
 
-            <Sidebar />
+            {/* <Sidebar /> */}
         </ClientManagementLayout>
     )
 }

@@ -4,7 +4,7 @@ return [
     // Navigation
     'dashboard' => 'Панель керування',
     'events' => 'Події',
-    'settings' => 'Налаштування',
+    'settings' => 'Профіль',
     'profile' => 'Профіль',
     'logout' => 'Вийти',
     

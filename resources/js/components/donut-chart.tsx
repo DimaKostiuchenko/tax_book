@@ -75,9 +75,9 @@ const ChartLegend = React.memo(({ data }: { data: ChartData[] }) => {
                             className="w-3 h-3 rounded-full" 
                             style={{ backgroundColor: item.color }}
                         />
-                        <span className="text-sm text-gray-600">{item.label}</span>
+                        <span className="text-base text-gray-600">{item.label}</span>
                     </div>
-                    <span className="text-sm font-medium text-gray-900">
+                    <span className="text-base font-medium text-gray-900">
                         {Math.round((item.value / total) * 100)}%
                     </span>
                 </div>

@@ -135,11 +135,11 @@ export default function Dashboard() {
 
             {/* Bottom: News + Quick actions */}
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-              <NewsCard
+              {/* <NewsCard
                 news={news}
                 onReadArticle={handleReadArticle}
                 onViewAll={handleViewAllNews}
-              />
+              /> */}
               {/* <QuickActionsCard actions={quickActions} /> */}
             </div>
           </div>

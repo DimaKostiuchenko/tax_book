@@ -52,7 +52,7 @@ export function EventCard({ event, className }: EventCardProps) {
           </div>
         </div>
         
-        <div className="mt-4 space-y-2 text-sm text-neutral-600">
+        <div className="mt-4 space-y-2 text-base text-neutral-600">
           <div className="flex items-center gap-2">
             <span className="font-medium">Start:</span>
             <span>{formatDate(event.start_date)}</span>

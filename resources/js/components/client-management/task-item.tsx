@@ -30,7 +30,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
                 <div className="flex items-center justify-between">
                     <div>
                         <div className="flex items-center space-x-2 mb-1">
-                            <span className="text-sm font-medium text-gray-900">
+                            <span className="text-base font-medium text-gray-900">
                                 {task.time} - {task.type}
                             </span>
                             {task.active && (

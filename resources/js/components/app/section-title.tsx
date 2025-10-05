@@ -22,7 +22,7 @@ const SectionTitle = React.forwardRef<HTMLDivElement, SectionTitleProps>(
             className="h-5 w-5 text-muted-foreground" 
             aria-hidden="true"
           />
-          <h3 className="text-sm font-medium text-muted-foreground">
+          <h3 className="text-base font-medium text-muted-foreground">
             {children}
           </h3>
         </div>

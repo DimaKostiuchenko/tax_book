@@ -124,7 +124,7 @@ const StatsChartCard = React.forwardRef<HTMLDivElement, StatsChartCardProps>(
              <div className="text-left">
                <div className="flex items-center space-x-2 mb-1">
                  <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                 <span className="text-sm text-gray-600">Зароблено</span>
+                 <span className="text-base text-gray-600">Зароблено</span>
                </div>
                <div className="text-2xl font-bold text-gray-900">
                  {earnedAmount.toLocaleString('de-DE', {
@@ -138,7 +138,7 @@ const StatsChartCard = React.forwardRef<HTMLDivElement, StatsChartCardProps>(
              <div className="text-left">
                <div className="flex items-center space-x-2 mb-1">
                  <div className="w-3 h-3 rounded-full bg-gray-300"></div>
-                 <span className="text-sm text-gray-600">Залишок</span>
+                 <span className="text-base text-gray-600">Залишок</span>
                </div>
                <div className="text-2xl font-bold text-gray-900">
                  {Math.max(0, maxAllowedAmount - earnedAmount).toLocaleString('de-DE', {

@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { type NewsItem } from '@/types/dashboard';
+import { IconRight } from '../icons/icon-right';
 
 export interface NewsCardProps {
   news: NewsItem[];
@@ -12,38 +13,36 @@ export interface NewsCardProps {
 const NewsCard = React.forwardRef<HTMLDivElement, NewsCardProps>(
   ({ news, onReadArticle, onViewAll, ...props }, ref) => {
     return (
-      <Card ref={ref} className="bg-white rounded-none border-0 shadow-none lg:col-span-2" {...props}>
-        <CardHeader className="pb-3">
-          <CardTitle className="text-xl font-semibold text-gray-900">Новини / Зміни</CardTitle>
+      <Card ref={ref} className="bg-white mb-4 rounded-none border-0 shadow-none lg:col-span-2" {...props}>
+        <CardHeader className="pb-6">
+          <CardTitle className="text-xl font-semibold text-gray-900">Корисна інформація</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3">
+        <CardContent className="space-y-3 px-4">
           <div role="list" aria-label="News articles">
             {news.map((article) => (
               <div 
                 key={article.title} 
-                className="flex items-center justify-between border border-gray-200 p-3"
+                className="relative border border-gray-200 p-4 mb-4 hover:shadow-md transition-shadow duration-200 overflow-hidden group"
                 role="listitem"
               >
-                <div className="text-sm font-medium text-gray-900">{article.title}</div>
-                <Button 
-                  className="bg-[#344CB7] text-white rounded-full px-6 py-2"
-                  size="sm" 
+                <div className="pr-16">
+                  <h3 className="font-semibold text-gray-900 mb-2 text-lg">{article.title}</h3>
+                  <p className="text-gray-600 text-base leading-relaxed">{article.description}</p>
+                </div>
+                
+                {/* Circular button positioned at bottom-right corner */}
+                {/* <button 
+                  className="absolute -bottom-2 -right-2 w-16 h-16 bg-[#344CB7] text-white rounded-full flex items-center justify-center hover:scale-110 transition-all duration-300 ease-out shadow-lg hover:shadow-xl group-hover:w-18 group-hover:h-18"
                   onClick={() => onReadArticle?.(article)}
                   aria-label={`Read article: ${article.title}`}
                 >
-                  Читати
-                </Button>
+                  <IconRight className="w-5 h-5 text-white" />
+                </button> */}
               </div>
             ))}
           </div>
           <div className="flex justify-end">
-            <Button 
-              className="text-gray-500 hover:text-gray-700"
-              onClick={onViewAll}
-              aria-label="View all news articles"
-            >
-              Усі новини
-            </Button>
+          
           </div>
         </CardContent>
       </Card>
