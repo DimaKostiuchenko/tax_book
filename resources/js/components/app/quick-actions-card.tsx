@@ -24,7 +24,7 @@ const QuickActionsCard = React.forwardRef<HTMLDivElement, QuickActionsCardProps>
             </div>
           </CardHeader>
           
-          <CardContent className="grid grid-cols-2 gap-4 py-6 px-4">
+          <CardContent className="grid grid-cols-2 gap-6 py-6 px-6">
             {actions.map((action, index) => {
               const Icon = action.icon;
               return (

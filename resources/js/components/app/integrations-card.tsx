@@ -20,7 +20,7 @@ const IntegrationsCard = React.forwardRef<HTMLDivElement, IntegrationsCardProps>
         
         {/* Content */}
         <div className="p-4 pt-0">
-          <div className="space-y-4" role="list" aria-label="Integration channels">
+          <div className="space-y-2" role="list" aria-label="Integration channels">
             {integrations.map((integration) => {
               const isActive = integration.status === "active";
               return (
@@ -34,9 +34,9 @@ const IntegrationsCard = React.forwardRef<HTMLDivElement, IntegrationsCardProps>
                   role="listitem"
                 >
                   <div className="flex items-center gap-3">
-                    <div className={`w-3 h-3 rounded-full ${
+                    {/* <div className={`w-3 h-3 rounded-full ${
                       isActive ? 'bg-green-400' : 'bg-gray-200 text-gray-600 '
-                    }`}></div>
+                    }`}></div> */}
                     <div className=" font-semibold text-gray-900">
                       {integration.label}
                     </div>

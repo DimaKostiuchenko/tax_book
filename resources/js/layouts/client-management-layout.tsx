@@ -1,10 +1,13 @@
 import { type ReactNode } from 'react'
+import { Link } from '@inertiajs/react'
 import { IconHome } from '@/components/icons/icon-home'
 import { IconEvents } from '@/components/icons/icon-events'
+import { Settings } from 'lucide-react'
 
 interface NavItem {
     icon: React.ReactNode
     label: string
+    href: string
     active?: boolean
 }
 
@@ -15,8 +18,9 @@ interface ClientManagementLayoutProps {
 
 export default function ClientManagementLayout({ children, activeNavItem = 'events' }: ClientManagementLayoutProps) {
     const navItems: NavItem[] = [
-        { icon: <IconHome className="w-5 h-5" />, label: "Кабінет", active: activeNavItem === 'dashboard' },
-        { icon: <IconEvents className="w-5 h-5" />, label: "Події", active: activeNavItem === 'events' },
+        { icon: <IconHome className="w-5 h-5" />, label: "Кабінет", href: "/dashboard", active: activeNavItem === 'dashboard' },
+        { icon: <IconEvents className="w-5 h-5" />, label: "Події", href: "/events", active: activeNavItem === 'events' },
+        { icon: <Settings className="w-5 h-5" />, label: "Налаштування", href: "/settings", active: activeNavItem === 'settings' },
     ]
 
     return (
@@ -38,9 +42,9 @@ export default function ClientManagementLayout({ children, activeNavItem = 'even
                     {/* Navigation Menu */}
                     <nav className="space-y-2">
                         {navItems.map((item, index) => (
-                            <a
+                            <Link
                                 key={index}
-                                href="#"
+                                href={item.href}
                                 className={`flex text-lg items-center space-x-3 p-2 rounded-lg transition-colors ${
                                     item.active
                                         ? 'font-bold text-blue-900'
@@ -51,7 +55,7 @@ export default function ClientManagementLayout({ children, activeNavItem = 'even
                                     {item.icon}
                                 </div>
                                 <span className="font-medium">{item.label}</span>
-                            </a>
+                            </Link>
                         ))}
                     </nav>
                 </div>

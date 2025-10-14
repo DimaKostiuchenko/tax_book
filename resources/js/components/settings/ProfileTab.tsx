@@ -1,24 +1,16 @@
 import { useForm } from '@inertiajs/react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { CheckCircle, AlertCircle } from 'lucide-react';
-
-interface User {
-    name: string;
-    email: string;
-    user_type?: 'fop' | 'legal_entity';
-    tin?: string;
-    edrpou?: string;
-    tax_regime?: 'single_tax_1' | 'single_tax_2' | 'single_tax_3' | 'general_system';
-    vat_payer?: boolean;
-    vat_number?: string;
-    reporting_period?: 'monthly' | 'quarterly' | 'yearly';
-    phone?: string;
-}
+import { Input } from '@/components/app/input';
+import { Select } from '@/components/app/select';
+import { RadioGroup } from '@/components/app/radio-group';
+import { FormAlert } from '@/components/app/form-alert';
+import { SubmitButton } from '@/components/app/submit-button';
+import { 
+  USER_TYPE_OPTIONS, 
+  TAX_REGIME_OPTIONS, 
+  REPORTING_PERIOD_OPTIONS,
+  YES_NO_OPTIONS 
+} from '@/lib/constants/form-options';
+import type { User } from '@/types/forms';
 
 interface ProfileTabProps {
     user: User;
@@ -48,208 +40,122 @@ export default function ProfileTab({ user }: ProfileTabProps) {
         <form onSubmit={handleSubmit} className="space-y-8">
             {/* Success/Error Messages */}
             {recentlySuccessful && (
-                <Alert className="border-green-200 bg-green-50 text-green-800 ">
-                    <CheckCircle className="h-5 w-5 text-green-600" />
-                    <AlertDescription className="font-medium">Профіль успішно оновлено</AlertDescription>
-                </Alert>
+                <FormAlert type="success" message="Профіль успішно оновлено" />
             )}
 
             {errors.user_type && (
-                <Alert variant="destructive" className="">
-                    <AlertCircle className="h-5 w-5" />
-                    <AlertDescription>{errors.user_type}</AlertDescription>
-                </Alert>
+                <FormAlert type="error" message={errors.user_type} />
             )}
 
             {/* User Type Selection */}
-            <div className="space-y-4">
-                <div className="flex items-center gap-3 mb-4">
-                
-                    <div>
-                        <Label htmlFor="user_type" className="text-lg font-semibold text-gray-900">Тип користувача *</Label>
-                        <p className="text-gray-500">Оберіть тип вашого підприємства</p>
-                    </div>
-                </div>
-                <Select
-                    value={data.user_type}
-                    onValueChange={(value) => setData('user_type', value as 'fop' | 'legal_entity')}
-                >
-                     <SelectTrigger className="h-12 border border-gray-100 bg-gradient-to-r from-gray-50 to-gray-100 rounded-sm shadow-none hover:border-gray-400 focus:border-gray-400 focus:shadow-none transition-colors">
-                         <SelectValue placeholder="Оберіть тип користувача" />
-                     </SelectTrigger>
-                    <SelectContent className="rounded-xl">
-                        <SelectItem value="fop" className="py-3">ФОП (Фізична особа-підприємець)</SelectItem>
-                        <SelectItem value="legal_entity" className="py-3">Юридична особа</SelectItem>
-                    </SelectContent>
-                </Select>
-            </div>
+            <Select
+                label="Тип користувача"
+                placeholder="Оберіть тип користувача"
+                required
+                value={data.user_type}
+                onValueChange={(value) => setData('user_type', value as 'fop' | 'legal_entity')}
+                options={USER_TYPE_OPTIONS}
+                error={errors.user_type}
+            />
 
             {/* Conditional Fields Based on User Type */}
             {isFOP && (
-                <div className="space-y-4 p-6 bg-blue-50 border-blue-200">
-                    <div className="flex items-center gap-3 mb-4">
-                        <Label htmlFor="tin" className="text-lg font-semibold text-gray-900">ТИН (10 цифр) *</Label>
-                    </div>
-                     <Input
-                         id="tin"
-                         value={data.tin}
-                         onChange={(e) => setData('tin', e.target.value)}
-                         placeholder="1234567890"
-                         maxLength={10}
-                         className={`h-12 border border-gray-100 bg-gradient-to-r from-gray-50 to-gray-100 rounded-sm shadow-none transition-colors ${
-                             errors.tin ? 'border-red-300 focus:border-red-400 focus:shadow-none' : 'focus:border-gray-400 focus:shadow-none'
-                         }`}
-                     />
-                    {errors.tin && <p className="text-red-600 font-medium">{errors.tin}</p>}
-                    <p className="text-blue-700">ТИН - це ваш індивідуальний податковий номер</p>
-                </div>
+              
+                    <Input
+                        label="ТИН (10 цифр)"
+                        required
+                        value={data.tin}
+                        onChange={(e) => setData('tin', e.target.value)}
+                        placeholder="1234567890"
+                        maxLength={10}
+                        error={errors.tin}
+                    />
+                   
             )}
 
             {isLegalEntity && (
-                <div className="space-y-4 p-6 bg-green-50">
-                <div className="flex items-center gap-3 mb-4">
-                        <Label htmlFor="edrpou" className="text-lg font-semibold text-gray-900">ЄДРПОУ (8 цифр) *</Label>
-                    </div>
-                     <Input
-                         id="edrpou"
-                         value={data.edrpou}
-                         onChange={(e) => setData('edrpou', e.target.value)}
-                         placeholder="12345678"
-                         maxLength={8}
-                         className={`h-12 border border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 rounded-sm shadow-none transition-colors ${
-                             errors.edrpou ? 'border-red-300 focus:border-red-400 focus:shadow-none' : 'focus:border-gray-400 focus:shadow-none'
-                         }`}
-                     />
-                    {errors.edrpou && <p className="text-red-600 font-medium">{errors.edrpou}</p>}
-                    <p className="text-green-700">ЄДРПОУ - це код юридичної особи в Україні</p>
-                </div>
+              
+                    <Input
+                        label="ЄДРПОУ (8 цифр)"
+                        required
+                        value={data.edrpou}
+                        onChange={(e) => setData('edrpou', e.target.value)}
+                        placeholder="12345678"
+                        maxLength={8}
+                        error={errors.edrpou}
+                    />
+                  
             )}
 
             {/* Tax Regime */}
-            <div className="space-y-4">
-                <div className="flex items-center gap-3 mb-4">
-                    <div>
-                        <Label htmlFor="tax_regime" className="text-lg font-semibold text-gray-900">Податковий режим</Label>
-                        <p className="text-gray-500">Оберіть систему оподаткування</p>
-                    </div>
-                </div>
-                <Select
-                    value={data.tax_regime}
-                    onValueChange={(value) => setData('tax_regime', value as any)}
-                >
-                     <SelectTrigger className="h-12 border border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 rounded-sm shadow-none hover:border-gray-400 focus:border-gray-400 focus:shadow-none transition-colors">
-                         <SelectValue placeholder="Оберіть податковий режим" />
-                     </SelectTrigger>
-                    <SelectContent className="rounded-xl">
-                        <SelectItem value="single_tax_1" className="py-3">Єдиний податок 1 група</SelectItem>
-                        <SelectItem value="single_tax_2" className="py-3">Єдиний податок 2 група</SelectItem>
-                        <SelectItem value="single_tax_3" className="py-3">Єдиний податок 3 група</SelectItem>
-                        <SelectItem value="general_system" className="py-3">Загальна система</SelectItem>
-                    </SelectContent>
-                </Select>
-            </div>
+            <Select
+                label="Податковий режим"
+                placeholder="Оберіть податковий режим"
+                value={data.tax_regime}
+                onValueChange={(value) => setData('tax_regime', value as any)}
+                options={TAX_REGIME_OPTIONS}
+            />
 
             {/* VAT Payer */}
-            <div className="space-y-4 p-6 bg-amber-50 border border-amber-200">
-                <div className="flex items-center space-x-3">
-                    <Checkbox
-                        id="vat_payer"
-                        checked={data.vat_payer}
-                        onCheckedChange={(checked) => setData('vat_payer', checked as boolean)}
-                        className="w-5 h-5 border-2 border-amber-400"
-                    />
-                    <Label htmlFor="vat_payer" className="text-lg font-semibold text-gray-900">Платник ПДВ</Label>
-                </div>
-                <p className="text-amber-700 ml-8">Відмітьте, якщо ви є платником податку на додану вартість</p>
-            </div>
+            <RadioGroup
+                label="Платник ПДВ"
+                name="vat_payer"
+                options={YES_NO_OPTIONS as any}
+                value={data.vat_payer}
+                onChange={(value) => setData('vat_payer', value)}
+                orientation="vertical"
+            />
 
             {/* VAT Number (conditional) */}
             {data.vat_payer && (
-                <div className="space-y-4 p-6 bg-amber-50 border border-amber-200">
-                    <Label htmlFor="vat_number" className="text-lg font-semibold text-gray-900">ПДВ номер *</Label>
-                     <Input
-                         id="vat_number"
-                         value={data.vat_number}
-                         onChange={(e) => setData('vat_number', e.target.value)}
-                         placeholder="Введіть ПДВ номер"
-                         className={`h-12 border border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 rounded-sm shadow-none transition-colors ${
-                             errors.vat_number ? 'border-red-300 focus:border-red-400 focus:shadow-none' : 'focus:border-gray-400 focus:shadow-none'
-                         }`}
-                     />
-                    {errors.vat_number && <p className="text-red-600 font-medium">{errors.vat_number}</p>}
-                </div>
+              
+                    <Input
+                        label="ПДВ номер"
+                        required
+                        value={data.vat_number}
+                        onChange={(e) => setData('vat_number', e.target.value)}
+                        placeholder="Введіть ПДВ номер"
+                        error={errors.vat_number}
+                    />
+              
             )}
 
             {/* Reporting Period */}
-            <div className="space-y-4">
-                <div className="flex items-center gap-3 mb-4">
-                    <div>
-                        <Label htmlFor="reporting_period" className="text-lg font-semibold text-gray-900">Період звітності *</Label>
-                        <p className="text-gray-500">Частота подачі податкових звітів</p>
-                    </div>
-                </div>
-                <Select
-                    value={data.reporting_period}
-                    onValueChange={(value) => setData('reporting_period', value as any)}
-                >
-                     <SelectTrigger className="h-12 border border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 rounded-sm shadow-none hover:border-gray-400 focus:border-gray-400 focus:shadow-none transition-colors">
-                         <SelectValue placeholder="Оберіть період звітності" />
-                     </SelectTrigger>
-                    <SelectContent className="">
-                        <SelectItem value="monthly" className="py-3">Щомісячно</SelectItem>
-                        <SelectItem value="quarterly" className="py-3">Щоквартально</SelectItem>
-                        <SelectItem value="yearly" className="py-3">Щорічно</SelectItem>
-                    </SelectContent>
-                </Select>
-            </div>
+            <Select
+                label="Період звітності"
+                placeholder="Оберіть період звітності"
+                required
+                value={data.reporting_period}
+                onValueChange={(value) => setData('reporting_period', value as any)}
+                options={REPORTING_PERIOD_OPTIONS}
+            />
 
             {/* Phone Number */}
             <div className="space-y-4">
-                <div className="flex items-center gap-3 mb-4">
-                    <div>
-                        <Label htmlFor="phone" className="text-lg font-semibold text-gray-900">Номер телефону</Label>
-                        <p className="text-gray-500">Для зв'язку та сповіщень</p>
-                    </div>
-                </div>
-                 <Input
-                     id="phone"
-                     value={data.phone}
-                     onChange={(e) => setData('phone', e.target.value)}
-                     placeholder="+380XXXXXXXXX"
-                     className={`h-12 border border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 rounded-sm shadow-none transition-colors ${
-                         errors.phone ? 'border-red-300 focus:border-red-400 focus:shadow-none' : 'focus:border-gray-400 focus:shadow-none'
-                     }`}
-                 />
-                {errors.phone && <p className="text-red-600 font-medium">{errors.phone}</p>}
-                <p className="text-teal-700 font-medium">Формат: +380XXXXXXXXX</p>
+                <Input
+                    label="Номер телефону"
+                    description="Для зв'язку та сповіщень"
+                    value={data.phone}
+                    onChange={(e) => setData('phone', e.target.value)}
+                    placeholder="+380XXXXXXXXX"
+                    error={errors.phone}
+                />
+                {/* <p className="text-teal-700 font-medium">Формат: +380XXXXXXXXX</p> */}
             </div>
+ 
+           
+                <Input
+                    label="Email"
+                    description="Використовується для входу в систему"
+                    value={user.email}
+                    disabled
+                />
+        
 
-            {/* Email (readonly) */}
-            <div className="space-y-4 p-6 bg-gray-50 border border-gray-200">
-                <div className="flex items-center gap-3 mb-4">
-                    <div>
-                        <Label htmlFor="email" className="text-lg font-semibold text-gray-900">Email</Label>
-                        <p className="text-gray-500">Використовується для входу в систему</p>
-                    </div>
-                </div>
-                 <Input
-                     id="email"
-                     value={user.email}
-                     disabled
-                     className="h-12 border border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 rounded-sm shadow-none text-gray-600 cursor-not-allowed"
-                 />
-            </div>
-
-            {/* Submit Button - Apply Page A styling */}
-            <div className="flex justify-end pt-6">
-                <Button 
-                    type="submit" 
-                    disabled={processing}
-                    className="bg-[#344CB7] text-white rounded-full px-6 py-2 font-semibold"
-                >
-                    {processing ? 'Збереження...' : 'Зберегти зміни'}
-                </Button>
-            </div>
+            {/* Submit Button */}
+            <SubmitButton processing={processing}>
+                {processing ? 'Збереження...' : 'Зберегти зміни'}
+            </SubmitButton>
         </form>
     );
 }
