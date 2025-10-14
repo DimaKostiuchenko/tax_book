@@ -38,7 +38,6 @@ export default function VerifyEmail() {
                     </CardHeader>
                     
                     <CardContent className="space-y-6">
-                        {/* Success Message */}
                         {status && (
                             <Alert>
                                 <CheckCircle className="h-4 w-4" />
@@ -46,7 +45,6 @@ export default function VerifyEmail() {
                             </Alert>
                         )}
 
-                        {/* Error Message */}
                         {errors.email && (
                             <Alert variant="destructive">
                                 <AlertCircle className="h-4 w-4" />
@@ -54,7 +52,6 @@ export default function VerifyEmail() {
                             </Alert>
                         )}
 
-                        {/* Instructions */}
                         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                             <h3 className="font-medium text-blue-900 mb-2">Що далі?</h3>
                             <ul className="text-base text-blue-800 space-y-1">
@@ -65,7 +62,6 @@ export default function VerifyEmail() {
                             </ul>
                         </div>
 
-                        {/* Resend Button */}
                         <div className="space-y-4">
                             <Button
                                 onClick={resendVerificationEmail}
@@ -89,7 +85,6 @@ export default function VerifyEmail() {
                             </div>
                         </div>
 
-                        {/* Logout Option */}
                         <div className="border-t pt-4">
                             <div className="text-center">
                                 <p className="text-base text-gray-600 mb-2">

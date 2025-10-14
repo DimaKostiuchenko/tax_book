@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react'
-import { IconRight } from '@/components/icons/icon-right'
-import ClientManagementLayout from '@/layouts/client-management-layout'
-import QuarterCircle from "@/components/decorators/quarter-circle"
-import { EventCard } from '@/components/event-card'
-import { DonutChart } from '@/components/donut-chart'
+import { IconRight } from '@/components/common/icons/icon-right'
+import ClientLayout from '@/layouts/client-layout'
+import QuarterCircle from "@/components/common/decorators/quarter-circle"
+import { EventCard } from '@/components/features/events/event-card'
+import { DonutChart } from '@/components/common/charts/donut-chart'
 
 // Extracted constants
 const QUARTERS = [1, 2, 3, 4]
@@ -182,8 +182,7 @@ export default function ClientManagement() {
     const taxEvents = useMemo(() => ESV_EVENTS_DATA, [])
 
     return (
-        <ClientManagementLayout activeNavItem="events">
-            {/* Client Header */}
+        <ClientLayout activeNavItem="events">
             <div className="p-6">
                 <div className="flex flex-col">
                     <div className="flex flex-col space-y-3">
@@ -193,7 +192,6 @@ export default function ClientManagement() {
                 </div>
             </div>
 
-            {/* Timeline Content */}
             <div className="px-6">
                 <div className="bg-white">
                     <NavigationTabs />
@@ -205,8 +203,6 @@ export default function ClientManagement() {
                     </div>
                 </div>
             </div>
-
-            {/* <Sidebar /> */}
-        </ClientManagementLayout>
+        </ClientLayout>
     )
 }

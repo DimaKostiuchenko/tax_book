@@ -2,13 +2,13 @@ import { type SharedData } from '@/types';
 import { Head, usePage } from '@inertiajs/react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import ProfileTab from '@/components/settings/ProfileTab';
-import NotificationsTab from '@/components/settings/NotificationsTab';
-import SecurityTab from '@/components/settings/SecurityTab';
-import PreferencesTab from '@/components/settings/PreferencesTab';
-import ClientManagementLayout from '@/layouts/client-management-layout';
-import QuarterCircle from "@/components/decorators/quarter-circle"
-import { IconRight } from '@/components/icons/icon-right'
+import ProfileTab from '@/components/features/settings/ProfileTab';
+import NotificationsTab from '@/components/features/settings/NotificationsTab';
+import SecurityTab from '@/components/features/settings/SecurityTab';
+import PreferencesTab from '@/components/features/settings/PreferencesTab';
+import ClientLayout from '@/layouts/client-layout';
+import QuarterCircle from "@/components/common/decorators/quarter-circle"
+import { IconRight } from '@/components/common/icons/icon-right'
 import React, { useMemo } from 'react'
 
 // Extracted components
@@ -48,7 +48,7 @@ export default function Settings() {
     };
 
     return (
-        <ClientManagementLayout activeNavItem="settings">
+        <ClientLayout activeNavItem="settings">
 
             <div className="p-6">
                 <div className="flex flex-col">
@@ -59,46 +59,7 @@ export default function Settings() {
                 </div>
             </div>
 
-            {/* <div className="px-6">
-            <div className="text-center mb-12">
-                    <h1 className="text-4xl font-semibold text-gray-900 mb-4">
-                        Налаштування
-                    </h1>
-                    <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
-                        Керуйте вашим профілем, сповіщеннями та налаштуваннями системи
-                    </p>
-                </div>
-            </div> */}
-
-
-            {/* Timeline Content
-              <div className="px-6">
-                <div className="bg-white">
-                    <NavigationTabs />
-                    <QuarterTabs />
-
-                    <div className="p-6">
-                        <h3 className="text-xl font-semibold text-gray-900 mb-4">Податкові події</h3>
-                        <EventsGrid events={taxEvents} />
-                    </div>
-                </div>
-            </div> */}
-
-            {/* <Head title="Налаштування" /> */}
-
             <div className="p-6">
-
-                {/* Apply Page A header styling */}
-                {/* <div className="text-center mb-12">
-                    <h1 className="text-4xl font-semibold text-gray-900 mb-4">
-                        Налаштування
-                    </h1>
-                    <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
-                        Керуйте вашим профілем, сповіщеннями та налаштуваннями системи
-                    </p>
-                </div> */}
-
-                {/* Apply Page A tabs styling */}
                 <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                      <TabsList className="grid w-full grid-cols-4 bg-white border-b border-b-gray-200 p-0 h-16 items-stretch">
                          <button
@@ -127,7 +88,6 @@ export default function Settings() {
                          </button>
                      </TabsList>
 
-                    {/* Tab Content */}
                     {activeTab === 'profile' && (
                         <Card className="bg-white rounded-none border-0 shadow-none">
                             <CardHeader className="bg-white border-b border-b-gray-200 px-6 py-6">
@@ -196,6 +156,6 @@ export default function Settings() {
 
 
 
-        </ClientManagementLayout>
+        </ClientLayout>
     );
 }
