@@ -1,15 +1,32 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { Select as RadixSelect, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Label } from './label';
+import { LabelWithTooltip } from './label-with-tooltip';
+import { Sun, Moon, Monitor } from 'lucide-react';
 
 interface SelectOption {
   value: string;
   label: string;
+  icon?: string;
 }
+
+// Helper function to get icon component
+const getIconComponent = (iconName?: string) => {
+  switch (iconName) {
+    case 'sun':
+      return <Sun className="w-4 h-4" />;
+    case 'moon':
+      return <Moon className="w-4 h-4" />;
+    case 'monitor':
+      return <Monitor className="w-4 h-4" />;
+    default:
+      return null;
+  }
+};
 
 interface SelectProps {
   label?: string;
+  tooltip?: string;
   placeholder?: string;
   required?: boolean;
   description?: string;
@@ -24,6 +41,7 @@ interface SelectProps {
 const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
   ({ 
     label, 
+    tooltip,
     placeholder, 
     required = false, 
     description, 
@@ -37,19 +55,15 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
   }, ref) => {
     return (
       <div className={cn("space-y-3", className)}>
-        {(label || description) && (
-          <div className="flex items-center gap-3 mb-4">
-            <div>
-              {label && (
-                <Label htmlFor="select" required={required}>
-                  {label}
-                </Label>
-              )}
-              {description && (
-                <p className="text-gray-500 mt-1">{description}</p>
-              )}
-            </div>
-          </div>
+        {label && (
+          <LabelWithTooltip
+            htmlFor="select"
+            label={label}
+            tooltip={tooltip || ''}
+          />
+        )}
+        {description && (
+          <p className="text-gray-500 mt-1">{description}</p>
         )}
         
         <RadixSelect
@@ -57,7 +71,7 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
           onValueChange={onValueChange}
           disabled={disabled}
         >
-         <SelectTrigger 
+          <SelectTrigger 
             ref={ref}
             className={cn(
       
@@ -65,7 +79,17 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
               error && "border-red-300 focus:border-red-400"
             )}
           >
-            <SelectValue placeholder={placeholder} />
+            <SelectValue placeholder={placeholder}>
+              {value && (() => {
+                const selectedOption = options.find(option => option.value === value);
+                return selectedOption ? (
+                  <div className="flex items-center gap-2">
+                    {getIconComponent(selectedOption.icon)}
+                    <span>{selectedOption.label}</span>
+                  </div>
+                ) : null;
+              })()}
+            </SelectValue>
           </SelectTrigger>
           <SelectContent className="rounded-xl">
             {options.map((option) => (
@@ -74,7 +98,10 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
                 value={option.value} 
                 className="py-3"
               >
-                {option.label}
+                <div className="flex items-center gap-2">
+                  {getIconComponent(option.icon)}
+                  <span>{option.label}</span>
+                </div>
               </SelectItem>
             ))}
           </SelectContent>

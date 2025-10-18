@@ -33,6 +33,12 @@ npm run dev
 - [User Stories](./docs/user-stories.md) - Feature requirements and user flows
 - [Development Guide](./docs/development-guidelines.md) - UI components and coding standards
 
+## Coding Standards
+
+- [React/Frontend Guidelines](./.cursor/react-guidelines.md) - React component best practices, SOLID, DRY, KISS
+- [Laravel/PHP Guidelines](./.cursor/laravel-guidelines.md) - Laravel backend best practices, SOLID, DRY, KISS
+- [Cursor Rules](./.cursor/rules) - Quick reference and project standards
+
 ## Development Commands
 
 ```bash

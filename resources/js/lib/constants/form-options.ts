@@ -27,9 +27,9 @@ export const LANGUAGE_OPTIONS = [
 ] as const;
 
 export const THEME_OPTIONS = [
-  { value: 'light', label: '☀️ Світла' },
-  { value: 'dark', label: '🌙 Темна' },
-  { value: 'system', label: '💻 Системна' }
+  { value: 'light', label: 'Світла', icon: 'sun' },
+  { value: 'dark', label: 'Темна', icon: 'moon' },
+  { value: 'system', label: 'Системна', icon: 'monitor' }
 ] as const;
 
 export const TIMEZONE_OPTIONS = [

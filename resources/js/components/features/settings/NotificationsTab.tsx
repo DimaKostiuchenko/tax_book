@@ -1,17 +1,24 @@
 import { useForm } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/forms/fields/input';
-import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { NotificationCard, StatusIndicator, ActionButton } from '@/components/features/dashboard/components/notification-card';
-import { CheckCircle } from 'lucide-react';
+import { NotificationCard } from '@/components/features/dashboard/components/notification-card';
+import { Toggle } from '@/components/forms/fields/toggle';
+import { Input } from '@/components/forms/fields/input';
+import { VerificationModal } from '@/components/ui/verification-modal';
+import { CheckCircle, Mail, Phone, MessageSquare } from 'lucide-react';
+import { useState } from 'react';
 
 interface User {
+    email?: string;
+    phone?: string;
     telegram_connected?: boolean;
     telegram_chat_id?: string;
     viber_phone?: string;
     reminder_lead_time?: number[];
+    email_notifications?: boolean;
+    telegram_notifications?: boolean;
+    viber_notifications?: boolean;
+    reminder_notifications?: boolean;
 }
 
 interface NotificationsTabProps {
@@ -20,41 +27,89 @@ interface NotificationsTabProps {
 
 export default function NotificationsTab({ user }: NotificationsTabProps) {
     const { data, setData, post, processing, errors, recentlySuccessful } = useForm({
-        viber_phone: user.viber_phone || '',
-        reminder_lead_time: user.reminder_lead_time || [7, 3, 1],
+        email_notifications: user.email_notifications || false,
+        telegram_notifications: user.telegram_notifications || false,
+        viber_notifications: user.viber_notifications || false,
+        reminder_notifications: user.reminder_notifications || false,
+        email: user.email || '',
+        phone: user.phone || '',
     });
+
+    // State for modal and contact verification
+    const [showModal, setShowModal] = useState(false);
+    const [modalType, setModalType] = useState<'email' | 'telegram' | 'viber' | null>(null);
+    const [inputValue, setInputValue] = useState('');
+    const [emailVerified, setEmailVerified] = useState(!!user.email);
+    const [telegramVerified, setTelegramVerified] = useState(!!user.phone);
+    const [viberVerified, setViberVerified] = useState(!!user.phone);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('settings.notifications'));
     };
 
-    const handleReminderChange = (days: number, checked: boolean) => {
-        const current = data.reminder_lead_time;
-        if (checked) {
-            setData('reminder_lead_time', [...current, days]);
+    // Handle toggle changes
+    const handleEmailToggle = (checked: boolean) => {
+        if (checked && !emailVerified) {
+            setModalType('email');
+            setInputValue(user.email || '');
+            setShowModal(true);
         } else {
-            setData('reminder_lead_time', current.filter(d => d !== days));
+            setData('email_notifications', checked);
         }
     };
 
-    const sendTestNotification = (channel: string) => {
-        post(route('settings.test-notification'), {
-            preserveScroll: true,
-        });
+    const handleTelegramToggle = (checked: boolean) => {
+        if (checked && !telegramVerified) {
+            setModalType('telegram');
+            setInputValue(user.phone || '');
+            setShowModal(true);
+        } else {
+            setData('telegram_notifications', checked);
+        }
     };
 
-    const connectTelegram = () => {
-        post(route('settings.connect-telegram'), {
-            preserveScroll: true,
-        });
+    const handleViberToggle = (checked: boolean) => {
+        if (checked && !viberVerified) {
+            setModalType('viber');
+            setInputValue(user.phone || '');
+            setShowModal(true);
+        } else {
+            setData('viber_notifications', checked);
+        }
     };
 
-    const disconnectTelegram = () => {
-        post(route('settings.disconnect-telegram'), {
-            preserveScroll: true,
-        });
+    // Handle modal approval
+    const handleModalApproval = () => {
+        if (!modalType) return;
+
+        switch (modalType) {
+            case 'email':
+                setEmailVerified(true);
+                setData('email_notifications', true);
+                break;
+            case 'telegram':
+                setTelegramVerified(true);
+                setData('telegram_notifications', true);
+                break;
+            case 'viber':
+                setViberVerified(true);
+                setData('viber_notifications', true);
+                break;
+        }
+
+        setShowModal(false);
+        setModalType(null);
+        setInputValue('');
     };
+
+    // Handle modal close
+    const handleModalClose = () => {
+        setShowModal(false);
+        setModalType(null);
+        setInputValue('');
+    };
+
 
     return (
         <form onSubmit={handleSubmit} className="space-y-8">
@@ -67,110 +122,121 @@ export default function NotificationsTab({ user }: NotificationsTabProps) {
             )}
 
             {/* Email Notifications */}
-            <NotificationCard
-                title="Email сповіщення"
-                description="Важливі сповіщення про податкові події будуть надсилатися на ваш email"
-            >
+            <NotificationCard>
                 <div className="space-y-4">
-                    <StatusIndicator 
-                        isConnected={true} 
-                        label="Email сповіщення завжди увімкнені" 
+                    <Toggle
+                        label="Увімкнути Email сповіщення"
+                        tooltip="Важливі сповіщення про податкові події будуть надсилатися на ваш email"
+                        description="Ви будете отримувати сповіщення про важливі події"
+                        checked={data.email_notifications || false}
+                        onChange={handleEmailToggle}
                     />
+                    {data.email_notifications && emailVerified && (
+                        <div className="space-y-3">
+
+                            <Input
+                                label="Email адрес"
+                                value={data.email}
+                                onChange={(e) => setData('email', e.target.value)}
+                                placeholder="your@email.com"
+                                error={errors.email}
+                            />
+                        </div>
+                    )}
                 </div>
             </NotificationCard>
 
             {/* Telegram Notifications */}
-            <NotificationCard
-                title="Telegram сповіщення"
-                description="Отримуйте сповіщення прямо в Telegram"
-            >
+            <NotificationCard>
                 <div className="space-y-4">
-                    <StatusIndicator 
-                        isConnected={!!user.telegram_connected} 
-                        label={user.telegram_connected ? "Telegram бот підключено" : "Telegram бот не підключено"} 
+                    <Toggle
+                        label="Увімкнути Telegram сповіщення"
+                        tooltip="Отримувати сповіщення прямо в Telegram"
+                        description="Ви будете отримувати сповіщення в Telegram боті"
+                        checked={data.telegram_notifications || false}
+                        onChange={handleTelegramToggle}
                     />
-                    <ActionButton
-                        variant={user.telegram_connected ? "danger" : "primary"}
-                        onClick={user.telegram_connected ? disconnectTelegram : connectTelegram}
-                        disabled={processing}
-                    >
-                        {user.telegram_connected ? "Відключити" : "Включити"}
-                    </ActionButton>
+                    {data.telegram_notifications && telegramVerified && (
+                        <div className="space-y-3">
+
+                            <Input
+                                label="Номер телефону"
+                                value={data.phone}
+                                onChange={(e) => setData('phone', e.target.value)}
+                                placeholder="+380XXXXXXXXX"
+                                error={errors.phone}
+                            />
+                        </div>
+                    )}
                 </div>
             </NotificationCard>
 
             {/* Viber Notifications */}
-            <NotificationCard
-                title="Viber сповіщення"
-                description="Отримуйте сповіщення на ваш Viber"
-            >
+            <NotificationCard>
                 <div className="space-y-4">
-                    <StatusIndicator 
-                        isConnected={!!data.viber_phone} 
-                        label={data.viber_phone ? "Viber налаштовано" : "Viber не налаштовано"} 
+                    <Toggle
+                        label="Увімкнути Viber сповіщення"
+                        tooltip="Отримувати сповіщення на ваш Viber"
+                        description="Ви будете отримувати сповіщення на Viber"
+                        checked={data.viber_notifications || false}
+                        onChange={handleViberToggle}
                     />
-                    <Input
-                        label="Номер Viber"
-                        value={data.viber_phone}
-                        onChange={(e) => setData('viber_phone', e.target.value)}
-                        placeholder="+380XXXXXXXXX"
-                        error={errors.viber_phone}
-                    />
+                    {data.viber_notifications && viberVerified && (
+                        <div className="space-y-3">
+
+                            <Input
+                                label="Номер телефону"
+                                value={data.phone}
+                                onChange={(e) => setData('phone', e.target.value)}
+                                placeholder="+380XXXXXXXXX"
+                                error={errors.phone}
+                            />
+                        </div>
+                    )}
                 </div>
             </NotificationCard>
 
-            {/* Reminder Lead Time */}
-            <NotificationCard
-                title="Періоди нагадувань"
-                description="Оберіть, за скільки днів до події надсилати нагадування"
-            >
-                <div className="space-y-3">
-                    <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
-                        <Checkbox
-                            id="reminder_7"
-                            checked={data.reminder_lead_time.includes(7)}
-                            onCheckedChange={(checked) => handleReminderChange(7, checked as boolean)}
-                            className="w-5 h-5"
-                        />
-                        <Label htmlFor="reminder_7" className="text-base font-medium text-gray-900">7 днів перед подією</Label>
-                    </div>
-                    
-                    <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
-                        <Checkbox
-                            id="reminder_3"
-                            checked={data.reminder_lead_time.includes(3)}
-                            onCheckedChange={(checked) => handleReminderChange(3, checked as boolean)}
-                            className="w-5 h-5"
-                        />
-                        <Label htmlFor="reminder_3" className="text-base font-medium text-gray-900">3 дні перед подією</Label>
-                    </div>
-                    
-                    <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
-                        <Checkbox
-                            id="reminder_1"
-                            checked={data.reminder_lead_time.includes(1)}
-                            onCheckedChange={(checked) => handleReminderChange(1, checked as boolean)}
-                            className="w-5 h-5"
-                        />
-                        <Label htmlFor="reminder_1" className="text-base font-medium text-gray-900">1 день перед подією</Label>
-                    </div>
-                </div>
-                
-                {errors.reminder_lead_time && (
-                    <p className="text-base text-red-600 font-medium mt-4">{errors.reminder_lead_time}</p>
-                )}
-            </NotificationCard>
+
 
             {/* Submit Button */}
             <div className="flex justify-end pt-4">
-                <Button 
-                    type="submit" 
+                <Button
+                    type="submit"
                     disabled={processing}
                     className="bg-[#344CB7] text-white rounded-lg px-6 py-2 h-10 font-medium"
                 >
                     {processing ? 'Збереження...' : 'Зберегти зміни'}
                 </Button>
             </div>
+
+            {/* Verification Modal */}
+            <VerificationModal
+                isOpen={showModal}
+                onClose={handleModalClose}
+                onApprove={handleModalApproval}
+                title={
+                    modalType === 'email' ? 'Підтвердження Email' :
+                        modalType === 'telegram' ? 'Підтвердження Telegram' :
+                            modalType === 'viber' ? 'Підтвердження Viber' : ''
+                }
+                description={
+                    modalType === 'email' ? 'Введіть ваш email адрес для отримання сповіщень:' :
+                        modalType === 'telegram' ? 'Введіть ваш номер телефону для отримання сповіщень в Telegram:' :
+                            modalType === 'viber' ? 'Введіть ваш номер телефону для отримання сповіщень в Viber:' : ''
+                }
+                inputLabel={
+                    modalType === 'email' ? 'Email адрес' :
+                        modalType === 'telegram' ? 'Номер телефону' :
+                            modalType === 'viber' ? 'Номер телефону' : ''
+                }
+                inputPlaceholder={
+                    modalType === 'email' ? 'your@email.com' :
+                        modalType === 'telegram' ? '+380XXXXXXXXX' :
+                            modalType === 'viber' ? '+380XXXXXXXXX' : ''
+                }
+                inputValue={inputValue}
+                onInputChange={setInputValue}
+            />
         </form>
     );
 }

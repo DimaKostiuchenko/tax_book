@@ -1,14 +1,13 @@
 import { useForm } from '@inertiajs/react';
-import { Input } from '@/components/forms/fields/input';
+import { AppInput } from '@/components/forms/fields/app-input';
 import { Select } from '@/components/forms/fields/select';
-import { RadioGroup } from '@/components/forms/fields/radio-group';
+import { Toggle } from '@/components/forms/fields/toggle';
 import { FormAlert } from '@/components/forms/feedback/form-alert';
 import { SubmitButton } from '@/components/forms/actions/submit-button';
 import { 
   USER_TYPE_OPTIONS, 
   TAX_REGIME_OPTIONS, 
-  REPORTING_PERIOD_OPTIONS,
-  YES_NO_OPTIONS 
+  REPORTING_PERIOD_OPTIONS
 } from '@/lib/constants/form-options';
 import type { User } from '@/types/forms';
 
@@ -38,13 +37,9 @@ export default function ProfileTab({ user }: ProfileTabProps) {
 
     return (
         <form onSubmit={handleSubmit} className="space-y-8">
-            {/* Success/Error Messages */}
+            {/* Success Message */}
             {recentlySuccessful && (
                 <FormAlert type="success" message="Профіль успішно оновлено" />
-            )}
-
-            {errors.user_type && (
-                <FormAlert type="error" message={errors.user_type} />
             )}
 
             {/* User Type Selection */}
@@ -60,31 +55,29 @@ export default function ProfileTab({ user }: ProfileTabProps) {
 
             {/* Conditional Fields Based on User Type */}
             {isFOP && (
-              
-                    <Input
-                        label="ТИН (10 цифр)"
-                        required
-                        value={data.tin}
-                        onChange={(e) => setData('tin', e.target.value)}
-                        placeholder="1234567890"
-                        maxLength={10}
-                        error={errors.tin}
-                    />
-                   
+                <AppInput
+                    label="ТИН (10 цифр)"
+                    tooltip="Введіть 10-значний ідентифікаційний номер"
+                    required
+                    value={data.tin}
+                    onChange={(e) => setData('tin', e.target.value)}
+                    placeholder="1234567890"
+                    maxLength={10}
+                    error={errors.tin}
+                />
             )}
 
             {isLegalEntity && (
-              
-                    <Input
-                        label="ЄДРПОУ (8 цифр)"
-                        required
-                        value={data.edrpou}
-                        onChange={(e) => setData('edrpou', e.target.value)}
-                        placeholder="12345678"
-                        maxLength={8}
-                        error={errors.edrpou}
-                    />
-                  
+                <AppInput
+                    label="ЄДРПОУ (8 цифр)"
+                    tooltip="Введіть 8-значний код Єдиного державного реєстру підприємств"
+                    required
+                    value={data.edrpou}
+                    onChange={(e) => setData('edrpou', e.target.value)}
+                    placeholder="12345678"
+                    maxLength={8}
+                    error={errors.edrpou}
+                />
             )}
 
             {/* Tax Regime */}
@@ -94,30 +87,28 @@ export default function ProfileTab({ user }: ProfileTabProps) {
                 value={data.tax_regime}
                 onValueChange={(value) => setData('tax_regime', value as any)}
                 options={TAX_REGIME_OPTIONS}
+                error={errors.tax_regime}
             />
 
             {/* VAT Payer */}
-            <RadioGroup
+            <Toggle
                 label="Платник ПДВ"
-                name="vat_payer"
-                options={YES_NO_OPTIONS as any}
-                value={data.vat_payer}
-                onChange={(value) => setData('vat_payer', value)}
-                orientation="vertical"
+                description="Чи є ви платником податку на додану вартість?"
+                checked={data.vat_payer}
+                onChange={(checked) => setData('vat_payer', checked)}
             />
 
             {/* VAT Number (conditional) */}
             {data.vat_payer && (
-              
-                    <Input
-                        label="ПДВ номер"
-                        required
-                        value={data.vat_number}
-                        onChange={(e) => setData('vat_number', e.target.value)}
-                        placeholder="Введіть ПДВ номер"
-                        error={errors.vat_number}
-                    />
-              
+                <AppInput
+                    label="ПДВ номер"
+                    tooltip="Введіть номер платника податку на додану вартість"
+                    required
+                    value={data.vat_number}
+                    onChange={(e) => setData('vat_number', e.target.value)}
+                    placeholder="Введіть ПДВ номер"
+                    error={errors.vat_number}
+                />
             )}
 
             {/* Reporting Period */}
@@ -128,29 +119,27 @@ export default function ProfileTab({ user }: ProfileTabProps) {
                 value={data.reporting_period}
                 onValueChange={(value) => setData('reporting_period', value as any)}
                 options={REPORTING_PERIOD_OPTIONS}
+                error={errors.reporting_period}
             />
 
             {/* Phone Number */}
-            <div className="space-y-4">
-                <Input
-                    label="Номер телефону"
-                    description="Для зв'язку та сповіщень"
-                    value={data.phone}
-                    onChange={(e) => setData('phone', e.target.value)}
-                    placeholder="+380XXXXXXXXX"
-                    error={errors.phone}
-                />
-                {/* <p className="text-teal-700 font-medium">Формат: +380XXXXXXXXX</p> */}
-            </div>
- 
-           
-                <Input
-                    label="Email"
-                    description="Використовується для входу в систему"
-                    value={user.email}
-                    disabled
-                />
-        
+            <AppInput
+                label="Номер телефону"
+                tooltip="Введіть номер телефону для зв'язку та сповіщень"
+                value={data.phone}
+                onChange={(e) => setData('phone', e.target.value)}
+                placeholder="+380XXXXXXXXX"
+                error={errors.phone}
+            />
+
+            {/* Email (Read-only) */}
+            <AppInput
+                label="Email"
+                tooltip="Email використовується для входу в систему"
+                value={user.email}
+                onChange={() => {}}
+                disabled
+            />
 
             {/* Submit Button */}
             <SubmitButton processing={processing}>

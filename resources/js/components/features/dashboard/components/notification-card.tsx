@@ -2,19 +2,13 @@ import { ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 
 interface NotificationCardProps {
-    title: string;
-    description: string;
     children: ReactNode;
     className?: string;
 }
 
-export function NotificationCard({ title, description, children, className = "" }: NotificationCardProps) {
+export function NotificationCard({  children, className = "" }: NotificationCardProps) {
     return (
         <div className={`bg-white border border-gray-200 rounded-lg p-6 ${className}`}>
-            <div className="mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">{title}</h3>
-                <p className="text-gray-600">{description}</p>
-            </div>
             {children}
         </div>
     );

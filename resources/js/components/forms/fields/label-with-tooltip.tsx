@@ -10,21 +10,25 @@ interface LabelWithTooltipProps {
 }
 
 export function LabelWithTooltip({ htmlFor, label, tooltip, className = '' }: LabelWithTooltipProps) {
+  const hasTooltip = tooltip && tooltip.trim().length > 0;
+
   return (
     <div className={`mb-4 flex items-center gap-2 ${className}`}>
       <Label htmlFor={htmlFor} className="text-lg font-semibold text-gray-900">
         {label}
       </Label>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <button type="button" className="text-gray-900 hover:text-gray-600">
-            <IconInfo size="md" />
-          </button>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>{tooltip}</p>
-        </TooltipContent>
-      </Tooltip>
+      {hasTooltip && (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button type="button" className="text-gray-900 hover:text-gray-600">
+              <IconInfo size="md" />
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{tooltip}</p>
+          </TooltipContent>
+        </Tooltip>
+      )}
     </div>
   );
 }

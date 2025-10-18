@@ -1,8 +1,6 @@
 import { ChangeEvent } from 'react';
 import { Input } from './input';
-import { Label } from '@/components/ui/label';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import IconInfo from '@/components/common/icons/icon-info';
+import { LabelWithTooltip } from './label-with-tooltip';
 import { Eye, EyeOff } from 'lucide-react';
 
 interface PasswordInputProps {
@@ -30,31 +28,19 @@ export function PasswordInput({
 }: PasswordInputProps) {
   return (
     <div className="space-y-4">
-      <div className="mb-4 flex items-center gap-2">
-        {tooltip && (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button type="button" className="text-gray-900 hover:text-gray-600">
-                <IconInfo size="md" />
-              </button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{tooltip}</p>
-            </TooltipContent>
-          </Tooltip>
-        )}
-        <Label htmlFor={id} className="text-lg font-semibold text-gray-900">
-          {label}
-        </Label>
-      </div>
+      <LabelWithTooltip
+        htmlFor={id || ''}
+        label={label}
+        tooltip={tooltip || ''}
+      />
       <div className="relative">
         <Input
           label=""
           type={visible ? 'text' : 'password'}
           value={value}
           onChange={onChange}
-          error={error}
-          className="pr-12"
+          error=""
+          className={error ? "pr-12 border-red-100 focus:border-red-200" : "pr-12"}
           id={id}
         />
         {showVisibilityToggle && onToggleVisibility && (
@@ -67,6 +53,7 @@ export function PasswordInput({
           </button>
         )}
       </div>
+      {error && <p className="text-red-600 font-medium text-sm">{error}</p>}
     </div>
   );
 }

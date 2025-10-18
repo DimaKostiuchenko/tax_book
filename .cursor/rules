@@ -1,13 +1,26 @@
 # Cursor Rules
 
-# Project Documentation
-- Look to folder [Project documentation](../docs/)
+## Quick Links
+- [React/Frontend Guidelines](./.cursor/react-guidelines.md)
+- [Laravel/PHP Guidelines](./.cursor/laravel-guidelines.md)
 
-## Coding Standards
-- Use Laravel (backend) + React/Inertia (frontend) best practices SOLID, DRY, KISS
-- Follow PSR-12 (PHP) and ESLint (JS/TS)
-- Use Tailwind for styling
-- Use [Development Guidelines](../docs/development-guidelines.md)
+## Project Overview
+- **Stack**: Laravel 12 + React/Inertia.js + TypeScript
+- **Testing**: Pest (backend), Cypress (frontend E2E)
+- **Styling**: Tailwind CSS
+- **Package Manager**: Composer (PHP), npm (JS)
+
+## Core Principles
+- **SOLID principles** for both frontend and backend
+- **DRY** (Don't Repeat Yourself)
+- **KISS** (Keep It Simple, Stupid)
+- **PSR-12** for PHP
+- **ESLint** for TypeScript/JavaScript
+
+## File-Specific Rules
+- **`.php` files** → Follow [Laravel Guidelines](./.cursor/laravel-guidelines.md)
+- **`.tsx/.ts` files** → Follow [React Guidelines](./.cursor/react-guidelines.md)
+- **`.blade.php` files** → Laravel + HTML best practices
 
 ## Git & Commits
 - Use conventional commits (feat, fix, docs, refactor, chore)
@@ -21,3 +34,26 @@
 ## Testing
 - Unit tests by Pest testing framework required for backend logic
 - Cypress for E2E frontend tests
+
+## Quick Reference
+
+### When Working on Frontend
+- Check [React Guidelines](./.cursor/react-guidelines.md)
+- Focus on component extraction and hooks
+- Use TypeScript interfaces
+- Follow naming conventions
+
+### When Working on Backend
+- Check [Laravel Guidelines](./.cursor/laravel-guidelines.md)
+- Use Service classes for business logic
+- Extract Form Requests for validation
+- Follow repository pattern for data access
+
+### Red Flags (When to Refactor)
+- **Frontend**: Component >150 lines, repeated UI patterns
+- **Backend**: Controller method >20 lines, business logic in controllers
+- **Both**: Complex conditional logic, hard to test, tight coupling
+
+---
+
+*For detailed guidelines, see the linked documents above.*
