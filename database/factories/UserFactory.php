@@ -41,4 +41,17 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    /**
+     * Configure the model factory.
+     */
+    public function configure(): static
+    {
+        return $this->afterCreating(function ($user) {
+            // Create related records for the user
+            $user->profile()->create(\App\Models\UserProfile::factory()->make(['user_id' => $user->id])->toArray());
+            $user->notificationSettings()->create(\App\Models\NotificationSettings::factory()->make(['user_id' => $user->id])->toArray());
+            $user->preferences()->create(\App\Models\UserPreferences::factory()->make(['user_id' => $user->id])->toArray());
+        });
+    }
 }

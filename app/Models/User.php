@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
@@ -31,26 +33,7 @@ class User extends Authenticatable
         'facebook_refresh_token',
         'avatar',
         'email_verified_at',
-        'email_verification_token',
-        'email_verification_token_expires_at',
-        // Tax-related fields
-        'user_type',
-        'tin',
-        'edrpou',
-        'tax_regime',
-        'vat_payer',
-        'vat_number',
-        'reporting_period',
-        'phone',
-        // Notification fields
-        'telegram_connected',
-        'telegram_chat_id',
-        'viber_phone',
-        'reminder_lead_time',
-        // Preference fields
-        'language',
-        'theme',
-        'timezone',
+        // Keep social login fields, remove others that moved to separate tables
     ];
 
     /**
@@ -65,7 +48,6 @@ class User extends Authenticatable
         'facebook_token',
         'google_refresh_token',
         'facebook_refresh_token',
-        'email_verification_token',
     ];
 
     /**
@@ -77,11 +59,7 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'email_verification_token_expires_at' => 'datetime',
             'password' => 'hashed',
-            'vat_payer' => 'boolean',
-            'telegram_connected' => 'boolean',
-            'reminder_lead_time' => 'array',
         ];
     }
 
@@ -110,51 +88,123 @@ class User extends Authenticatable
     }
 
     /**
-     * Mark the user's email as verified
+     * Get the user's profile.
      */
-    public function markEmailAsVerified(): bool
+    public function profile(): HasOne
     {
-        return $this->forceFill([
-            'email_verified_at' => $this->freshTimestamp(),
-            'email_verification_token' => null,
-            'email_verification_token_expires_at' => null,
-        ])->save();
+        return $this->hasOne(UserProfile::class);
     }
 
     /**
-     * Generate a new email verification token
+     * Get the user's notification settings.
      */
-    public function generateEmailVerificationToken(): string
+    public function notificationSettings(): HasOne
     {
-        $token = Str::random(64);
-        
-        $this->forceFill([
-            'email_verification_token' => $token,
-            'email_verification_token_expires_at' => Carbon::now()->addHours(24),
-        ])->save();
-
-        return $token;
+        return $this->hasOne(NotificationSettings::class);
     }
 
     /**
-     * Check if verification token is valid and not expired
+     * Get the user's preferences.
      */
-    public function isValidVerificationToken(string $token): bool
+    public function preferences(): HasOne
     {
-        return $this->email_verification_token === $token &&
-               $this->email_verification_token_expires_at &&
-               $this->email_verification_token_expires_at->isFuture();
+        return $this->hasOne(UserPreferences::class);
     }
 
     /**
-     * Clear verification token
+     * Get the user's settings audit logs.
      */
-    public function clearVerificationToken(): void
+    public function settingsAuditLogs(): HasMany
     {
-        $this->forceFill([
-            'email_verification_token' => null,
-            'email_verification_token_expires_at' => null,
-        ])->save();
+        return $this->hasMany(SettingsAuditLog::class);
+    }
+
+    // Backward compatibility accessors for profile data
+    public function getUserTypeAttribute()
+    {
+        return $this->profile?->user_type;
+    }
+
+    public function getTinAttribute()
+    {
+        return $this->profile?->tin;
+    }
+
+    public function getEdrpouAttribute()
+    {
+        return $this->profile?->edrpou;
+    }
+
+    public function getTaxRegimeAttribute()
+    {
+        return $this->profile?->tax_regime;
+    }
+
+    public function getVatPayerAttribute()
+    {
+        return $this->profile?->vat_payer;
+    }
+
+    public function getVatNumberAttribute()
+    {
+        return $this->profile?->vat_number;
+    }
+
+    public function getReportingPeriodAttribute()
+    {
+        return $this->profile?->reporting_period;
+    }
+
+    public function getPhoneAttribute()
+    {
+        return $this->profile?->phone;
+    }
+
+    // Backward compatibility accessors for notification data
+    public function getEmailNotificationsAttribute()
+    {
+        return $this->notificationSettings?->email_notifications;
+    }
+
+    public function getTelegramNotificationsAttribute()
+    {
+        return $this->notificationSettings?->telegram_notifications;
+    }
+
+    public function getViberNotificationsAttribute()
+    {
+        return $this->notificationSettings?->viber_notifications;
+    }
+
+    public function getTelegramConnectedAttribute()
+    {
+        return $this->notificationSettings?->telegram_connected;
+    }
+
+    public function getTelegramChatIdAttribute()
+    {
+        return $this->notificationSettings?->telegram_chat_id;
+    }
+
+    public function getViberPhoneAttribute()
+    {
+        return $this->notificationSettings?->viber_phone;
+    }
+
+    public function getReminderLeadTimeAttribute()
+    {
+        return $this->notificationSettings?->reminder_lead_time;
+    }
+
+    // Backward compatibility accessors for preferences data
+    public function getLanguageAttribute()
+    {
+        return $this->preferences?->language;
+    }
+
+    public function getThemeAttribute()
+    {
+        return $this->preferences?->theme;
     }
 
     /**
@@ -162,7 +212,7 @@ class User extends Authenticatable
      */
     public function isFOP(): bool
     {
-        return $this->user_type === 'fop';
+        return $this->profile?->isFOP() ?? false;
     }
 
     /**
@@ -170,7 +220,7 @@ class User extends Authenticatable
      */
     public function isLegalEntity(): bool
     {
-        return $this->user_type === 'legal_entity';
+        return $this->profile?->isLegalEntity() ?? false;
     }
 
     /**
@@ -178,11 +228,7 @@ class User extends Authenticatable
      */
     public function getUserTypeDisplayName(): string
     {
-        return match($this->user_type) {
-            'fop' => 'ФОП (Фізична особа-підприємець)',
-            'legal_entity' => 'Юридична особа',
-            default => 'Не вказано'
-        };
+        return $this->profile?->getUserTypeDisplayName() ?? 'Не вказано';
     }
 
     /**
@@ -190,13 +236,7 @@ class User extends Authenticatable
      */
     public function getTaxRegimeDisplayName(): string
     {
-        return match($this->tax_regime) {
-            'single_tax_1' => 'Єдиний податок 1 група',
-            'single_tax_2' => 'Єдиний податок 2 група',
-            'single_tax_3' => 'Єдиний податок 3 група',
-            'general_system' => 'Загальна система',
-            default => 'Не вказано'
-        };
+        return $this->profile?->getTaxRegimeDisplayName() ?? 'Не вказано';
     }
 
     /**
@@ -204,12 +244,7 @@ class User extends Authenticatable
      */
     public function getReportingPeriodDisplayName(): string
     {
-        return match($this->reporting_period) {
-            'monthly' => 'Щомісячно',
-            'quarterly' => 'Щоквартально',
-            'yearly' => 'Щорічно',
-            default => 'Щомісячно'
-        };
+        return $this->profile?->getReportingPeriodDisplayName() ?? 'Щомісячно';
     }
 
     /**
@@ -217,11 +252,7 @@ class User extends Authenticatable
      */
     public function getLanguageDisplayName(): string
     {
-        return match($this->language) {
-            'uk' => 'Українська',
-            'en' => 'English',
-            default => 'Українська'
-        };
+        return $this->preferences?->getLanguageDisplayName() ?? 'Українська';
     }
 
     /**
@@ -229,12 +260,7 @@ class User extends Authenticatable
      */
     public function getThemeDisplayName(): string
     {
-        return match($this->theme) {
-            'light' => 'Світла',
-            'dark' => 'Темна',
-            'system' => 'Системна',
-            default => 'Системна'
-        };
+        return $this->preferences?->getThemeDisplayName() ?? 'Системна';
     }
 
     /**
@@ -242,7 +268,7 @@ class User extends Authenticatable
      */
     public function hasTelegramConnected(): bool
     {
-        return $this->telegram_connected && !is_null($this->telegram_chat_id);
+        return $this->notificationSettings?->hasTelegramConnected() ?? false;
     }
 
     /**
@@ -250,7 +276,7 @@ class User extends Authenticatable
      */
     public function hasViberConnected(): bool
     {
-        return !is_null($this->viber_phone);
+        return $this->notificationSettings?->hasViberConnected() ?? false;
     }
 
     /**
@@ -258,6 +284,6 @@ class User extends Authenticatable
      */
     public function getReminderLeadTime(): array
     {
-        return $this->reminder_lead_time ?? [7, 3, 1];
+        return $this->notificationSettings?->getReminderLeadTime() ?? [7, 3, 1];
     }
 }

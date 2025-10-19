@@ -1,24 +1,32 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserSettingsController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\Settings\ProfileSettingsController;
+use App\Http\Controllers\Settings\NotificationSettingsController;
+use App\Http\Controllers\Settings\SecuritySettingsController;
+use App\Http\Controllers\Settings\PreferencesSettingsController;
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Settings page
-    Route::get('settings', [UserSettingsController::class, 'index'])->name('settings');
+    // Settings overview page
+    Route::get('settings', [SettingsController::class, 'index'])->name('settings');
     
     // Profile settings
-    Route::post('settings/profile', [UserSettingsController::class, 'updateProfile'])->name('settings.profile');
+    Route::get('settings/profile', [ProfileSettingsController::class, 'edit'])->name('settings.profile');
+    Route::post('settings/profile', [ProfileSettingsController::class, 'update'])->name('settings.profile.update');
     
     // Notification settings
-    Route::post('settings/notifications', [UserSettingsController::class, 'updateNotifications'])->name('settings.notifications');
-    Route::post('settings/connect-telegram', [UserSettingsController::class, 'connectTelegram'])->name('settings.connect-telegram');
-    Route::post('settings/disconnect-telegram', [UserSettingsController::class, 'disconnectTelegram'])->name('settings.disconnect-telegram');
-    Route::post('settings/test-notification', [UserSettingsController::class, 'sendTestNotification'])->name('settings.test-notification');
+    Route::get('settings/notifications', [NotificationSettingsController::class, 'edit'])->name('settings.notifications');
+    Route::post('settings/notifications', [NotificationSettingsController::class, 'update'])->name('settings.notifications.update');
+    Route::post('settings/connect-telegram', [NotificationSettingsController::class, 'connectTelegram'])->name('settings.connect-telegram');
+    Route::post('settings/disconnect-telegram', [NotificationSettingsController::class, 'disconnectTelegram'])->name('settings.disconnect-telegram');
+    Route::post('settings/test-notification', [NotificationSettingsController::class, 'sendTestNotification'])->name('settings.test-notification');
     
     // Security settings
-    Route::post('settings/security', [UserSettingsController::class, 'updateSecurity'])->name('settings.security');
+    Route::get('settings/security', [SecuritySettingsController::class, 'edit'])->name('settings.security');
+    Route::post('settings/security', [SecuritySettingsController::class, 'update'])->name('settings.security.update');
     
     // Preferences settings
-    Route::post('settings/preferences', [UserSettingsController::class, 'updatePreferences'])->name('settings.preferences');
+    Route::get('settings/preferences', [PreferencesSettingsController::class, 'edit'])->name('settings.preferences');
+    Route::post('settings/preferences', [PreferencesSettingsController::class, 'update'])->name('settings.preferences.update');
 });
