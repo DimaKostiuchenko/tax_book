@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\TaxController;
+use App\Http\Controllers\TelegramWebhookController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Telegram webhook (exclude from CSRF protection)
+Route::post('/telegram/webhook', [TelegramWebhookController::class, 'handle'])
+    ->middleware('throttle:60,1'); // Rate limit: 60 requests per minute
 
 // Tax API Routes
 Route::prefix('tax')->group(function () {

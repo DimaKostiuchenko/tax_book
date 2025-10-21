@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
+use App\Services\TelegramConnectionService;
+use App\Services\TelegramService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -11,6 +13,16 @@ use Inertia\Response;
 
 class NotificationSettingsController extends Controller
 {
+    protected TelegramConnectionService $connectionService;
+    protected TelegramService $telegramService;
+
+    public function __construct(
+        TelegramConnectionService $connectionService,
+        TelegramService $telegramService
+    ) {
+        $this->connectionService = $connectionService;
+        $this->telegramService = $telegramService;
+    }
     /**
      * Show the notification settings form.
      */
@@ -79,14 +91,16 @@ class NotificationSettingsController extends Controller
     {
         $user = Auth::user();
         
-        // This is a placeholder for Telegram bot connection
-        // In a real implementation, you would integrate with Telegram Bot API
-        $user->update([
-            'telegram_connected' => true,
-            'telegram_chat_id' => 'test_chat_id_' . $user->id,
+        // Generate connection token and deep link
+        $token = $this->connectionService->generateConnectionToken($user);
+        $deepLink = $this->connectionService->getDeepLink($token);
+        
+        return response()->json([
+            'success' => true,
+            'deep_link' => $deepLink,
+            'token' => $token,
+            'expires_in' => 600, // 10 minutes
         ]);
-
-        return redirect()->route('settings.notifications')->with('success', 'Telegram бот підключено');
     }
 
     /**
@@ -96,12 +110,13 @@ class NotificationSettingsController extends Controller
     {
         $user = Auth::user();
         
-        $user->update([
-            'telegram_connected' => false,
-            'telegram_chat_id' => null,
-        ]);
-
-        return redirect()->route('settings.notifications')->with('success', 'Telegram бот відключено');
+        $success = $this->connectionService->disconnectUser($user);
+        
+        if ($success) {
+            return redirect()->route('settings.notifications')->with('success', 'Telegram бот відключено');
+        }
+        
+        return redirect()->route('settings.notifications')->with('error', 'Помилка при відключенні бота');
     }
 
     /**
@@ -115,15 +130,29 @@ class NotificationSettingsController extends Controller
             'channel' => ['required', Rule::in(['email', 'telegram', 'viber'])],
         ]);
 
-        // This is a placeholder for test notification sending
-        // In a real implementation, you would send actual notifications
-        
         $channel = $request->channel;
-        $message = "Тестове повідомлення від Tax Book";
         
-        // Log the test notification for development
-        \Log::info("Test notification sent to user {$user->id} via {$channel}: {$message}");
-        
-        return redirect()->route('settings.notifications')->with('success', "Тестове повідомлення відправлено через {$channel}");
+        switch ($channel) {
+            case 'telegram':
+                $success = $this->telegramService->sendTestNotification($user);
+                if ($success) {
+                    return redirect()->route('settings.notifications')->with('success', 'Тестове повідомлення відправлено через Telegram');
+                } else {
+                    return redirect()->route('settings.notifications')->with('error', 'Помилка відправки через Telegram. Перевірте підключення.');
+                }
+                
+            case 'email':
+                // TODO: Implement email test notification
+                \Log::info("Test email notification sent to user {$user->id}");
+                return redirect()->route('settings.notifications')->with('success', 'Тестове повідомлення відправлено через email');
+                
+            case 'viber':
+                // TODO: Implement Viber test notification
+                \Log::info("Test Viber notification sent to user {$user->id}");
+                return redirect()->route('settings.notifications')->with('success', 'Тестове повідомлення відправлено через Viber');
+                
+            default:
+                return redirect()->route('settings.notifications')->with('error', 'Невідомий канал сповіщень');
+        }
     }
 }
